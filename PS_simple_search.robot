@@ -25,12 +25,12 @@ ${string_znaideno_0}   Знайдено: 0
 
 *** Test Cases ***
 Check results for bruht via Chrome
-    open browser    ${url_bruht}    browser=Chrome
+    open browser    ${url_bruht}    headlesschrome
        #element should not contain  ${value from znaideno}  0  message="Результати пошуку 0"
     #${value1}=  get value    ${znaideno and value}  через гет велью не можна взяти текст
-    ${value2}=  get text    ${znaideno and value}
-    Log To Console  (1 The text is: ${value2})
+    ${value2}=  get text    ${znaideno and alue}
 
+    Log To Console  (1 The text is: ${value2})
     Log To Console  (1.1 Check string_znaideno_nichogo: ${string_znaideno_nichogo})
     Log To Console  (1.2 Check string_znaideno_0: ${string_znaideno_0})
 
