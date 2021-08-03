@@ -23,7 +23,7 @@ log to console ${links_for_search_form}
 *** Keywords ***
 Check search results in PS via FF   #кейворд в який передамо 2 аргументи
     [Arguments]  ${links_for_search_form}
-    Open Browser  ${links_for_search_form}  browser=Firefox
+    Open Browser  ${links_for_search_form}  browser=Chrome
     ${check_search_results}= get text  xpath=//*[@id="__next"]/div[3]/div[1]    #збережемо велью в перемінну
     [Return]     ${check_search_results}   #повернемо велью із перемінної
     close browser
