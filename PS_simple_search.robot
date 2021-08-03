@@ -1,11 +1,12 @@
 *** Settings ***
+Library     SeleniumLibrary
 #Resource     ../Robot_Tests_185.25.116.133_4242_PS/Resources/search_results.robot
 #Library     DataDriver  ../Robot_Tests_185.25.116.133_4242_PS/TestData/PS_search_links_csv_file_5_links.csv   encoding='utf-8'
 
-Resource    ../PycharmProjects/robot_tests_for_ps_18525116133_4242_PS/Resources/search_results.robot
+#Resource    ../PycharmProjects/robot_tests_for_ps_18525116133_4242_PS/Resources/search_results.robot
 #Library     DataDriver  ../PycharmProjects/robot_tests_for_ps_18525116133_4242_PS/TestData/PS_search_links_csv_file_5_links.csv  encoding='utf-8'
-Library     DataDriver  C:\Users\alex\PycharmProjects\robot_tests_for_ps_18525116133_4242_PS\TestData\PS_search_links_csv_file_5_links.csv   encoding='utf-8'
-Library     SeleniumLibrary
+#Library     DataDriver  C:\Users\alex\PycharmProjects\robot_tests_for_ps_18525116133_4242_PS\TestData\PS_search_links_csv_file_5_links.csv   encoding='utf-8'
+
 
 *** Variables ***
 ${browser_chrome}  browser=Chrome
@@ -28,7 +29,7 @@ Check results for bruht via Chrome
     open browser    ${url_bruht}    headlesschrome
        #element should not contain  ${value from znaideno}  0  message="Результати пошуку 0"
     #${value1}=  get value    ${znaideno and value}  через гет велью не можна взяти текст
-    ${value2}=  get text    ${znaideno and alue}
+    ${value2}=  get text    ${znaideno and value}
 
     Log To Console  (1 The text is: ${value2})
     Log To Console  (1.1 Check string_znaideno_nichogo: ${string_znaideno_nichogo})
