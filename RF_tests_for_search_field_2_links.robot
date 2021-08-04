@@ -28,13 +28,10 @@ ${znaideno and value}   xpath=//*[@id="__next"]/div[3]/div[1]
 
 ${string_znaideno_nichogo}   Знайдено: Нічого незнайдено
 ${string_znaideno_0}   Знайдено: 0
+${msg}  URL має значення:
 
 *** Test Cases ***
 Check_search_results_using_csv_file_search_is_request: ${links_for_search_form}
-
-Check each text results via Chrome Check text results via Chrome
-Check search results in PS via headlesschrome mode
-Check search results in PS via FF
 
 
 *** Keywords ***
@@ -42,12 +39,14 @@ Check search results in PS via headlesschrome mode   #кейворд в який
     [Arguments]  ${links_for_search_form}   ${msg}
     Open Browser  ${links_for_search_form}  headlesschrome
     ${url}=     get location
-    log to console  ${msg} ${url}
+    Log To Console  ${msg} ${url}
     ${value2}=  get text    ${znaideno and value}
 
-    Log To Console  (1 The text is: ${value2})
-    Log To Console  (1.1 Check string_znaideno_nichogo: ${string_znaideno_nichogo})
-    Log To Console  (1.2 Check string_znaideno_0: ${string_znaideno_0})
+    Log To Console  (The result text in znaideno and value is: ${value2})
+
+    Should Not Be Equal As Strings  ${value2}   ${string_znaideno_0}
+    Should Not Be Equal As Strings  ${value2}   ${string_znaideno_nichogo}
+
 
 
 
