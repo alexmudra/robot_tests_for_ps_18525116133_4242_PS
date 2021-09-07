@@ -39,7 +39,7 @@ ${lctr_is_seller}                                         xpath=//*[@id="compani
 ${BROWSER_chrome}                                       Chrome
 ${BROWSER_headless}                                     headlesschrome
 
-${main_page}                                            http://185.25.116.133:4242
+${main_page}                                            http://185.25.116.133:4242/
 ${logo_page}                                            https://prozorro.sale/
 ${about_page}                                           http://185.25.116.133:4242/about
 ${news_page}                                            https://info.prozorro.sale/news
@@ -146,12 +146,6 @@ TC4 Comparing urls about_us
     ${text_1} =  Get text  ${storinka ne znaidena lctr}
     should be equal as strings  ${text_1}   ${storika ne znaidena_str}
 
-
-Compare main_page link with current
-    [Arguments]  ${msg_identical}
-    #Click Link  ${main_page}
-    ${url}=     get location
-    should be true  '${url}' in '${main_page}'
 
 
 #

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 4.0.3 (Python 3.8.10 on linux)" generated="20210907 19:48:31.039" rpa="false" schemaversion="2">
+<robot generator="Robot 4.0.3 (Python 3.8.10 on linux)" generated="20210907 20:22:57.843" rpa="false" schemaversion="2">
 <suite id="s1" name="RF check select values" source="/home/alex/PycharmProjects/RobotTests_Python/Robot_Tests_185.25.116.133_4242_PS/RF_check_select_values.robot">
 <test id="s1-t1" name="TC1 Open main page in headless chome">
 <kw name="Open Browser Chrome">
@@ -9,16 +9,16 @@
 <arg>${BROWSER_headless}</arg>
 <arg>${logo_page}</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<msg timestamp="20210907 19:48:31.208" level="INFO">Opening browser 'headlesschrome' to base url 'https://prozorro.sale/'.</msg>
-<status status="PASS" starttime="20210907 19:48:31.207" endtime="20210907 19:48:33.876"/>
+<msg timestamp="20210907 20:22:57.987" level="INFO">Opening browser 'headlesschrome' to base url 'https://prozorro.sale/'.</msg>
+<status status="PASS" starttime="20210907 20:22:57.987" endtime="20210907 20:23:00.540"/>
 </kw>
 <kw name="Maximize Browser Window" library="SeleniumLibrary">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" starttime="20210907 19:48:33.876" endtime="20210907 19:48:33.995"/>
+<status status="PASS" starttime="20210907 20:23:00.540" endtime="20210907 20:23:00.644"/>
 </kw>
-<status status="PASS" starttime="20210907 19:48:31.207" endtime="20210907 19:48:33.995"/>
+<status status="PASS" starttime="20210907 20:22:57.987" endtime="20210907 20:23:00.644"/>
 </kw>
-<status status="PASS" starttime="20210907 19:48:31.206" endtime="20210907 19:48:33.995"/>
+<status status="PASS" starttime="20210907 20:22:57.986" endtime="20210907 20:23:00.644"/>
 </test>
 <test id="s1-t2" name="TC2 Comparing https://prozorro.sale/ and current url">
 <kw name="Compare url and links">
@@ -26,19 +26,19 @@
 <kw name="Get Location" library="SeleniumLibrary">
 <var>${url}</var>
 <doc>Returns the current browser window URL.</doc>
-<msg timestamp="20210907 19:48:34.004" level="INFO">${url} = https://prozorro.sale/</msg>
-<status status="PASS" starttime="20210907 19:48:33.997" endtime="20210907 19:48:34.004"/>
+<msg timestamp="20210907 20:23:00.652" level="INFO">${url} = https://prozorro.sale/</msg>
+<status status="PASS" starttime="20210907 20:23:00.646" endtime="20210907 20:23:00.652"/>
 </kw>
 <kw name="Should Be True" library="BuiltIn">
 <arg>'${url}' in '${logo_page}'</arg>
 <doc>Fails if the given condition is not true.</doc>
-<status status="PASS" starttime="20210907 19:48:34.005" endtime="20210907 19:48:34.005"/>
+<status status="PASS" starttime="20210907 20:23:00.652" endtime="20210907 20:23:00.652"/>
 </kw>
-<status status="PASS" starttime="20210907 19:48:33.996" endtime="20210907 19:48:34.005"/>
+<status status="PASS" starttime="20210907 20:23:00.646" endtime="20210907 20:23:00.652"/>
 </kw>
-<status status="PASS" starttime="20210907 19:48:33.996" endtime="20210907 19:48:34.006"/>
+<status status="PASS" starttime="20210907 20:23:00.645" endtime="20210907 20:23:00.653"/>
 </test>
-<test id="s1-t3" name="TC3 Comparing http://185.25.116.133:4242 and current url">
+<test id="s1-t3" name="TC3 Comparing http://185.25.116.133:4242/ and current url">
 <kw name="Open Browser Chrome">
 <arg>${main_page}</arg>
 <arg>${BROWSER_headless}</arg>
@@ -46,36 +46,35 @@
 <arg>${BROWSER_headless}</arg>
 <arg>${logo_page}</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<msg timestamp="20210907 19:48:34.008" level="INFO">Opening browser 'headlesschrome' to base url 'http://185.25.116.133:4242'.</msg>
-<status status="PASS" starttime="20210907 19:48:34.008" endtime="20210907 19:48:36.299"/>
+<msg timestamp="20210907 20:23:00.654" level="INFO">Opening browser 'headlesschrome' to base url 'http://185.25.116.133:4242/'.</msg>
+<status status="PASS" starttime="20210907 20:23:00.654" endtime="20210907 20:23:02.940"/>
 </kw>
 <kw name="Maximize Browser Window" library="SeleniumLibrary">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" starttime="20210907 19:48:36.299" endtime="20210907 19:48:36.443"/>
+<status status="PASS" starttime="20210907 20:23:02.940" endtime="20210907 20:23:03.081"/>
 </kw>
-<status status="PASS" starttime="20210907 19:48:34.007" endtime="20210907 19:48:36.443"/>
+<status status="PASS" starttime="20210907 20:23:00.653" endtime="20210907 20:23:03.081"/>
 </kw>
 <kw name="Compare main_page link with current">
 <arg>${msg_identical}</arg>
 <kw name="Get Location" library="SeleniumLibrary">
 <var>${url}</var>
 <doc>Returns the current browser window URL.</doc>
-<msg timestamp="20210907 19:48:36.450" level="INFO">${url} = http://185.25.116.133:4242/</msg>
-<status status="PASS" starttime="20210907 19:48:36.444" endtime="20210907 19:48:36.450"/>
+<msg timestamp="20210907 20:23:03.088" level="INFO">${url} = http://185.25.116.133:4242/</msg>
+<status status="PASS" starttime="20210907 20:23:03.082" endtime="20210907 20:23:03.088"/>
 </kw>
 <kw name="Should Be True" library="BuiltIn">
 <arg>'${url}' in '${main_page}'</arg>
 <doc>Fails if the given condition is not true.</doc>
-<msg timestamp="20210907 19:48:36.450" level="FAIL">''http://185.25.116.133:4242/' in 'http://185.25.116.133:4242'' should be true.</msg>
-<status status="FAIL" starttime="20210907 19:48:36.450" endtime="20210907 19:48:36.450"/>
+<status status="PASS" starttime="20210907 20:23:03.088" endtime="20210907 20:23:03.097"/>
 </kw>
-<status status="FAIL" starttime="20210907 19:48:36.443" endtime="20210907 19:48:36.451"/>
+<status status="PASS" starttime="20210907 20:23:03.081" endtime="20210907 20:23:03.097"/>
 </kw>
 <kw name="Close All Browsers" library="SeleniumLibrary">
 <doc>Closes all open browsers and resets the browser cache.</doc>
-<status status="NOT RUN" starttime="20210907 19:48:36.451" endtime="20210907 19:48:36.451"/>
+<status status="PASS" starttime="20210907 20:23:03.099" endtime="20210907 20:23:03.213"/>
 </kw>
-<status status="FAIL" starttime="20210907 19:48:34.006" endtime="20210907 19:48:36.451">''http://185.25.116.133:4242/' in 'http://185.25.116.133:4242'' should be true.</status>
+<status status="PASS" starttime="20210907 20:23:00.653" endtime="20210907 20:23:03.213"/>
 </test>
 <test id="s1-t4" name="TC4 Comparing urls about_us">
 <kw name="Open Browser Chrome">
@@ -85,71 +84,55 @@
 <arg>${BROWSER_headless}</arg>
 <arg>${logo_page}</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<msg timestamp="20210907 19:48:36.457" level="INFO">Opening browser 'headlesschrome' to base url 'http://185.25.116.133:4242/about'.</msg>
-<status status="PASS" starttime="20210907 19:48:36.456" endtime="20210907 19:48:38.555"/>
+<msg timestamp="20210907 20:23:03.215" level="INFO">Opening browser 'headlesschrome' to base url 'http://185.25.116.133:4242/about'.</msg>
+<status status="PASS" starttime="20210907 20:23:03.215" endtime="20210907 20:23:04.582"/>
 </kw>
 <kw name="Maximize Browser Window" library="SeleniumLibrary">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" starttime="20210907 19:48:38.555" endtime="20210907 19:48:38.741"/>
+<status status="PASS" starttime="20210907 20:23:04.582" endtime="20210907 20:23:04.752"/>
 </kw>
-<status status="PASS" starttime="20210907 19:48:36.454" endtime="20210907 19:48:38.741"/>
+<status status="PASS" starttime="20210907 20:23:03.214" endtime="20210907 20:23:04.752"/>
 </kw>
 <kw name="Get Location" library="SeleniumLibrary">
 <var>${url}</var>
 <doc>Returns the current browser window URL.</doc>
-<msg timestamp="20210907 19:48:38.746" level="INFO">${url} = http://185.25.116.133:4242/about</msg>
-<status status="PASS" starttime="20210907 19:48:38.742" endtime="20210907 19:48:38.746"/>
+<msg timestamp="20210907 20:23:04.757" level="INFO">${url} = http://185.25.116.133:4242/about</msg>
+<status status="PASS" starttime="20210907 20:23:04.753" endtime="20210907 20:23:04.757"/>
 </kw>
 <kw name="Should Be True" library="BuiltIn">
 <arg>'${url}' in '${about_page}'</arg>
 <doc>Fails if the given condition is not true.</doc>
-<status status="PASS" starttime="20210907 19:48:38.747" endtime="20210907 19:48:38.747"/>
+<status status="PASS" starttime="20210907 20:23:04.758" endtime="20210907 20:23:04.758"/>
 </kw>
 <kw name="Get Text" library="SeleniumLibrary">
 <var>${text_1}</var>
 <arg>${storinka ne znaidena lctr}</arg>
 <doc>Returns the text value of the element identified by ``locator``.</doc>
-<msg timestamp="20210907 19:48:38.771" level="INFO">${text_1} = Сторінка не знайдена</msg>
-<status status="PASS" starttime="20210907 19:48:38.747" endtime="20210907 19:48:38.771"/>
+<msg timestamp="20210907 20:23:04.783" level="INFO">${text_1} = Сторінка не знайдена</msg>
+<status status="PASS" starttime="20210907 20:23:04.758" endtime="20210907 20:23:04.783"/>
 </kw>
 <kw name="Should Be Equal As Strings" library="BuiltIn">
 <arg>${text_1}</arg>
 <arg>${storika ne znaidena_str}</arg>
 <doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" starttime="20210907 19:48:38.771" endtime="20210907 19:48:38.771"/>
+<status status="PASS" starttime="20210907 20:23:04.783" endtime="20210907 20:23:04.784"/>
 </kw>
-<status status="PASS" starttime="20210907 19:48:36.454" endtime="20210907 19:48:38.772"/>
+<status status="PASS" starttime="20210907 20:23:03.214" endtime="20210907 20:23:04.784"/>
 </test>
-<test id="s1-t5" name="Compare main_page link with current">
-<kw name="Get Location" library="SeleniumLibrary">
-<var>${url}</var>
-<doc>Returns the current browser window URL.</doc>
-<msg timestamp="20210907 19:48:38.776" level="INFO">${url} = http://185.25.116.133:4242/about</msg>
-<status status="PASS" starttime="20210907 19:48:38.773" endtime="20210907 19:48:38.777"/>
-</kw>
-<kw name="Should Be True" library="BuiltIn">
-<arg>'${url}' in '${main_page}'</arg>
-<doc>Fails if the given condition is not true.</doc>
-<msg timestamp="20210907 19:48:38.777" level="FAIL">''http://185.25.116.133:4242/about' in 'http://185.25.116.133:4242'' should be true.</msg>
-<status status="FAIL" starttime="20210907 19:48:38.777" endtime="20210907 19:48:38.777"/>
-</kw>
-<status status="FAIL" starttime="20210907 19:48:38.772" endtime="20210907 19:48:38.777">''http://185.25.116.133:4242/about' in 'http://185.25.116.133:4242'' should be true.</status>
-</test>
-<status status="FAIL" starttime="20210907 19:48:31.040" endtime="20210907 19:48:38.778"/>
+<status status="PASS" starttime="20210907 20:22:57.844" endtime="20210907 20:23:04.785"/>
 </suite>
 <statistics>
 <total>
-<stat pass="3" fail="2" skip="0">All Tests</stat>
+<stat pass="4" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="3" fail="2" skip="0" id="s1" name="RF check select values">RF check select values</stat>
+<stat pass="4" fail="0" skip="0" id="s1" name="RF check select values">RF check select values</stat>
 </suite>
 </statistics>
 <errors>
-<msg timestamp="20210907 19:48:31.036" level="ERROR">Error in file '/home/alex/PycharmProjects/RobotTests_Python/Robot_Tests_185.25.116.133_4242_PS/RF_check_select_values.robot' on line 146: Non-existing setting 'Arguments'.</msg>
-<msg timestamp="20210907 19:48:31.205" level="ERROR">Error in file '/home/alex/PycharmProjects/RobotTests_Python/Robot_Tests_185.25.116.133_4242_PS/RF_check_select_values.robot' on line 10: Processing variable file '/home/alex/PycharmProjects/RobotTests_Python/robotTests_test.tender-online.com.ua/Resources/locators.py' failed: Importing variable file '/home/alex/PycharmProjects/RobotTests_Python/robotTests_test.tender-online.com.ua/Resources/locators.py' failed: SyntaxError: invalid syntax (locators.py, line 9)
+<msg timestamp="20210907 20:22:57.985" level="ERROR">Error in file '/home/alex/PycharmProjects/RobotTests_Python/Robot_Tests_185.25.116.133_4242_PS/RF_check_select_values.robot' on line 10: Processing variable file '/home/alex/PycharmProjects/RobotTests_Python/robotTests_test.tender-online.com.ua/Resources/locators.py' failed: Importing variable file '/home/alex/PycharmProjects/RobotTests_Python/robotTests_test.tender-online.com.ua/Resources/locators.py' failed: SyntaxError: invalid syntax (locators.py, line 9)
 Traceback (most recent call last):
   None
 PYTHONPATH:
