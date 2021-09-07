@@ -161,4 +161,3 @@ Compare main_page link with current
 #TC4 Defoult value of seller select
 #    List selection should be or how to handle select options in test TO  Замовник  ${lctr_is_zamovnik}
 
-
