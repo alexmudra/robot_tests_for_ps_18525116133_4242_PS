@@ -1,6 +1,3 @@
-
-
-
 # Це драфт файлу - ще нічого не робив
 
 
@@ -14,12 +11,6 @@ Variables   ../robotTests_test.tender-online.com.ua/Resources/locators.py
 ${doc_index}                                             0
 ${BROWSER_chrome}                                        Chrome
 ${BROWSER_headless}                                      headlesschrome
-
-${MAIN_URL}                                              https://test.tender-online.com.ua
-${register_page}                                         https://test.tender-online.com.ua/register
-${searh_tender_url}                                      https://test.tender-online.com.ua/tenders/index
-${search_catalogues_page}                                https://test.tender-online.com.ua/catalogue/groups
-${searh_actual_tender_url}                               https://test.tender-online.com.ua/tenders/actual
 
 ${msg_link_is}                                           Лінк має наступний вигляд:
 ${msg_identical}                                         Сторінки ідентичні
@@ -49,9 +40,11 @@ ${prodavcyam_page}                                      https://info.prozorro.sa
 ${pocupcyam_page}                                       https://info.prozorro.sale/pokupcyam
 ${contacts_page}                                        https://info.prozorro.sale/contacts
 
+
 #LOCATORS
 ${about_us_lctr}                                     xpath=//*[@id="__next"]/header/nav/div/ul/li[1]/a
 ${storinka ne znaidena lctr}                         xpath=//*[@id="__next"]/div/h1
+${logo_me_gov_ua}            xpath=//*[@id="__next"]/footer/div[1]/a[1]
 
 
 #values and variables
@@ -60,6 +53,7 @@ ${storika ne znaidena_str}  Сторінка не знайдена
 
 *** Keywords ***
 Open Browser Chrome
+    [Documentation]  Відкрити хромбраузер в хедлессмоді
     [Arguments]   ${BROWSER_headless}   ${logo_page}
     Open Browser    ${BROWSER_headless}  ${logo_page}
     Maximize Browser Window
@@ -89,42 +83,10 @@ Compare zamovnik or not
     Wait until element is visible   ${lctr_is_zamovnik}     timeout=20
     ${is_zamovnik}=  get variable value  ${lctr_is_zamovnik}
     should be true  '${is_zamovnik}' in '${lctr_is_zamovnik}'   msg='значення співпадають'
-    #Capture Page Screenshot
 
-#Get list items on Register Page
-#    [Arguments] ${register_page}
-#    ${companies_values}=  Get
+Close my browsers
+    Close all browsers
 
-
-#List selection should be or how to handle select options in test TO
-#    [Arguments]     ${lctr_is_seller}   ${lctr_is_zamovnik}
-#    Maximize Browser Window
-#    #Scroll Element into view    ${lctr_is_seller}
-#
-#    Page Should Contain List    xpath=//*[@id="companies-is_seller"]
-#
-#    Page Should Not Contain List    xpath=//*[@id="companies-is_seller_99"]
-#
-#    @{all_items_in_select}=  Get List Items  xpath=//*[@id="companies-is_seller"]
-#
-#    ${get_list_label}=  Get Selected List Label  xpath=//*[@id="companies-is_seller"]
-#
-#    ${get_selected_value}=  Get selected list values  xpath=//*[@id="companies-is_seller"]
-#
-#    List selection should be  xpath=//*[@id="companies-is_seller"]  Замовник
-#
-#    Select From List By Index  xpath=//*[@id="companies-is_seller"]  0
-#    ${get_label_from_select_by_Index}=  Get Selected List Label  xpath=//*[@id="companies-is_seller"]
-#    log to console  ${get_label_from_select_by_Index}
-#    sleep  2s
-#
-#    Select From List By Label  xpath=//*[@id="companies-is_seller"]  Замовник
-#    ${get_label_from_select_by_Label}=  Get Selected List Label  xpath=//*[@id="companies-is_seller"]
-#    sleep  2s
-#
-#    Select From List By Value  xpath=//*[@id="companies-is_seller"]  0
-#    ${get_label_from_select_by_Label2}=  Get Selected List Label  xpath=//*[@id="companies-is_seller"]
-#    sleep  2s
 
 
 *** Test Cases ***
@@ -137,21 +99,43 @@ TC2 Comparing ${logo_page} and current url
 TC3 Comparing ${main_page} and current url
     Open Browser Chrome  ${main_page}  ${BROWSER_headless}
     Compare main_page link with current  ${msg_identical}
-    Close All Browsers
 
-TC4 Comparing urls about_us
+TC4 Comparing urls about_us me.gov.ua
     Open Browser Chrome  ${about_page}  ${BROWSER_headless}
     ${url}=     get location
     should be true  '${url}' in '${about_page}'
     ${text_1} =  Get text  ${storinka ne znaidena lctr}
     should be equal as strings  ${text_1}   ${storika ne znaidena_str}
+    Click Image     Міністерство економічного розвитку і торгівлі України
+
+TC5 Comparing urls about_us Transparency International Ukraine
+    Open Browser Chrome  ${about_page}  ${BROWSER_headless}
+    ${url}=     get location
+    should be true  '${url}' in '${about_page}'
+    ${text_1} =  Get text  ${storinka ne znaidena lctr}
+    should be equal as strings  ${text_1}   ${storika ne znaidena_str}
+    Location Should Contain     http://185.25.116.133:4242/about
+    Click Image     Transparency International Ukraine
 
 
 
-#
-#TC32 Compare value in zamovnik select
-#    Compare zamovnik or not  ${lctr_is_zamovnik}
-#
-#TC4 Defoult value of seller select
-#    List selection should be or how to handle select options in test TO  Замовник  ${lctr_is_zamovnik}
+TC6 Comparing urls about_us and page should contain 12 hrefs
+  [Documentation]  Перевірка наявності 12 лінків на сторінці
+
+    Page Should Contain Link  https://info.prozorro.sale/finansova-informaciya
+    Page Should Contain Link  https://info.prozorro.sale/team
+    Page Should Contain Link  https://info.prozorro.sale/handbook
+    Page Should Contain Link  https://info.prozorro.sale/komisiya-dp-prozorroprodazhi
+    Page Should Contain Link  https://info.prozorro.sale/dokumenty-dp-prozorroprodazhi
+    Page Should Contain Link  https://docs.google.com/document/d/1krVY6oEheY-QlDSQUjG0eahhqrPnAtw7m4ZurzQ9Dc8/edit
+    Page Should Contain Link  https://info.prozorro.sale/info/elektronni-majdanchiki-ets-prozorroprodazhi-cbd2
+    Page Should Contain Link  https://info.prozorro.sale/majdanchikam
+    Page Should Contain Link  https://info.prozorro.sale/vakansiyi
+    Page Should Contain Link  https://info.prozorro.sale/za-pidtrimki
+    Page Should Contain Link  https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
+    Page Should Contain Link  https://www.facebook.com/Prozorro.sale
+
+    Close my browsers
+
+
 
