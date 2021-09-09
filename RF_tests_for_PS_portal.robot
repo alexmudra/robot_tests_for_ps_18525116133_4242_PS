@@ -137,5 +137,5 @@ TC6 Comparing urls about_us and page should contain 12 hrefs
 
     Close my browsers
 
-
+#https://www.youtube.com/watch?v=D0LOql-_3-s  how to handle tabs and windows in browser
 
