@@ -1,6 +1,3 @@
-# Це драфт файлу - ще нічого не робив
-
-
 #https://www.youtube.com/watch?v=DCgrW-i9cT8&list=PLUDwpEzHYYLsCHiiihnwl3L0xPspL7BPG&index=24
 *** Settings ***
 Library     SeleniumLibrary
@@ -15,6 +12,8 @@ ${BROWSER_headless}                                      headlesschrome
 ${msg_link_is}                                           Лінк має наступний вигляд:
 ${msg_identical}                                         Сторінки ідентичні
 ${msg_not_identical}                                     Сторінки не ідентичні
+${text_znaideno}                               Знайдено:
+${msg}  УРЛ вікна браузера:
 
 #LOCATORS
 
@@ -24,6 +23,7 @@ ${lctr_is_zamovnik}                                       xpath=//*[@id="compani
 ${lctr_is_uchasnick}                                      xpath=//*[@id="companies-is_seller"]/option[2]
 ${lctr_select_zamovORuchasnick}                           xpath=//*[@id="registration-form"]/div[1]/div[1]/label
 ${lctr_is_seller}                                         xpath=//*[@id="companies-is_seller"]
+${lctr_search_btn_magnifier}            xpath=//*[@id="__next"]/div[2]/div/div[1]/div/button
 
 
 #перемінні із http://185.25.116.133:4242/
@@ -45,6 +45,12 @@ ${contacts_page}                                        https://info.prozorro.sa
 ${about_us_lctr}                                     xpath=//*[@id="__next"]/header/nav/div/ul/li[1]/a
 ${storinka ne znaidena lctr}                         xpath=//*[@id="__next"]/div/h1
 ${logo_me_gov_ua}            xpath=//*[@id="__next"]/footer/div[1]/a[1]
+${lctr_btn_kluch_slovo}         xpath=//*[@id="__next"]/div[2]/div/div[2]/button[1]
+${input_to_kluch_slovo}        xpath=//input[@name="query"]
+${znaideno elements}  xpath=//span[@data-test-id="znaideno_value"]
+${znaideno and value}   xpath=//*[@id="__next"]/div[3]/div[1]
+
+${input_main_search_field}  xpath=//*[@id="__next"]/div[2]/div/div[1]/input
 
 
 #values and variables
@@ -63,6 +69,9 @@ Open Browser Chrome in headless_mode
     Open Browser    ${BROWSER_headless}
     Maximize Browser Window
 
+Open main page as ${main_page}
+    Open Browser  ${main_page}  ${BROWSER_headless}
+    Maximize Browser Window
 
 Compare url and links
     [Arguments]  ${msg_identical}
@@ -93,49 +102,92 @@ Close my browsers
 TC1 Open main page in headless chome
     Open Browser Chrome   ${logo_page}  ${BROWSER_headless}
 
-TC2 Comparing ${logo_page} and current url
-    Compare url and links   ${msg_identical}
+#TC2 Comparing ${logo_page} and current url
+#    Compare url and links   ${msg_identical}
+#
+#TC3 Comparing ${main_page} and current url
+#    Open Browser Chrome  ${main_page}  ${BROWSER_headless}
+#    Compare main_page link with current  ${msg_identical}
+#
+#TC4 Comparing urls about_us me.gov.ua
+#    Open Browser Chrome  ${about_page}  ${BROWSER_headless}
+#    ${url}=     get location
+#    should be true  '${url}' in '${about_page}'
+#    ${text_1} =  Get text  ${storinka ne znaidena lctr}
+#    should be equal as strings  ${text_1}   ${storika ne znaidena_str}
+#    Click Image     Міністерство економічного розвитку і торгівлі України
+#
+#TC5 Comparing urls about_us Transparency International Ukraine
+#    Open Browser Chrome  ${about_page}  ${BROWSER_headless}
+#    ${url}=     get location
+#    should be true  '${url}' in '${about_page}'
+#    ${text_1} =  Get text  ${storinka ne znaidena lctr}
+#    should be equal as strings  ${text_1}   ${storika ne znaidena_str}
+#    Location Should Contain     http://185.25.116.133:4242/about
+#    Click Image     Transparency International Ukraine
 
-TC3 Comparing ${main_page} and current url
-    Open Browser Chrome  ${main_page}  ${BROWSER_headless}
-    Compare main_page link with current  ${msg_identical}
-
-TC4 Comparing urls about_us me.gov.ua
-    Open Browser Chrome  ${about_page}  ${BROWSER_headless}
-    ${url}=     get location
-    should be true  '${url}' in '${about_page}'
-    ${text_1} =  Get text  ${storinka ne znaidena lctr}
-    should be equal as strings  ${text_1}   ${storika ne znaidena_str}
-    Click Image     Міністерство економічного розвитку і торгівлі України
-
-TC5 Comparing urls about_us Transparency International Ukraine
-    Open Browser Chrome  ${about_page}  ${BROWSER_headless}
-    ${url}=     get location
-    should be true  '${url}' in '${about_page}'
-    ${text_1} =  Get text  ${storinka ne znaidena lctr}
-    should be equal as strings  ${text_1}   ${storika ne znaidena_str}
-    Location Should Contain     http://185.25.116.133:4242/about
-    Click Image     Transparency International Ukraine
 
 
+#TC6 Comparing urls about_us and page should contain 12 hrefs
+#  [Documentation]  Перевірка наявності 12 лінків на сторінці
+#
+#    Page Should Contain Link  https://info.prozorro.sale/finansova-informaciya
+#    Page Should Contain Link  https://info.prozorro.sale/team
+#    Page Should Contain Link  https://info.prozorro.sale/handbook
+#    Page Should Contain Link  https://info.prozorro.sale/komisiya-dp-prozorroprodazhi
+#    Page Should Contain Link  https://info.prozorro.sale/dokumenty-dp-prozorroprodazhi
+#    Page Should Contain Link  https://docs.google.com/document/d/1krVY6oEheY-QlDSQUjG0eahhqrPnAtw7m4ZurzQ9Dc8/edit
+#    Page Should Contain Link  https://info.prozorro.sale/info/elektronni-majdanchiki-ets-prozorroprodazhi-cbd2
+#    Page Should Contain Link  https://info.prozorro.sale/majdanchikam
+#    Page Should Contain Link  https://info.prozorro.sale/vakansiyi
+#    Page Should Contain Link  https://info.prozorro.sale/za-pidtrimki
+#    Page Should Contain Link  https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
+#    Page Should Contain Link  https://www.facebook.com/Prozorro.sale
 
-TC6 Comparing urls about_us and page should contain 12 hrefs
-  [Documentation]  Перевірка наявності 12 лінків на сторінці
+ТС7 Key word search
+    [Documentation]  Пошук по ключовому слову
+    #Open main page as ${main_page}
+    Go to  ${main_page}
+    Maximize Browser Window
+    Click button  ${lctr_btn_kluch_slovo}
+    Sleep  5s
+    Capture Page Screenshot
+    Input text  ${input_to_kluch_slovo}   брухт
+    #Input text  xpath=//input[@name="query"]  брухт
+    Capture Page Screenshot
+    log many   ${znaideno elements}
+    Get text  ${znaideno and value}
+    Close All Browsers
 
-    Page Should Contain Link  https://info.prozorro.sale/finansova-informaciya
-    Page Should Contain Link  https://info.prozorro.sale/team
-    Page Should Contain Link  https://info.prozorro.sale/handbook
-    Page Should Contain Link  https://info.prozorro.sale/komisiya-dp-prozorroprodazhi
-    Page Should Contain Link  https://info.prozorro.sale/dokumenty-dp-prozorroprodazhi
-    Page Should Contain Link  https://docs.google.com/document/d/1krVY6oEheY-QlDSQUjG0eahhqrPnAtw7m4ZurzQ9Dc8/edit
-    Page Should Contain Link  https://info.prozorro.sale/info/elektronni-majdanchiki-ets-prozorroprodazhi-cbd2
-    Page Should Contain Link  https://info.prozorro.sale/majdanchikam
-    Page Should Contain Link  https://info.prozorro.sale/vakansiyi
-    Page Should Contain Link  https://info.prozorro.sale/za-pidtrimki
-    Page Should Contain Link  https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
-    Page Should Contain Link  https://www.facebook.com/Prozorro.sale
+#ТС8 Check rey word search via main serch field
+#    [Documentation]  Пошук по ключовому слову 2 варіант
+#    Go to  ${main_page}
+#    Maximize Browser Window
+#    Click element  ${input_main_search_field}
+#    Sleep  2s
+#    Input text  ${input_main_search_field}   брухт
+#    Click Button    ${lctr_search_btn_magnifier}
+#    #Press Keys  ${input_main_search_field}  ENTER
+#    #Wait Until Page Contains Element  ${znaideno elements}  timeout=5s
+#    Sleep  3s
+#    Capture Page Screenshot
+#    ${text_from_znaideno}=  Get text  ${znaideno elements}
+#    #log many   ${text_from_znaideno}
+#    Capture Page Screenshot
+#    Get text  ${znaideno elements}
+#    Get value  ${znaideno elements}
+#    log many  ${znaideno elements}
+#    Get WebElement  ${znaideno elements}
+#    Get value  ${znaideno elements}
+#    Close All Browsers
 
-    Close my browsers
+
+#TC9 Check window url via js
+#    Go to  ${about_page}
+#    Maximize Browser Window
+#    ${url}=  Execute Javascript  return window.location.href
+#    log many  ${msg} ${url}
+#    Close All Browsers
 
 #https://www.youtube.com/watch?v=D0LOql-_3-s  how to handle tabs and windows in browser
 
