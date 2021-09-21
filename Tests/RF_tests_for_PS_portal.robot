@@ -196,7 +196,7 @@ TC1 Open main page in headless chome
 
 
 TC Check link for bruht
-    [Documentation]  Пошук по ключовому слову
+    [Documentation]  Знайти аукціони по ключовому слову брухт, клікнути на 1й в списку і отримати дані
     [Tags]  кейворди тут https://robotframework.org/Selenium2Library/Selenium2Library.html
     Go to  ${main_page}
     Maximize Browser Window
@@ -207,6 +207,10 @@ TC Check link for bruht
     Wait Until Element Is Visible  ${first_link_for_bruht}
     Click element  ${first_link_for_bruht}
     Click element  ${first_link_for_bruht_v2}
+    Click Link  ${first_link_for_bruht_v2}
+    Log Location
+    Log Source
+    Log Title
     Capture Page Screenshot
 
 
