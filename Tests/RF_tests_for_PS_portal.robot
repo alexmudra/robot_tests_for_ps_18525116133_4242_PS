@@ -1,7 +1,8 @@
 #https://www.youtube.com/watch?v=DCgrW-i9cT8&list=PLUDwpEzHYYLsCHiiihnwl3L0xPspL7BPG&index=24
 *** Settings ***
 Library     SeleniumLibrary
-Variables   ../robotTests_test.tender-online.com.ua/Resources/locators.py
+suite setup  Open Browser Chrome in headless_mode
+suite teardown  Close All Browsers
 
 
 *** Variables ***
@@ -51,6 +52,8 @@ ${znaideno elements}  xpath=//span[@data-test-id="znaideno_value"]
 ${znaideno and value}   xpath=//*[@id="__next"]/div[3]/div[1]
 
 ${input_main_search_field}  xpath=//*[@id="__next"]/div[2]/div/div[1]/input
+${first_link_for_bruht}  xpath=(//a[contains(@class,"cardcomponent__Title")])[1]
+${first_link_for_bruht_v2}  xpath=(//div[contains(@class,"sc-13tsmp8-0 dfiBpb")]/descendant::a)[1]
 
 
 #values and variables
@@ -66,7 +69,7 @@ Open Browser Chrome
 
 
 Open Browser Chrome in headless_mode
-    Open Browser    ${BROWSER_headless}
+    Open Browser  ${main_page}   ${BROWSER_headless}
     Maximize Browser Window
 
 Open main page as ${main_page}
@@ -90,7 +93,7 @@ Compare main_page link with current
 Compare zamovnik or not
     [Arguments]  ${lctr_is_zamovnik}
     Wait until element is visible   ${lctr_is_zamovnik}     timeout=20
-    ${is_zamovnik}=  get variable value  ${lctr_is_zamovnik}
+    ${is_zamovnik}=  get variable value  ${lctr_is_zamovnik} #//span[@data-test-id="znaideno_value"]
     should be true  '${is_zamovnik}' in '${lctr_is_zamovnik}'   msg='значення співпадають'
 
 Close my browsers
@@ -144,20 +147,20 @@ TC1 Open main page in headless chome
 #    Page Should Contain Link  https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
 #    Page Should Contain Link  https://www.facebook.com/Prozorro.sale
 
-ТС7 Key word search
-    [Documentation]  Пошук по ключовому слову
-    #Open main page as ${main_page}
-    Go to  ${main_page}
-    Maximize Browser Window
-    Click button  ${lctr_btn_kluch_slovo}
-    Sleep  5s
-    Capture Page Screenshot
-    Input text  ${input_to_kluch_slovo}   брухт
-    #Input text  xpath=//input[@name="query"]  брухт
-    Capture Page Screenshot
-    log many   ${znaideno elements}
-    Get text  ${znaideno and value}
-    Close All Browsers
+#ТС7 Key word search
+#    [Documentation]  Пошук по ключовому слову
+#    #Open main page as ${main_page}
+#    Go to  ${main_page}
+#    Maximize Browser Window
+#    Click button  ${lctr_btn_kluch_slovo}
+#    Sleep  5s
+#    Capture Page Screenshot
+#    Input text  ${input_to_kluch_slovo}   брухт
+#    #Input text  xpath=//input[@name="query"]  брухт
+#    Capture Page Screenshot
+#    log many   ${znaideno elements}
+#    Get text  ${znaideno and value}
+#    Close All Browsers
 
 #ТС8 Check rey word search via main serch field
 #    [Documentation]  Пошук по ключовому слову 2 варіант
@@ -190,4 +193,20 @@ TC1 Open main page in headless chome
 #    Close All Browsers
 
 #https://www.youtube.com/watch?v=D0LOql-_3-s  how to handle tabs and windows in browser
+
+
+TC Check link for bruht
+    [Documentation]  Пошук по ключовому слову
+    [Tags]  кейворди тут https://robotframework.org/Selenium2Library/Selenium2Library.html
+    Go to  ${main_page}
+    Maximize Browser Window
+    Click button  ${lctr_btn_kluch_slovo}
+    Sleep  5s
+    Capture Page Screenshot
+    Input text  ${input_to_kluch_slovo}   брухт
+    Sleep  5s
+    Click element  ${first_link_for_bruht}
+    Click element  ${first_link_for_bruht_v2}
+    Capture Page Screenshot
+
 
