@@ -204,7 +204,7 @@ TC Check link for bruht
     Sleep  5s
     Capture Page Screenshot
     Input text  ${input_to_kluch_slovo}   брухт
-    Sleep  5s
+    Wait Until Element Is Visible  ${first_link_for_bruht}
     Click element  ${first_link_for_bruht}
     Click element  ${first_link_for_bruht_v2}
     Capture Page Screenshot
