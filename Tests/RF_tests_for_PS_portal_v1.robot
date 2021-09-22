@@ -63,24 +63,19 @@ ${storika ne znaidena_str}  Сторінка не знайдена
 
 *** Keywords ***
 Open Browser Chrome
-    [Documentation]  Відкрити хромбраузер в хедлессмоді
+    [Documentation]  Відкрити хромбраузер в UI режимі
     [Arguments]   ${BROWSER_headless}   ${logo_page}
     Open Browser    ${BROWSER_headless}  ${logo_page}
     Maximize Browser Window
-
 
 Open Browser Chrome in headless_mode
     Open Browser  ${main_page}   ${BROWSER_headless}
     Maximize Browser Window
 
-Open main page as ${main_page}
-    Open Browser  ${main_page}  ${BROWSER_headless}
-    Maximize Browser Window
-
 Compare url and links
     [Arguments]  ${msg_identical}
     ${url}=     get location
-    should be true  '${url}' in '${logo_page}'
+    should be true  '${url}' in '${main_page}'
     #log to console  ${msg_identical}
     #Capture Page Screenshot
 
@@ -90,7 +85,7 @@ Compare main_page link with current
     ${url}=     get location
     should be true  '${url}' in '${main_page}'
 
-#https://github.com/vargatuk/portal/blob/master/Resource/page_object/main.robot
+
 Compare zamovnik or not
     [Arguments]  ${lctr_is_zamovnik}
     Wait until element is visible   ${lctr_is_zamovnik}     timeout=20
@@ -100,56 +95,60 @@ Compare zamovnik or not
 Close my browsers
     Close all browsers
 
-
-
 *** Test Cases ***
-#TC Open main page in headless chome
-    Open Browser Chrome   ${logo_page}  ${BROWSER_headless}
 
-TC Open mainpage in UI Chome mode
+
+TC1 Open mainpage in UI Chome mode
+    [Documentation]  Відкрити браузер в UI режимі(можливо відкрити headlessbode
+    [Tags]  браузер
     Open Browser Chrome   ${main_page}  ${BROWSER_chrome}
 
-#TC2 Comparing ${logo_page} and current url
-#    Compare url and links   ${msg_identical}
-#
-#TC3 Comparing ${main_page} and current url
-#    Open Browser Chrome  ${main_page}  ${BROWSER_headless}
-#    Compare main_page link with current  ${msg_identical}
-#
-#TC4 Comparing urls about_us me.gov.ua
-#    Open Browser Chrome  ${about_page}  ${BROWSER_headless}
-#    ${url}=     get location
-#    should be true  '${url}' in '${about_page}'
-#    ${text_1} =  Get text  ${storinka ne znaidena lctr}
-#    should be equal as strings  ${text_1}   ${storika ne znaidena_str}
-#    Click Image     Міністерство економічного розвитку і торгівлі України
-#
-#TC5 Comparing urls about_us Transparency International Ukraine
-#    Open Browser Chrome  ${about_page}  ${BROWSER_headless}
-#    ${url}=     get location
-#    should be true  '${url}' in '${about_page}'
-#    ${text_1} =  Get text  ${storinka ne znaidena lctr}
-#    should be equal as strings  ${text_1}   ${storika ne znaidena_str}
-#    Location Should Contain     http://185.25.116.133:4242/about
-#    Click Image     Transparency International Ukraine
+TC Comparing ${main_page} and current url
+    [Documentation]  Порівняти лінк в браузері із лінком на головній стрінці порталу
+    [Tags]  лінк
+    Open Browser  ${main_page}  ${BROWSER_Chrome}
+    Compare main_page link with current  ${msg_identical}
 
+TC Comparing urls about_us, me.gov.ua
+    [Documentation]  Порівняти лінк в браузері із лінком на головній стрінці порталу
+    [Tags]  лінк
+    Go to  ${about_page}
+    ${url}=     get location
+    should be true  '${url}' in '${about_page}'
+    ${text_1} =  Get text  ${storinka ne znaidena lctr}
+    should be equal as strings  ${text_1}   ${storika ne znaidena_str}
 
+ТС Check clicable image MIT in aboutPage
+    Click Image     Міністерство економічного розвитку і торгівлі України
+    Capture Page Screenshot
 
-#TC6 Comparing urls about_us and page should contain 12 hrefs
-#  [Documentation]  Перевірка наявності 12 лінків на сторінці
-#
-#    Page Should Contain Link  https://info.prozorro.sale/finansova-informaciya
-#    Page Should Contain Link  https://info.prozorro.sale/team
-#    Page Should Contain Link  https://info.prozorro.sale/handbook
-#    Page Should Contain Link  https://info.prozorro.sale/komisiya-dp-prozorroprodazhi
-#    Page Should Contain Link  https://info.prozorro.sale/dokumenty-dp-prozorroprodazhi
-#    Page Should Contain Link  https://docs.google.com/document/d/1krVY6oEheY-QlDSQUjG0eahhqrPnAtw7m4ZurzQ9Dc8/edit
-#    Page Should Contain Link  https://info.prozorro.sale/info/elektronni-majdanchiki-ets-prozorroprodazhi-cbd2
-#    Page Should Contain Link  https://info.prozorro.sale/majdanchikam
-#    Page Should Contain Link  https://info.prozorro.sale/vakansiyi
-#    Page Should Contain Link  https://info.prozorro.sale/za-pidtrimki
-#    Page Should Contain Link  https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
-#    Page Should Contain Link  https://www.facebook.com/Prozorro.sale
+TC Comparing urls about_us and verify Transparency International Ukraine
+    [Documentation]  Порівняти aboutPage в браузері із на відритій сторінці браузеру.Перевірити клікабельність картинки
+    [Tags]   картинки
+    Open Browser Chrome  ${about_page}  ${BROWSER_headless}
+    ${url}=     get location
+    should be true  '${url}' in '${about_page}'
+    ${text_1} =  Get text  ${storinka ne znaidena lctr}
+    should be equal as strings  ${text_1}   ${storika ne znaidena_str}
+    Location Should Contain     http://185.25.116.133:4242/about
+    Click Image     Transparency International Ukraine
+
+TC Comparing urls about_us and page should contain 12 hrefs
+    [Documentation]  Перевірка наявності 12 лінків на сторінці
+    [Tags]   лінк
+
+    Page Should Contain Link  https://info.prozorro.sale/finansova-informaciya
+    Page Should Contain Link  https://info.prozorro.sale/team
+    Page Should Contain Link  https://info.prozorro.sale/handbook
+    Page Should Contain Link  https://info.prozorro.sale/komisiya-dp-prozorroprodazhi
+    Page Should Contain Link  https://info.prozorro.sale/dokumenty-dp-prozorroprodazhi
+    Page Should Contain Link  https://docs.google.com/document/d/1krVY6oEheY-QlDSQUjG0eahhqrPnAtw7m4ZurzQ9Dc8/edit
+    Page Should Contain Link  https://info.prozorro.sale/info/elektronni-majdanchiki-ets-prozorroprodazhi-cbd2
+    Page Should Contain Link  https://info.prozorro.sale/majdanchikam
+    Page Should Contain Link  https://info.prozorro.sale/vakansiyi
+    Page Should Contain Link  https://info.prozorro.sale/za-pidtrimki
+    Page Should Contain Link  https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
+    Page Should Contain Link  https://www.facebook.com/Prozorro.sale
 
 #ТС7 Key word search
 #    [Documentation]  Пошук по ключовому слову
