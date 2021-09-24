@@ -224,7 +224,7 @@ TC10 Check link for bruht
     Click element  ${first_link_for_bruht_v2}
     Click Link  ${first_link_for_bruht_v2}
     Log Location
-    Log Source
+    #Log Source
     Log Title
     Capture Page Screenshot
 
