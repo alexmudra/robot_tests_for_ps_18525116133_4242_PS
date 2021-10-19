@@ -35,7 +35,6 @@ ${lctr_search_btn_magnifier}                           xpath=//*[@id="__next"]/d
 ${lctr_status_name_in_auct_page}  xpath=//aside[contains(@class,"meta-blockstyles__FixedBlock-v6fx5m-0 bNaTcU")]
 
 
-
 ${BROWSER_chrome}                                       Chrome
 ${BROWSER_headless}                                     headlesschrome
 
