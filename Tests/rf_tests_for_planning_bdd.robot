@@ -1,5 +1,7 @@
 #кейворди тут https://robotframework.org/Selenium2Library/Selenium2Library.html
 #https://www.youtube.com/watch?v=D0LOql-_3-s  how to handle tabs and windows in browser
+#тут приклади виокристання патерну https://stackoverflow.com/questions/65228946/pattern-matching-in-robot-framework-python
+#тут документація по операціям із стрінгою https://robotframework.org/robotframework/2.1.2/libraries/String.html
 
 *** Settings ***
 Library     SeleniumLibrary
@@ -71,7 +73,7 @@ Open Browser Chrome in headless_mode
     ${c}=    Get Regexp Matches    ${pattern_planning/search}  planning/search
     Log  ${c}
 
-
+    #реальна перевірка відповідності урлів із 4242 і проду до патерну  planning/search
     Go to  ${planning_page_4242}
     Maximize Browser Window
     ${url_planning_4242}=  Execute Javascript  return window.location.href
