@@ -86,7 +86,7 @@ Open Browser Chrome in headless_mode
 
 TC1 Compare search status results active.tendering on http://185.25.116.133:4242 and https://prozorro.sale
     [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Прийняття заяв на участь
-    [Tags]   пошук по статусам
+    [Tags]   пошук по статусам Аукціонів
 
     Go to   ${lnk_active_tendering_4242}
     Maximize Browser Window
@@ -106,7 +106,7 @@ TC1 Compare search status results active.tendering on http://185.25.116.133:4242
 
 TC2 Compare search status results active.auction on http://185.25.116.133:4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Аукціон
-    [Tags]   пошук по статусам
+    [Tags]   пошук по статусам Аукціонів
 
     Go to   ${lnk_active.auction_4242}
     Maximize Browser Window
@@ -126,7 +126,7 @@ TC2 Compare search status results active.auction on http://185.25.116.133:4242 a
 
 TC3 Compare search status results active.enquiry on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Період уточнень
-    [Tags]   пошук по статусам
+    [Tags]   пошук по статусам Аукціонів
 
     Go to   ${lnk_active.enquiry_4242}
     Maximize Browser Window
@@ -147,7 +147,7 @@ TC3 Compare search status results active.enquiry on dev/4242 and https://prozorr
 
 TC4 Compare search status results active.rectification on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Період редагування
-   [Tags]   пошук по статусам
+   [Tags]   пошук по статусам Аукціонів
 
     Go to   ${lnk_active.rectification_4242}
     Maximize Browser Window
@@ -168,7 +168,7 @@ TC4 Compare search status results active.rectification on dev/4242 and https://p
 
 TC5 Compare search status results active.qualification on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Очікується публікація протоколу
-   [Tags]   пошук по статусам
+   [Tags]   пошук по статусам Аукціонів
 
     Go to   ${lnk_active.qualification_4242}
     Maximize Browser Window
@@ -189,7 +189,7 @@ TC5 Compare search status results active.qualification on dev/4242 and https://p
 
 TC6 Compare search status results active.awarded on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Очікується публікація договору
-   [Tags]   пошук по статусам
+   [Tags]   пошук по статусам Аукціонів
 
     Go to   ${lnk_active.awarded_4242}
     Maximize Browser Window
@@ -209,7 +209,7 @@ TC6 Compare search status results active.awarded on dev/4242 and https://prozorr
 
 TC7 Compare search status results pending_admissions on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Очікується рішення про викуп
-   [Tags]   пошук по статусам
+   [Tags]   пошук по статусам Аукціонів
 
     Go to   ${lnk_pending.admission_4242}
     Maximize Browser Window
@@ -230,7 +230,7 @@ TC7 Compare search status results pending_admissions on dev/4242 and https://pro
 
 TC8 Compare search status results complete on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Аукціон завершено. Договір підписано
-   [Tags]   пошук по статусам
+   [Tags]   пошук по статусам Аукціонів
 
     Go to   ${lnk_complete_4242}
     Maximize Browser Window
@@ -251,7 +251,7 @@ TC8 Compare search status results complete on dev/4242 and https://prozorro.sale
 
 TC9 Compare search status results cancelled on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Аукціон скасовано
-   [Tags]   пошук по статусам
+   [Tags]   пошук по статусам Аукціонів
 
     Go to   ${lnk_cancelled_4242}
     Maximize Browser Window
@@ -272,7 +272,7 @@ TC9 Compare search status results cancelled on dev/4242 and https://prozorro.sal
 
 TC10 Compare auction search status results unsuccessful on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Аукціон не відбувся
-   [Tags]   пошук по статусам
+   [Tags]   пошук по статусам Аукціонів 2
 
     Go to   ${lnk_unsuccessful_4242}
     Maximize Browser Window
