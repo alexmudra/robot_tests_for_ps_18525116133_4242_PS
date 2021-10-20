@@ -59,6 +59,12 @@ ${lnk_pending.admission_4242}   http://185.25.116.133:4242/?status=pending.admis
 ${lnk_complete_4242}  http://185.25.116.133:4242/?status=complete&offset=10
 ${lnk_cancelled_4242}  http://185.25.116.133:4242/?status=cancelled&offset=10
 ${lnk_unsuccessful_4242}  http://185.25.116.133:4242/?status=unsuccessful&offset=10
+#cтатуси в Інформаційих повідомленнях наhttp://185.25.116.133:4242/
+${lnk_status_ealots=active.auction}  http://185.25.116.133:4242/planning/search?offset=10&status_ealots=active.auction
+${lnk_status_ealots=active.contracting}  http://185.25.116.133:4242/planning/search?offset=10&status_ealots=active.contracting
+${lnk_status_ealots=pending.sold}  http://185.25.116.133:4242/planning/search?offset=10&status_ealots=pending.sold
+${lnk_status_ealots=sold}  http://185.25.116.133:4242/planning/search?offset=10&status_ealots=sold
+${lnk_status_ealots=deleted}  http://185.25.116.133:4242/planning/search?offset=10&status_ealots=deleted
 
 #статуси аукціонів https://prozorro.sale
 ${lnk_active_tendering_prod}  https://prozorro.sale/?status=active.tendering
@@ -71,7 +77,12 @@ ${lnk_pending_admission_prod}  https://prozorro.sale/?status=pending.admission&o
 ${lnk_complete_prod}  https://prozorro.sale/?status=complete&offset=10
 ${lnk_cancelled_prod}  https://prozorro.sale/?status=cancelled&offset=10
 ${lnk_unsuccessful_prod}  https://prozorro.sale/?status=unsuccessful&offset=10
-
+#cтатуси в Інформаційих повідомленнях на проді
+${lnk_status_ealots=active.auction_prod}  https://prozorro.sale/planning/search?offset=10&status_ealots=active.auction
+${lnk_status_ealots=active.contracting_prod}  https://prozorro.sale/planning/search?offset=10&status_ealots=active.contracting
+${lnk_status_ealots=pending.sold_prod}  https://prozorro.sale/planning/search?offset=10&status_ealots=pending.sold
+${lnk_status_ealots=sold_prod}  https://prozorro.sale/planning/search?offset=10&status_ealots=sold
+${lnk_status_ealots=deleted_prod}  https://prozorro.sale/planning/search?offset=10&status_ealots=deleted
 
 *** Keywords ***
 
@@ -84,7 +95,7 @@ Open Browser Chrome in headless_mode
 *** Test Cases ***
 
 
-TC1 Compare search status results active.tendering on http://185.25.116.133:4242 and https://prozorro.sale
+#TC1 Compare search status results active.tendering on http://185.25.116.133:4242 and https://prozorro.sale
     [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Прийняття заяв на участь
     [Tags]   пошук по статусам Аукціонів
 
@@ -104,7 +115,7 @@ TC1 Compare search status results active.tendering on http://185.25.116.133:4242
     should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
 
 
-TC2 Compare search status results active.auction on http://185.25.116.133:4242 and https://prozorro.sale
+#TC2 Compare search status results active.auction on http://185.25.116.133:4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Аукціон
     [Tags]   пошук по статусам Аукціонів
 
@@ -124,7 +135,7 @@ TC2 Compare search status results active.auction on http://185.25.116.133:4242 a
     should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
 
 
-TC3 Compare search status results active.enquiry on dev/4242 and https://prozorro.sale
+#TC3 Compare search status results active.enquiry on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Період уточнень
     [Tags]   пошук по статусам Аукціонів
 
@@ -145,7 +156,7 @@ TC3 Compare search status results active.enquiry on dev/4242 and https://prozorr
     should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
 
 
-TC4 Compare search status results active.rectification on dev/4242 and https://prozorro.sale
+#TC4 Compare search status results active.rectification on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Період редагування
    [Tags]   пошук по статусам Аукціонів
 
@@ -166,7 +177,7 @@ TC4 Compare search status results active.rectification on dev/4242 and https://p
     should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
 
 
-TC5 Compare search status results active.qualification on dev/4242 and https://prozorro.sale
+#TC5 Compare search status results active.qualification on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Очікується публікація протоколу
    [Tags]   пошук по статусам Аукціонів
 
@@ -187,7 +198,7 @@ TC5 Compare search status results active.qualification on dev/4242 and https://p
     should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
 
 
-TC6 Compare search status results active.awarded on dev/4242 and https://prozorro.sale
+#TC6 Compare search status results active.awarded on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Очікується публікація договору
    [Tags]   пошук по статусам Аукціонів
 
@@ -207,7 +218,7 @@ TC6 Compare search status results active.awarded on dev/4242 and https://prozorr
 
     should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
 
-TC7 Compare search status results pending_admissions on dev/4242 and https://prozorro.sale
+#TC7 Compare search status results pending_admissions on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Очікується рішення про викуп
    [Tags]   пошук по статусам Аукціонів
 
@@ -228,7 +239,7 @@ TC7 Compare search status results pending_admissions on dev/4242 and https://pro
     should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
 
 
-TC8 Compare search status results complete on dev/4242 and https://prozorro.sale
+#TC8 Compare search status results complete on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Аукціон завершено. Договір підписано
    [Tags]   пошук по статусам Аукціонів
 
@@ -249,7 +260,7 @@ TC8 Compare search status results complete on dev/4242 and https://prozorro.sale
     should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
 
 
-TC9 Compare search status results cancelled on dev/4242 and https://prozorro.sale
+#TC9 Compare search status results cancelled on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Аукціон скасовано
    [Tags]   пошук по статусам Аукціонів
 
@@ -270,9 +281,9 @@ TC9 Compare search status results cancelled on dev/4242 and https://prozorro.sal
     should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
 
 
-TC10 Compare auction search status results unsuccessful on dev/4242 and https://prozorro.sale
+#TC10 Compare auction search status results unsuccessful on dev/4242 and https://prozorro.sale
    [Documentation]  Зайти на дев і прод і порівляти результати пошуку по статусу Аукціон не відбувся
-   [Tags]   пошук по статусам Аукціонів 2
+   [Tags]   пошук по статусам Аукціонів
 
     Go to   ${lnk_unsuccessful_4242}
     Maximize Browser Window
@@ -289,6 +300,119 @@ TC10 Compare auction search status results unsuccessful on dev/4242 and https://
     Log Location
 
     should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
+
+
+TC11 Compare status_ealots=active.auction on dev/4242 and https://prozorro.sale
+   [Documentation]  Зайти на дев і прод в розділ Інф.Повідомлення і порівляти результати пошуку по статусу Аукціон
+   [Tags]   пошук по статусам в Інф. Повідомленнях
+
+    Go to   ${lnk_status_ealots=active.auction}
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}  timeout=20
+    ${znaideno value from 4242}=  Get text  ${value from znaideno_v2}
+    log many  ${znaideno value from 4242}
+
+
+    Go to  ${lnk_status_ealots=active.auction_prod}
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}  timeout=20
+    ${znaideno value from prod} =  Get text  ${value from znaideno_v2}
+    log many  ${znaideno value from prod}
+    Log Location
+
+    should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
+
+
+TC12 Compare status_ealots=pending.sold_prod on dev/4242 and https://prozorro.sale
+   [Documentation]  Зайти на дев і прод в розділ Інф.Повідомлення і порівляти результати пошуку по статусу Аукціон завершено/Кваліфікація
+   [Tags]   пошук по статусам в Інф. Повідомленнях
+
+    Go to   ${lnk_status_ealots=active.contracting}
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}  timeout=20
+    ${znaideno value from 4242}=  Get text  ${value from znaideno_v2}
+    log many  ${znaideno value from 4242}
+
+
+    Go to  ${lnk_status_ealots=pending.sold_prod}
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}  timeout=20
+    ${znaideno value from prod} =  Get text  ${value from znaideno_v2}
+    log many  ${znaideno value from prod}
+    Log Location
+
+    should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
+
+
+TC13 Compare status_ealots=pending.sold on dev/4242 and https://prozorro.sale
+   [Documentation]  Зайти на дев і прод в розділ Інф.Повідомлення і порівляти результати пошуку по статусу Аукціон завершено
+   [Tags]   пошук по статусам в Інф. Повідомленнях
+
+    Go to   ${lnk_status_ealots=active.auction}
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}  timeout=20
+    ${znaideno value from 4242}=  Get text  ${value from znaideno_v2}
+    log many  ${znaideno value from 4242}
+
+
+    Go to  ${lnk_status_ealots=active.auction_prod}
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}  timeout=20
+    ${znaideno value from prod} =  Get text  ${value from znaideno_v2}
+    log many  ${znaideno value from prod}
+    Log Location
+
+    should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
+
+
+
+
+TC14 Compare status_ealots=sold on dev/4242 and https://prozorro.sale
+   [Documentation]  Зайти на дев і прод в розділ Інф.Повідомлення і порівляти результати пошуку по статусу Обєкт продано
+   [Tags]   пошук по статусам в Інф. Повідомленнях
+
+    Go to   ${lnk_status_ealots=sold}
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}  timeout=20
+    ${znaideno value from 4242}=  Get text  ${value from znaideno_v2}
+    log many  ${znaideno value from 4242}
+
+
+    Go to  ${lnk_status_ealots=sold_prod}
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}  timeout=20
+    ${znaideno value from prod} =  Get text  ${value from znaideno_v2}
+    log many  ${znaideno value from prod}
+    Log Location
+
+    should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
+
+
+TC15 Compare status_ealots=deleted on dev/4242 and https://prozorro.sale
+   [Documentation]  Зайти на дев і прод в розділ Інф.Повідомлення і порівляти результати пошуку по статусу Аукціон відмінено
+   [Tags]   пошук по статусам в Інф. Повідомленнях
+
+    Go to   ${lnk_status_ealots=deleted}
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}  timeout=20
+    ${znaideno value from 4242}=  Get text  ${value from znaideno_v2}
+    log many  ${znaideno value from 4242}
+
+
+    Go to  ${lnk_status_ealots=deleted_prod}
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}  timeout=20
+    ${znaideno value from prod} =  Get text  ${value from znaideno_v2}
+    log many  ${znaideno value from prod}
+    Log Location
+
+    should be equal as strings  ${znaideno value from 4242}   ${znaideno value from prod}
+
+
+
+
+
+
 
 
     Close All Browsers
