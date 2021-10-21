@@ -16,11 +16,11 @@ ${BROWSER_chrome}                                        Chrome
 ${BROWSER_headless}                                      headlesschrome
 
 #LOCATORS
-${about_us_lctr}                                     xpath=//*[@id="__next"]/header/nav/div/ul/li[1]/a
-${storinka ne znaidena lctr}                         xpath=//*[@id="__next"]/div/h1
-${value from znaideno}                               xpath=//*[@id="__next"]/div[3]/div[1]/text()[2]
-${value from znaideno_v2}                            xpath=//div[contains(@class,"cards-liststyles") and contains(text(),"Знайдено: ")]
-${value from znaideno_v3}  xpath=//div[contains(@class,"cards-liststyles") and contains(text(),"Знайдено")]/text()[2]
+${about_us_lctr}                                         xpath=//*[@id="__next"]/header/nav/div/ul/li[1]/a
+${storinka ne znaidena lctr}                             xpath=//*[@id="__next"]/div/h1
+${value from znaideno}                                   xpath=//*[@id="__next"]/div[3]/div[1]/text()[2]
+${value from znaideno_v2}                                xpath=//div[contains(@class,"cards-liststyles") and contains(text(),"Знайдено: ")]
+${value from znaideno_v3}                                xpath=//div[contains(@class,"cards-liststyles") and contains(text(),"Знайдено")]/text()[2]
 
 
 ${msg_link_is}                                           Лінк має наступний вигляд:
@@ -35,23 +35,32 @@ ${lctr_is_zamovnik}                                       xpath=//*[@id="compani
 ${lctr_is_uchasnick}                                      xpath=//*[@id="companies-is_seller"]/option[2]
 ${lctr_select_zamovORuchasnick}                           xpath=//*[@id="registration-form"]/div[1]/div[1]/label
 ${lctr_is_seller}                                         xpath=//*[@id="companies-is_seller"]
-${lctr_status_name_in_auct_page}          xpath=//aside[contains(@class,"meta-blockstyles__FixedBlock-v6fx5m-0 bNaTcU")]
+${lctr_status_name_in_auct_page}                          xpath=//aside[contains(@class,"meta-blockstyles__FixedBlock-v6fx5m-0 bNaTcU")]
+${lctr_tab_Inform_povidom_4242}                           xpath=//*/li/a[contains(text(),'Інформаційні повідомлення')]
+${lctr_tab_Inform_povidom_prod}                           xpath=//*/li/a[contains(text(),'Інформаційні повідомлення')]
 
-${input_search_field}              xpath=//div/input
-${lctr_search_btn_magnifier}            xpath=(//div/button[contains(@class,'Button')])[1]
+${input_search_field}                                     xpath=//div/input
+${search_btn_magnifier}                                   xpath=(//div/button[contains(@class,'Button')])[1]
 
 
-${BROWSER_chrome}                                       Chrome
-${BROWSER_headless}                                     headlesschrome
-
+${BROWSER_chrome}                                         Chrome
+${BROWSER_headless}                                       headlesschrome
+${main_page_4242}                                         http://185.25.116.133:4242/
+${main_page_prod}                                         https://prozorro.sale/
 
 #перемінні із Інф. Повідомлення на http://185.25.116.133:4242/
-${planning_page_4242}                                        http://185.25.116.133:4242/planning/search
+${planning_page_4242}                                     http://185.25.116.133:4242/planning/search
+${lctr_btn_proced_pruvat}                                 xpath=//button[contains(@class,"actionstyles")and contains(text(),"Процедура приватизації")]
+${lnk_type_yoke_4242}                                          http://185.25.116.133:4242/planning/search?offset=10&lot_type=yoke
+${lnk_type_redemption_4242}                               http://185.25.116.133:4242/planning/search?offset=10&lot_type=redemption
+
 
 
 
 #перемінні із таби Інф. Повідомлення на https://prozorro.sale/
-${planning_page_prod}                                        https://prozorro.sale/planning/search
+${planning_page_prod}                                     https://prozorro.sale/planning/search
+${lnk_type_yoke_prod}  https://prozorro.sale/planning/search?offset=10&lot_type=yoke
+${lnk_type_redemption_prod}  https://prozorro.sale/planning/search?offset=10&lot_type=redemption
 
 *** Keywords ***
 
@@ -65,6 +74,16 @@ Close all my browsers and clear cache
 
 
 *** Test Cases ***
+
+ТС Перехід із головної сторінки в табу Інформаційні повідомлення
+    [Documentation]  Перевірка переходу в розділ Інф Повідомлення
+    [Tags]  таба Інформаційні повідомлення
+    Go to  ${main_page_4242}
+    Maximize Browser Window
+    Click element  ${lctr_tab_Inform_povidom_4242}
+    ${url} =  get location
+    should be true  '${url}' in '${planning_page_4242}'
+
 
 ТС Порівняти урл із дева і прода за патерном planning/search
     [Documentation]  Перевірка лінків
@@ -90,15 +109,15 @@ Close all my browsers and clear cache
 
     log many  ${msg}  ${url_planning_4242}  ${url_planning_prod}
 
-ТС Check search results with нерухомість via search field
+ТС Compare search results with нерухомість via search field in dev & prod
     [Documentation]  Пошук по ключовому слову нерухомість в розділі Інформ. Повідомлення
     [Tags]   пошук
     Go to  ${planning_page_4242}
     Maximize Browser Window
     Click element  ${input_search_field}
     Input text  ${input_search_field}   нерухомість
-    Wait Until Element Is Visible  ${lctr_search_btn_magnifier}  timeout=5s
-    Click Button    ${lctr_search_btn_magnifier}
+    Wait Until Element Is Visible  ${search_btn_magnifier}  timeout=5s
+    Click Button    ${search_btn_magnifier}
     Wait Until Page Contains Element  ${value from znaideno_v2}  timeout=10s
     ${znaideno_4242}=  Get text  ${value from znaideno_v2}
     log many  На деві  ${znaideno_4242}
@@ -107,8 +126,8 @@ Close all my browsers and clear cache
     Maximize Browser Window
     Click element  ${input_search_field}
     Input text  ${input_search_field}   нерухомість
-    Wait Until Element Is Visible  ${lctr_search_btn_magnifier}  timeout=5s
-    Click Button    ${lctr_search_btn_magnifier}
+    Wait Until Element Is Visible  ${search_btn_magnifier}  timeout=5s
+    Click Button    ${search_btn_magnifier}
     Wait Until Page Contains Element  ${value from znaideno_v2}  timeout=10s
     ${znaideno_prod}=  Get text  ${value from znaideno_v2}
     log many  На проді  ${znaideno_prod}
@@ -116,9 +135,69 @@ Close all my browsers and clear cache
     should be equal  ${znaideno_4242}   ${znaideno_prod}
 
 
+ТС Compare search results Процедура приватизації/Аукціон in dev & prod
+    [Documentation]  Пошук по типу Процедури приватизації/Аукціон в розділі Інформ. Повідомлення
+    [Tags]   пошук
+
+    Go to  ${lnk_type_yoke_4242}
+    Maximize Browser Window
+    Wait Until Page Contains Element  ${value from znaideno_v2}  timeout=10s
+    ${znaideno_4242}=  Get text  ${value from znaideno_v2}
+    log many  На деві  ${znaideno_4242}
+
+    Go to  ${lnk_type_yoke_prod}
+    Maximize Browser Window
+    Wait Until Page Contains Element  ${value from znaideno_v2}  timeout=10s
+    ${znaideno_prod}=  Get text  ${value from znaideno_v2}
+    log many  На проді  ${znaideno_prod}
+
+    should be equal as strings  ${znaideno_4242}   ${znaideno_prod}
+
+
+
+ТС Compare search results Процедура приватизації/Викуп in dev & prod
+    [Documentation]  Пошук по типу Процедури приватизації/Викуп в розділі Інформ. Повідомлення
+    [Tags]   пошук
+
+    Go to  ${lnk_type_redemption_4242}
+    Maximize Browser Window
+    Wait Until Page Contains Element  ${value from znaideno_v2}  timeout=10s
+    ${znaideno_4242}=  Get text  ${value from znaideno_v2}
+    log many  На деві  ${znaideno_4242}
+
+    Go to  ${lnk_type_redemption_prod}
+    Maximize Browser Window
+    Wait Until Page Contains Element  ${value from znaideno_v2}  timeout=10s
+    ${znaideno_prod}=  Get text  ${value from znaideno_v2}
+    log many  На проді  ${znaideno_prod}
+
+    should be equal as strings  ${znaideno_4242}   ${znaideno_prod}
 
 
 
 
+TC Compare search results via key=Будівля + Enter on dev & prod
+    [Documentation]  Пошук по ключ слову "будівля"+клік на батон Ентер в розділі Інформ. Повідомлення
+    [Tags]   пошук
+
+    Go to  ${planning_page_4242}
+    Maximize Browser Window
+    Click element  ${input_search_field}
+    Input text  ${input_search_field}   будівля
+    Press Keys  ${input_search_field}  \\13
+    Wait Until Page Contains Element  ${value from znaideno_v2}  timeout=10s
+    ${znaideno_4242}=  Get text  ${value from znaideno_v2}
+    log many  На деві  ${znaideno_4242}
+
+    Go to  ${planning_page_prod}
+    Maximize Browser Window
+    Click element  ${input_search_field}
+    Input text  ${input_search_field}   будівля
+    Press Keys  ${input_search_field}  \\13
+    Wait Until Element Is Visible  ${search_btn_magnifier}  timeout=5s
+    ${znaideno_prod}=  Get text  ${value from znaideno_v2}
+    log many  На проді  ${znaideno_prod}
+
+    should be equal  ${znaideno_4242}   ${znaideno_prod}
 
 
