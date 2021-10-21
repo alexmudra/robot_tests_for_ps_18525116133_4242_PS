@@ -4,6 +4,11 @@
 #тут документація по операціям із стрінгою https://robotframework.org/robotframework/2.1.2/libraries/String.html
 
 *** Settings ***
+Metadata    Version        1.0.211021
+Metadata    More Info      For more information about *Robot Framework* see http://robotframework.org
+Metadata    Executed At   ${planning_page_4242}
+Metadata    Executed At   ${planning_page_prod}
+
 Library     SeleniumLibrary
 Library    String
 Library    BuiltIn
@@ -55,12 +60,24 @@ ${lnk_type_yoke_4242}                                          http://185.25.116
 ${lnk_type_redemption_4242}                               http://185.25.116.133:4242/planning/search?offset=10&lot_type=redemption
 
 
-
-
 #перемінні із таби Інф. Повідомлення на https://prozorro.sale/
 ${planning_page_prod}                                     https://prozorro.sale/planning/search
 ${lnk_type_yoke_prod}  https://prozorro.sale/planning/search?offset=10&lot_type=yoke
 ${lnk_type_redemption_prod}  https://prozorro.sale/planning/search?offset=10&lot_type=redemption
+
+@{links_in_footer_planing_sections}  https://info.prozorro.sale/finansova-informaciya  http://185.25.116.133:4242/team  https://info.prozorro.sale/handbook
+...   https://info.prozorro.sale/komisiya-dp-prozorroprodazhi
+...   https://info.prozorro.sale/dokumenty-dp-prozorroprodazhi
+...   http://185.25.116.133:4242/skarhy
+...   https://info.prozorro.sale/info/elektronni-majdanchiki-ets-prozorroprodazhi-cbd2
+...   http://185.25.116.133:4242/napryamki-roboti
+...   https://info.prozorro.sale/vakansiyi
+...   https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
+...   https://www.facebook.com/Prozorro.sale
+...   https://www.instagram.com/prozorro.sale/
+...   https://info.prozorro.sale/za-pidtrimki
+...   http://ti-ukraine.org
+...   http://www.me.gov.ua
 
 *** Keywords ***
 
@@ -68,6 +85,12 @@ ${lnk_type_redemption_prod}  https://prozorro.sale/planning/search?offset=10&lot
 Open Browser Chrome in headless_mode
     Open Browser  ${planning_page_4242}   ${BROWSER_headless}
     Maximize Browser Window
+
+Verify links in footer planning sections
+    [Arguments]  ${links_in_footer_planing_sections}
+    Go to  ${planning_page_4242}
+    Maximize Browser Window
+    Page Should Contain Link  ${links_in_footer_planing_sections}
 
 Close all my browsers and clear cache
     Close all browsers
@@ -77,7 +100,7 @@ Close all my browsers and clear cache
 
 ТС Перехід із головної сторінки в табу Інформаційні повідомлення
     [Documentation]  Перевірка переходу в розділ Інф Повідомлення
-    [Tags]  таба Інформаційні повідомлення
+    [Tags]  навігація по розділам
     Go to  ${main_page_4242}
     Maximize Browser Window
     Click element  ${lctr_tab_Inform_povidom_4242}
@@ -87,7 +110,7 @@ Close all my browsers and clear cache
 
 ТС Порівняти урл із дева і прода за патерном planning/search
     [Documentation]  Перевірка лінків
-    [Tags]  лінк в розділі Інформаційні повідомлення
+    [Tags]  лінк на дев і проді
     ${pattern_planning/search} =  Catenate    SEPARATOR=\n   planning/search
     Log  ${pattern_planning/search}
 
@@ -111,7 +134,7 @@ Close all my browsers and clear cache
 
 ТС Compare search results with нерухомість via search field in dev & prod
     [Documentation]  Пошук по ключовому слову нерухомість в розділі Інформ. Повідомлення
-    [Tags]   пошук
+    [Tags]   порівняння пошук. результатів на дев і проді
     Go to  ${planning_page_4242}
     Maximize Browser Window
     Click element  ${input_search_field}
@@ -137,7 +160,7 @@ Close all my browsers and clear cache
 
 ТС Compare search results Процедура приватизації/Аукціон in dev & prod
     [Documentation]  Пошук по типу Процедури приватизації/Аукціон в розділі Інформ. Повідомлення
-    [Tags]   пошук
+    [Tags]   порівняння пошук. результатів на дев і проді
 
     Go to  ${lnk_type_yoke_4242}
     Maximize Browser Window
@@ -157,7 +180,7 @@ Close all my browsers and clear cache
 
 ТС Compare search results Процедура приватизації/Викуп in dev & prod
     [Documentation]  Пошук по типу Процедури приватизації/Викуп в розділі Інформ. Повідомлення
-    [Tags]   пошук
+    [Tags]   порівняння пошук. результатів на дев і проді
 
     Go to  ${lnk_type_redemption_4242}
     Maximize Browser Window
@@ -174,11 +197,9 @@ Close all my browsers and clear cache
     should be equal as strings  ${znaideno_4242}   ${znaideno_prod}
 
 
-
-
 TC Compare search results via key=Будівля + Enter on dev & prod
     [Documentation]  Пошук по ключ слову "будівля"+клік на батон Ентер в розділі Інформ. Повідомлення
-    [Tags]   пошук
+    [Tags]   порівняння пошук. результатів на дев і проді
 
     Go to  ${planning_page_4242}
     Maximize Browser Window
@@ -199,5 +220,110 @@ TC Compare search results via key=Будівля + Enter on dev & prod
     log many  На проді  ${znaideno_prod}
 
     should be equal  ${znaideno_4242}   ${znaideno_prod}
+
+###некоректний підхід до перевірки валідності лінків - якшо упаде 1 перевірка, то тест не прокрутиться далі
+##TC Validation footer links in dev/planing page
+#    [Documentation]  Перевірка лінків на сторінці Інф. Повідомлення
+#    [Tags]   лінк на дев
+#
+#    Go to  ${planning_page_4242}
+#    Maximize Browser Window
+#    Page Should Contain Link  https://info.prozorro.sale/finansova-informaciya
+#    Page Should Contain Link  http://185.25.116.133:4242/team #сторінку не знайдено
+#    Page Should Contain Link  https://info.prozorro.sale/handbook
+#    Page Should Contain Link  https://info.prozorro.sale/komisiya-dp-prozorroprodazhi #сторінку не знайдено
+#    Page Should Contain Link  https://info.prozorro.sale/dokumenty-dp-prozorroprodazhi
+#    Page Should Contain Link  http://185.25.116.133:4242/skarhy
+#    Page Should Contain Link  https://info.prozorro.sale/info/elektronni-majdanchiki-ets-prozorroprodazhi-cbd2
+#    Page Should Contain Link  http://185.25.116.133:4242/napryamki-roboti
+#    Page Should Contain Link  https://info.prozorro.sale/vakansiyi
+#    Page Should Contain Link  https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
+#    Page Should Contain Link  https://www.facebook.com/Prozorro.sale
+#    Page Should Contain Link  https://www.instagram.com/prozorro.sale/
+#    Page Should Contain Link  https://info.prozorro.sale/za-pidtrimki
+#    Page Should Contain Link  https://ti-ukraine.org/
+#    Page Should Contain Link  https://www.me.gov.ua/?lang=uk-UA
+
+
+
+ТС Compare search results Процедура приватизації/Викуп in dev & prod
+    [Documentation]  Пошук по типу Процедури приватизації/Викуп в розділі Інформ. Повідомлення
+    [Tags]   порівняння пошук. результатів на дев і проді
+
+    Go to  ${lnk_type_redemption_4242}
+    Maximize Browser Window
+    Mouse Over  ${lctr_btn_proced_pruvat}
+    Wait Until Page Contains Element  ${value from znaideno_v2}  timeout=10s
+
+TC Validation footer link ${links_in_footer_planing_sections}[0] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[0]
+
+
+TC Validation footer link ${links_in_footer_planing_sections}[1] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[1]
+
+TC Validation footer link ${links_in_footer_planing_sections}[2] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[2]
+
+TC Validation footer link ${links_in_footer_planing_sections}[3] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[3]
+
+TC Validation footer link ${links_in_footer_planing_sections}[4] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[4]
+
+TC Validation footer link ${links_in_footer_planing_sections}[5] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[5]
+
+TC Validation footer link ${links_in_footer_planing_sections}[6] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[6]
+
+TC Validation footer link ${links_in_footer_planing_sections}[7] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[7]
+
+TC Validation footer link ${links_in_footer_planing_sections}[8] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[8]
+
+TC Validation footer link ${links_in_footer_planing_sections}[10] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[9]
+
+TC Validation footer link ${links_in_footer_planing_sections}[11] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[11]
+
+TC Validation footer link ${links_in_footer_planing_sections}[12] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[12]
+
+TC Validation footer link ${links_in_footer_planing_sections}[13] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[13]
+
+TC Validation footer link ${links_in_footer_planing_sections}[14] in dev/planing page
+    [Documentation]  Перевірка лінків в футері на сторінці Інф. Повідомлення
+    [Tags]   лінк на дев
+    Verify links in footer planning sections  ${links_in_footer_planing_sections}[14]
 
 
