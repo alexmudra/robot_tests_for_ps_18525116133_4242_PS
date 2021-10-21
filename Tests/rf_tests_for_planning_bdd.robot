@@ -8,8 +8,7 @@ Library     SeleniumLibrary
 Library    String
 Library    BuiltIn
 Suite setup  Open Browser Chrome in headless_mode
-Suite teardown  Close All Browsers
-
+Suite teardown  Close all my browsers and clear cache
 
 *** Variables ***
 ${doc_index}                                             0
@@ -20,7 +19,8 @@ ${BROWSER_headless}                                      headlesschrome
 ${about_us_lctr}                                     xpath=//*[@id="__next"]/header/nav/div/ul/li[1]/a
 ${storinka ne znaidena lctr}                         xpath=//*[@id="__next"]/div/h1
 ${value from znaideno}                               xpath=//*[@id="__next"]/div[3]/div[1]/text()[2]
-${value from znaideno_v2}                            xpath=//div[contains(@class,"cards-liststyles") and contains(text(),"Знайдено")]
+${value from znaideno_v2}                            xpath=//div[contains(@class,"cards-liststyles") and contains(text(),"Знайдено: ")]
+${value from znaideno_v3}  xpath=//div[contains(@class,"cards-liststyles") and contains(text(),"Знайдено")]/text()[2]
 
 
 ${msg_link_is}                                           Лінк має наступний вигляд:
@@ -35,8 +35,10 @@ ${lctr_is_zamovnik}                                       xpath=//*[@id="compani
 ${lctr_is_uchasnick}                                      xpath=//*[@id="companies-is_seller"]/option[2]
 ${lctr_select_zamovORuchasnick}                           xpath=//*[@id="registration-form"]/div[1]/div[1]/label
 ${lctr_is_seller}                                         xpath=//*[@id="companies-is_seller"]
-${lctr_search_btn_magnifier}                           xpath=//*[@id="__next"]/div[2]/div/div[1]/div/button
-${lctr_status_name_in_auct_page}  xpath=//aside[contains(@class,"meta-blockstyles__FixedBlock-v6fx5m-0 bNaTcU")]
+${lctr_status_name_in_auct_page}          xpath=//aside[contains(@class,"meta-blockstyles__FixedBlock-v6fx5m-0 bNaTcU")]
+
+${input_search_field}              xpath=//div/input
+${lctr_search_btn_magnifier}            xpath=(//div/button[contains(@class,'Button')])[1]
 
 
 ${BROWSER_chrome}                                       Chrome
@@ -57,6 +59,9 @@ ${planning_page_prod}                                        https://prozorro.sa
 Open Browser Chrome in headless_mode
     Open Browser  ${planning_page_4242}   ${BROWSER_headless}
     Maximize Browser Window
+
+Close all my browsers and clear cache
+    Close all browsers
 
 
 *** Test Cases ***
@@ -84,3 +89,36 @@ Open Browser Chrome in headless_mode
     ${url_planning_prod}=  Get Lines Matching Pattern     ${pattern_planning/search}   planning/search    case_insensitive=true
 
     log many  ${msg}  ${url_planning_4242}  ${url_planning_prod}
+
+ТС Check search results with нерухомість via search field
+    [Documentation]  Пошук по ключовому слову нерухомість в розділі Інформ. Повідомлення
+    [Tags]   пошук
+    Go to  ${planning_page_4242}
+    Maximize Browser Window
+    Click element  ${input_search_field}
+    Input text  ${input_search_field}   нерухомість
+    Wait Until Element Is Visible  ${lctr_search_btn_magnifier}  timeout=5s
+    Click Button    ${lctr_search_btn_magnifier}
+    Wait Until Page Contains Element  ${value from znaideno_v2}  timeout=10s
+    ${znaideno_4242}=  Get text  ${value from znaideno_v2}
+    log many  На деві  ${znaideno_4242}
+
+    Go to  ${planning_page_prod}
+    Maximize Browser Window
+    Click element  ${input_search_field}
+    Input text  ${input_search_field}   нерухомість
+    Wait Until Element Is Visible  ${lctr_search_btn_magnifier}  timeout=5s
+    Click Button    ${lctr_search_btn_magnifier}
+    Wait Until Page Contains Element  ${value from znaideno_v2}  timeout=10s
+    ${znaideno_prod}=  Get text  ${value from znaideno_v2}
+    log many  На проді  ${znaideno_prod}
+
+    should be equal  ${znaideno_4242}   ${znaideno_prod}
+
+
+
+
+
+
+
+
