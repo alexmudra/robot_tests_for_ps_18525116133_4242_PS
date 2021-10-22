@@ -9,6 +9,8 @@ Suite teardown  Close All Browsers
 ${doc_index}                                             0
 ${BROWSER_chrome}                                        Chrome
 ${BROWSER_headless}                                      headlesschrome
+${DEV_HOST_URL}                                     http://185.25.116.133:4242/
+${PROD_HOST_URL}                                    https://prozorro.sale/
 
 #LOCATORS
 ${about_us_lctr}                                     xpath=//*[@id="__next"]/header/nav/div/ul/li[1]/a
@@ -151,7 +153,7 @@ TC10 Compare auction streams results on dev/4242 & prod
 TC11 Compare auction streams results on dev/4242 & prod
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Спец дозволи корист надрами
     [Tags]  пошук по напрямкам/streams
-    Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.subsoil_4242}    ${lnk_auctions_streams_prod.subsoil_prod}
+    Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.subsoil_4242}    ${lnk_auctions_streams_prod.subsoil_prod }
 
 
     Close All Browsers
