@@ -49,31 +49,31 @@ ${main_page_prod}                                        https://prozorro.sale/
 
 
 # dict / масив лінків по напрямкам роботи на  http://185.25.116.133:4242
-&{lnk_auctions_streams_4242}  otherAssets_4242=http://185.25.116.133:4242/?offset=10&stream=otherAssets
-...   sellout_4242=http://185.25.116.133:4242/?stream=sellout&offset=10
-...   legitimatePropertyLease_4242=http://185.25.116.133:4242/?stream=legitimatePropertyLease&offset=10
-...   propertyLease_4242=http://185.25.116.133:4242/?stream=propertyLease&offset=10
-...   dgf_4242=http://185.25.116.133:4242/?stream=dgf&offset=10
-...   landRental_4242=http://185.25.116.133:4242/?stream=landRental&offset=10
-...   landSell_4242=http://185.25.116.133:4242/?stream=landSell&offset=10
-...   bankruptcy_4242=http://185.25.116.133:4242/?stream=bankruptcy&offset=10
-...   timber_4242=http://185.25.116.133:4242/?stream=timber&offset=10
-...   railwayCargo_4242=http://185.25.116.133:4242/?stream=railwayCargo&offset=10
-...   subsoil_4242=http://185.25.116.133:4242/auction/search?offset=10&stream=subsoil
+&{lnk_auctions_streams_4242}  otherAssets_4242=${DEV_HOST_URL}?offset=10&stream=otherAssets
+...   sellout_4242=${DEV_HOST_URL}?stream=sellout&offset=10
+...   legitimatePropertyLease_4242=${DEV_HOST_URL}?stream=legitimatePropertyLease&offset=10
+...   propertyLease_4242=${DEV_HOST_URL}?stream=propertyLease&offset=10
+...   dgf_4242=${DEV_HOST_URL}?stream=dgf&offset=10
+...   landRental_4242=${DEV_HOST_URL}?stream=landRental&offset=10
+...   landSell_4242=${DEV_HOST_URL}?stream=landSell&offset=10
+...   bankruptcy_4242=${DEV_HOST_URL}?stream=bankruptcy&offset=10
+...   timber_4242=${DEV_HOST_URL}?stream=timber&offset=10
+...   railwayCargo_4242=${DEV_HOST_URL}stream=railwayCargo&offset=10
+...   subsoil_4242=${DEV_HOST_URL}auction/search?offset=10&stream=subsoil
 
 
 # dict / масив лінків по напрямкам роботи на https://prozorro.sale
-&{lnk_auctions_streams_prod}  otherAssets_prod=https://prozorro.sale/?offset=10&stream=otherAssets
-...   sellout_prod=https://prozorro.sale/?offset=10&stream=sellout
-...   legitimatePropertyLease_prod=https://prozorro.sale/?offset=10&stream=legitimatePropertyLease
-...   propertyLease_prod=https://prozorro.sale/?offset=10&stream=propertyLease
-...   dgf_prod=https://prozorro.sale/?offset=10&stream=dgf
-...   landRental_prod=https://prozorro.sale/?offset=10&stream=landRental
-...   landSell_prod=https://prozorro.sale/?offset=10&stream=landSell
-...   bankruptcy_prod=https://prozorro.sale/?offset=10&stream=bankruptcy
-...   timber_prod=https://prozorro.sale/?offset=10&stream=timber
-...   railwayCargo_prod=https://prozorro.sale/?offset=10&stream=railwayCargo
-...   subsoil_prod=https://prozorro.sale/auction/search?offset=10&stream=subsoil
+&{lnk_auctions_streams_prod}  otherAssets_prod=${PROD_HOST_URL}?offset=10&stream=otherAssets
+...   sellout_prod=${PROD_HOST_URL}?offset=10&stream=sellout
+...   legitimatePropertyLease_prod=${PROD_HOST_URL}?offset=10&stream=legitimatePropertyLease
+...   propertyLease_prod=${PROD_HOST_URL}?offset=10&stream=propertyLease
+...   dgf_prod=${PROD_HOST_URL}offset=10&stream=dgf
+...   landRental_prod=${PROD_HOST_URL}?offset=10&stream=landRental
+...   landSell_prod=${PROD_HOST_URL}?offset=10&stream=landSell
+...   bankruptcy_prod=${PROD_HOST_URL}?offset=10&stream=bankruptcy
+...   timber_prod=${PROD_HOST_URL}?offset=10&stream=timber
+...   railwayCargo_prod=${PROD_HOST_URL}?offset=10&stream=railwayCargo
+...   subsoil_prod=${PROD_HOST_URL}/auction/search?offset=10&stream=subsoil
 
 
 *** Keywords ***
@@ -154,6 +154,7 @@ TC11 Compare auction streams results on dev/4242 & prod
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Спец дозволи корист надрами
     [Tags]  пошук по напрямкам/streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.subsoil_4242}    ${lnk_auctions_streams_prod.subsoil_prod }
+
 
 
     Close All Browsers
