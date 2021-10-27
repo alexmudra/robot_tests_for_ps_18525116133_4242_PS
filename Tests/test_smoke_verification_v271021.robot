@@ -205,6 +205,47 @@ TC Test header tabs streams Land_market
     Location Should Be  https://info.prozorro.sale/Land_market
 
 
+ТС Test auct. search results "завод" and "заводів" no more 25%
+
+    [Documentation]  Пошук по ключовому слову "завод" і "заводів", порівняння щоб заводів було  <= 25%
+    [Tags]   пошук
+    Go to  ${main_page}
+    Maximize Browser Window
+    Click button  ${lctr_btn_kluch_slovo}
+    Input text  ${input_to_kluch_slovo}   завод
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+    ${without_wSpace_srch_results}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    log to console  ${without_wSpace_srch_results}
+    log  ${without_wSpace_srch_results}
+    ${znaideno value from prod} =  Convert To Integer  ${without_wSpace_srch_results}
+    ${var_value_from_znaideno}=  Set variable  ${without_wSpace_srch_results}
+    log to console  ${zavod_value}
+    log many  ${zavod_value}
+
+
+    Go to  ${main_page}
+    Maximize Browser Window
+    Click button  ${lctr_btn_kluch_slovo}
+    Input text  ${input_to_kluch_slovo}   заводів
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+    ${without_wSpace_srch_results_1}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    log to console  ${without_wSpace_srch_results_1}
+    log  ${without_wSpace_srch_results_1}
+    ${znaideno value from prod_1} =  Convert To Integer  ${without_wSpace_srch_results_1}
+    ${var_value_from_znaideno_1}=  Set variable  ${without_wSpace_srch_results_1}
+
+    ${zavod_value_1}=  Evaluate     ${var_value_from_znaideno_1} < 10
+
+
+
+    log to console  ${zavod_value_1}
+    log many  ${zavod_value_1}
+
+
+
+
 
 
 #Execute JavaScript:  document.getElementById('menuSubItemId').parentNode.setAttribute('display','block!important'); document.getElementById('MenusubitemId').setAttribute('display','block!important')
