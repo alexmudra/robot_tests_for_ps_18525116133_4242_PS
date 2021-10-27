@@ -1,0 +1,10 @@
+https://testersdock.com/switch-between-browser-windows-robot-framework/  HOW TO SWITCH BETWEEN MULTIPLE BROWSER WINDOWS IN ROBOT FRAMEWORK
+
+http://rkchunduri.blogspot.com/2012/04/handling-element-not-visible-exception.html?m=1    Handling Element not visible exception in Selenium
+
+https://robotframework.org/Selenium2Library/Selenium2Library.html#Mouse%20Over   mouse over
+https://stackoverflow.com/questions/17225911/robot-framework-verify-a-new-browser-tab-was-opened   Robot Framework verify a new browser tab was opened
+https://stackoverflow.com/questions/17832094/how-to-trim-or-strip-white-spaces-from-a-string-while-using-robot-framework   How to trim or strip white spaces from a String while using Robot Framework
+https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Evaluating%20expressions
+http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#dividing-data-to-several-rows  Using arguments
+https://stackoverflow.com/questions/42228908/for-loop-over-dictionary-in-robot-framework   For loop over dictionary in Robot Framework
