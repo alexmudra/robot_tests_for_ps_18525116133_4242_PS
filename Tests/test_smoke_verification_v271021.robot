@@ -1,7 +1,8 @@
 *** Settings ***
 Library     SeleniumLibrary
 Library  String
-Suite Setup  Open Browser Chrome in headless_mode
+#Suite Setup  Open Browser Chrome in headless_mode
+Suite Setup  Open main_page_prod in UI Chome mode
 Suite Teardown  Close All Browsers
 
 
@@ -89,13 +90,11 @@ Open Browser Chrome
     Open Browser    ${BROWSER_headless}  ${logo_page}
     Maximize Browser Window
 
-TC Open mainpage in UI Chome mode
+Open main_page_prod in UI Chome mode
     [Documentation]  Відкрити браузер в UI режимі(можливо відкрити headlessbode)
     [Tags]  браузер
     Open Browser Chrome   ${main_page_prod}  ${BROWSER_chrome}
     Maximize Browser Window
-
-
 
 Open Browser Chrome in headless_mode
     Open Browser  ${main_page_prod}   ${BROWSER_headless}
@@ -121,17 +120,15 @@ Compare zamovnik or not
     ${is_zamovnik}=  get variable value  ${lctr_is_zamovnik} #//span[@data-test-id="znaideno_value"]
     should be true  '${is_zamovnik}' in '${lctr_is_zamovnik}'   msg='значення співпадають'
 
-Close my browsers
-    Close all browsers
-
 *** Test Cases ***
 
 
-ТС Test auct. search results "завод"
+ТС Test auct. search results "заводі" vs "заводів" in ${PROD_HOST_URL}
 
-   [Documentation]  Пошук по ключовому слову "завод" і відображення результату
+   [Documentation]  Порівняння рез. пошуку "завод" і "заводів"
    [Tags]   пошук
-    Go to  ${main_page_prod}
+
+   Go to  ${main_page_prod}
     Maximize Browser Window
     Click button  ${lctr_btn_kluch_slovo}
     Input text  ${input_to_kluch_slovo}   завод
@@ -141,15 +138,11 @@ Close my browsers
     log to console  ${without_wSpace_srch_results}
     log  ${without_wSpace_srch_results}
     ${znaideno value from prod} =  Convert To Integer  ${without_wSpace_srch_results}
-    ${var_value_from_znaideno}=  Set variable  ${without_wSpace_srch_results}
-    ${zavod_value}=  Evaluate     ${var_value_from_znaideno} < 10
-    log to console  ${zavod_value}
-    log many  ${zavod_value}
+    ${var_value_from_znaideno_zavod}=  Set variable  ${without_wSpace_srch_results}
+    #${zavod_value}=  Evaluate     ${var_value_from_znaideno_zavod} < 10
+    log to console  ${var_value_from_znaideno_zavod}
+    log many  ${var_value_from_znaideno_zavod}
 
-ТС Test auct. search results "заводів"
-
-   [Documentation]  Пошук по ключовому слову "заводів" і відображення результату
-   [Tags]   пошук
     Go to  ${main_page_prod}
     Maximize Browser Window
     Click button  ${lctr_btn_kluch_slovo}
@@ -160,10 +153,13 @@ Close my browsers
     log to console  ${without_wSpace_srch_results_1}
     log  ${without_wSpace_srch_results_1}
     ${znaideno value from prod_1} =  Convert To Integer  ${without_wSpace_srch_results_1}
-    ${var_value_from_znaideno_1}=  Set variable  ${without_wSpace_srch_results_1}
-    ${zavod_value_1}=  Evaluate     ${var_value_from_znaideno_1} < 10
-    log to console  ${zavod_value_1}
-    log many  ${zavod_value_1}
+    ${var_value_from_znaideno_zavodiv}=  Set variable  ${without_wSpace_srch_results_1}
+
+
+    ${get_res_in_%}=  Evaluate     ${var_value_from_znaideno_zavodiv} < ${var_value_from_znaideno_zavod}
+
+    log to console  ${var_value_from_znaideno_zavodiv}
+    log many  ${var_value_from_znaideno_zavodiv}
 
 ТС Test auct. search results організатор "укрпошта" via using direct link
     [Documentation]  Пошук по організатору "укрпошта" і результат >25000
@@ -221,24 +217,29 @@ TC3 Test footer ${PROD_HOST_URL}aboutUS
     Maximize Browser Window
     Click element  ${tab_about_us_4242}
     Wait until element is visible  ${artcl_h2_prozorro}  timeout=20
-    Location Should Be  https://test.prozorro.sale/about
+    Location Should Be  https://prozorro.sale/about
 
     Go Back
-    Location Should Be  ${main_page_prod}/auction/search
+    Location Should Be  ${main_page_prod}auction/search
     ${loc} =  get location
     log many  ${loc}
 
     #Page Should Contain Link  ${tab_about_us_4242}
     #${tab_about_us_4242}  xpath=//li/a[starts-with(text(),'Про нас')]
 
-TC Test header tabs streams Land_market
+TC Test header tabs streams Land_market on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Ринок Землі
     [Tags]   лінк
     Go To  ${main_page_prod}auction/search
     Maximize Browser Window
+    #Set Window Size ${1400} ${600}
+    Capture Page Screenshot
     Mouse Over  ${streams_tab}
-    Wait Until Element Is Visible  //li/a[contains(text(),'Ринок землі')]  timeout=10s
-    Click element  //li/a[contains(text(),'Ринок землі')]
+    Capture Page Screenshot
+    Wait Until Element Is Visible  //div/ul/li/a[.='Ринок землі']  timeout=20s
+    Capture Page Screenshot
+    #Click element  //li/a[contains(text(),'Ринок землі')]
+    Click element  //div/ul/li/a[.='Ринок землі']
     Switch window  title:Ринок землі — Prozorro.Sale
     ${url_loc}=  Get location
     log many  ${url_loc}
@@ -274,10 +275,13 @@ TC Test header tabs streams Land_market
     log  ${without_wSpace_srch_results_1}
     ${znaideno value from prod_1} =  Convert To Integer  ${without_wSpace_srch_results_1}
     ${var_value_from_znaideno_1}=  Set variable  ${without_wSpace_srch_results_1}
-    ${zavod_value_1}=  Evaluate     ${var_value_from_znaideno_1} < ${var_value_from_znaideno}
-    ${check_0}=  SHOULD BE TRUE
-    log to console  ${zavod_value_1}
-    log many  ${zavod_value_1}
+    #${zavod_value_1}=  Evaluate     ${var_value_from_znaideno_1} < ${var_value_from_znaideno}
+    ${check_comp_res}=  SHOULD BE TRUE  ${var_value_from_znaideno_1} < ${var_value_from_znaideno}
+    log to console   ${check_comp_res}
+    log many  ${check_comp_res}
+
+#    log to console  ${zavod_value_1}
+#    log many  ${zavod_value_1}
     #RUN KEYWORD AND RETURN STATUS    SHOULD BE TRUE    ${var_value_from_znaideno_1} < ${var_value_from_znaideno}
 
 TC Test search res. ${main_page_prod}${auc_ID_prod} less than 10 results
@@ -293,8 +297,8 @@ TC Test search res. ${main_page_prod}${auc_ID_prod} less than 10 results
     ${convert_aucID_to_int}  Convert To Integer  ${without_wSpace_srch_results_aucID}
 #    ${var_aucID} =  Evaluate  ${convert_aucID_to_int} < 0
 #    RUN KEYWORD AND RETURN STATUS    SHOULD NOT BE TRUE  ${var_aucID}
-    ${check}=  SHOULD BE TRUE  ${convert_aucID_to_int} <10
-    log many  ${check}
+    ${check_auc_ID}=  SHOULD BE TRUE  ${convert_aucID_to_int} < 10
+    log many  ${check_auc_ID}
 
 
 
