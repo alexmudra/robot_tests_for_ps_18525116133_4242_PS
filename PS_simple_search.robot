@@ -45,13 +45,6 @@ Check results for bruht via Chrome
 
 
 
-
-
-
-
-
-
-
 #
 #    ${value2}=  get text    ${value from znaideno}
 #    Log To Console  ${value2}
