@@ -25,23 +25,7 @@ ${string_znaideno_0}   Знайдено: 0
 #headlesschrome
 
 *** Test Cases ***
-Check results for bruht via Chrome
-    open browser     headlesschrome
-       #element should not contain  ${value from znaideno}  0  message="Результати пошуку 0"
-       #${value1}=  get value    ${znaideno and value}  через гет велью не можна взяти текст
-    ${value2}=  get text    ${znaideno and value}
 
-    Log To Console  (1 The text is: ${value2})
-    Log To Console  (1.1 Check string_znaideno_nichogo: ${string_znaideno_nichogo})
-    Log To Console  (1.2 Check string_znaideno_0: ${string_znaideno_0})
-
-    Should Not Be True  ${value2}   ${string_znaideno_0}
-    Log To Console  (2 The text are: ${value2}  ${string_znaideno_0})
-
-    Should Not Be True  ${value2}   ${string_znaideno_nichogo}
-    Log To Console  (3 The text are: ${string_znaideno_nichogo})
-
-    Close browser
 
 
 
@@ -54,18 +38,6 @@ Check results for bruht via Chrome
 
 #    Element Text Should Be  ${value from znaideno}  2478  message="Результати пошуку 0"
 
-#Check results for bruht via FF
-#    open browser  ${value from znaideno}  browser=Firefox
-#    element should contain  ${znaideno and value}  ${value from znaideno}
-#    Log To Console  ${znaideno elements}
-#    Log To Console  ${value from znaideno}
-#    close browser
-#
-#Check results from cvs links
-#    open browser  ${links_for_search_form}  browser=Firefox
-#    element should contain  ${znaideno and value}  ${value from znaideno}
-#    Log To Console  ${value from znaideno}
-#    close browser
 
 
 
