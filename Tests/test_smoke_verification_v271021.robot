@@ -471,6 +471,25 @@ TC17 Test header ${PROD_HOST_URL}/contacts
     Should Be True   ${var_value_from_znaideno} >25000
 
 
+TC Test yesterday calendar value & active.auction ==0 on ${PROD_HOST_URL}
+        [Documentation]  результати пошуку по вчорашній даті + статус:Аукціон ==0
+        [Tags]   пошук по даті і статусу аукціону
+
+        ${Yesterday_Date} =    Get Current Date    result_format=%d.%m.%Y   increment=-1 day
+        Log    ${Yesterday_Date}
+        Log Many  ${Yesterday_Date}
+        Go To  ${PROD_HOST_URL}?offset=10&status=active.auction&date[auction]=${Yesterday_Date}%E2%80%94${Yesterday_Date}
+        Maximize Browser Window
+        Wait until element is visible  ${value from znaideno_v2}    timeout=20
+        ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+        ${without_wSpace_srch_results_1}=  Remove String   ${znaideno value from prod}     ${SPACE}
+        log to console  ${without_wSpace_srch_results_1}
+        log  ${without_wSpace_srch_results_1}
+        ${znaideno value from prod_1} =  Convert To Integer  ${without_wSpace_srch_results_1}
+        Should Be True  ${znaideno value from prod_1}==0
+
+
+
 #TC Test header section ${PROD_HOST_URL}aboutUS
 #    [Documentation]  Перевірка чи відкривається розділ "Про нас"
 #    [Tags]   лінк
