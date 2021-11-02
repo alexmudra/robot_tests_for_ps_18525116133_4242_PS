@@ -5,7 +5,7 @@ Library  String
 Library  DateTime
 #Suite Setup  Open Browser Chrome in headless_mode
 Suite Setup  Open main_page_prod in UI Chome mode
-#Suite Teardown  Close All Browsers
+Suite Teardown  Close All Browsers
 
 
 *** Variables ***
@@ -216,129 +216,17 @@ TC Test get calendar value on ${PROD_HOST_URL}
         [Documentation]  як працювати із дейтпікером / календарем в формі пошуку
         [Tags]   пошук по даті
 
-        Go To  ${PROD_HOST_URL}
+        Go To  https://test.tender-online.com.ua/tenders/index?word=
         Maximize Browser Window
-        Click button   ${btn_date-picker_prod}  #xpath=//button[@data-test-id="auction_date_search_action"]
-        Click element  ${input_date_picker_1}   #(//*[contains(@class,"date-pickerstyles")])[2]
+        ${Yeterday_Date} =      Get Current Date    result_format=%d/%m/%Y    increment=-1 day
+        Execute Javascript   document.getElementById('date-from').removeAttribute('readonly');
+        Execute Javascript          document.getElementById('date-from').removeAttribute('onchange')
+
+        Click element                        //input[@id='date-from']
+         Clear Element Text   //input[@id='date-from']
+        #Execute Javascript          document.querySelector("locator").removeAttribute("readonly");
+
+        Input Text    //input[@id='date-from']    ${Yeterday_Date}
+                Capture Page Screenshot
 
 
-        #${input_date_picker_1}  xpath=(//*[contains(@class,"date-pickerstyles")])[2]
-        #${input_date_picker_2}  xpath=(//*[contains(@class,"date-pickerstyles")])[3]
-
-        #$(frst_input_date_picker)   xpath=//div/input[contains(@class,"date-pickerstyles")][1]
-
-        #input[value="дд.мм.рррр"] css селектор інпута в 1му полі календаря
-
-        ${Yesterday_Date} =    Get Current Date    result_format=%d.%m.%Y   increment=-1 day
-
-        Log    ${Yesterday_Date}
-        Capture Page Screenshot
-
-
-        Execute JavaScript  $('[readonly]').removeAttr('readonly')
-
-        #Execute JavaScript  document.querySelector('input[value="дд.мм.рррр"]');
-        #Execute JavaScript  document.querySelector('input[value="дд.мм.рррр"]').removeAttribute('readonly')
-        #Execute JavaScript  document.getElementsByClassName('date-pickerstyles__NativeInput-sc-249scs-2 ffFGeD').removeAttribute('readonly');
-#        Capture Page Screenshot
-#        Sleep  5
-#
-#        Execute Javascript  document.querySelector('input[value="дд.мм.рррр"]').removeAttribute('onchange');
-#        Capture Page Screenshot
-#        Sleep  5
-#
-#        Execute JavaScript  document.querySelector('input[value="дд.мм.рррр"]').click();
-#        Capture Page Screenshot
-#        Sleep  5
-#         ${get_attr_value}=  Execute Javascript          document.querySelector('input[value="дд.мм.рррр"]').getAttribute('value');
-#         log many  ${get_attr_value}
-#         log to console  ${get_attr_value}
-
-
-        #Execute Javascript          document.querySelector('input[value="дд.мм.рррр"]').setAttribute('value', '${Yesterday_Date}');
-        Execute Javascript          document.querySelector('input[type="text"][max="10"]').value='${Yesterday_Date}';
-        Capture Page Screenshot
-        Sleep  2
-        Execute Javascript          document.querySelector('input[type="text"][max="10"]:last-child').value='${Yesterday_Date}';
-
-        #input[type="text"][max="10"]
-        #input[type="text"][max="10"]:last-child
-        Capture Page Screenshot
-
-        Wait until element is visible  ${value from znaideno_v2}    timeout=20
-        # document.querySelector('input[value="дд.мм.рррр"]').value='${Yesterday_Date}' від Вови
-
-#         ${get_attr_value2}=  Execute Javascript          document.querySelector('input[value="дд.мм.рррр"]').getAttribute('value');
-#         log many  ${get_attr_value2}
-#         log to console  ${get_attr_value2}
-#        Capture Page Screenshot
-#        Sleep  5
-
-        #Execute JavaScript  document.querySelector($('[readonly]').removeAttr('readonly'))#від Вови
-
-
-  #      Execute JavaScript    document.getElementById("element-id").onclick()
-#        Execute JavaScript    document.evaluate("input_date_picker_1}").onclick()
-#        Capture Page Screenshot
-         #Execute JavaScript    document.evaluate('(//*[contains(@class,"date-pickerstyles")])[2',document.body,null,9,null).singleNodeValue.click();
-
-         #Execute Javascript          document.querySelector("//div[contains(@class,"date-pickerstyles")][2]").removeAttribute('readonly','readonly');
-
-#        Execute Javascript          document.querySelector("${input_date_picker_1}").removeAttribute("onchange");
-#        Execute Javascript          document.querySelector("${input_date_picker_1}").setAttribute("value", "${Yeterday_Date}");
-#
-
-
-    #Execute JavaScript  document.getElementById('//div/input[contains(@class,"date-pickerstyles")][1]').removeAttribute('readonly').value='${yesterday_date}'
-#    ${ele}    Get WebElement  ${input_date_picker_1}
-#    Execute Javascript    arguments[0].click();     ARGUMENTS    ${ele}
-#    Capture Page Screenshot
-
-
-    #Execute Javascript          document.getElementByXpath("${input_date_picker_1}").readOnly = false;
-
-
-#    Execute Javascript          document.getElementByXpath('${input_date_picker_1}').removeAttribute('readonly',0);
-#    Execute Javascript          document.getElementByXpath('${input_date_picker_1}').removeAttribute('onchange');
-#    Execute Javascript          document.getElementByXpath("${input_date_picker_1}").setAttribute("value", "${Yesterday_Date}");
-#    Input Text    ${input_date_picker_1}    ${Yeterday_Date}
-
-
-
-#
-#
-#    Execute Javascript          document.querySelector("${input_date_picker_1}").readOnly = false;
-#    Execute Javascript          document.querySelector("${input_date_picker_1}"); #removeAttribute("readonly;
-#    Execute Javascript          document.querySelector("locator").removeAttribute("onchange");
-#    Execute Javascript          document.querySelector("${input_date_picker_1}").setAttribute("value", "${Yesterday_Date}");
-#    Input Text    ${input_date_picker_1}    ${Yeterday_Date}
-#
-#
-#
-#    Click element  ${input_date_picker_2}  #(//*[contains(@class,"date-pickerstyles")])[3]
-#    Execute Javascript          document.querySelector("${input_date_picker_2}").removeAttribute("readonly");
-#    Execute Javascript          document.querySelector("${input_date_picker_2}").setAttribute("value", "${Yesterday_Date}");
-#
-#    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-
-
-
-
-#
-#Як працювати із датами в календарі на формі пошуку
-#    [Documentation]  як працювати із дейтпікером / календарем в формі пошуку
-#    [Tags]   пошук по даті
-#
-#    ${currentdate}    Get Current Date    	result_format=%d.%m.%Y  exclude_millis=yes
-#    log many  ${currentdate}
-#
-#    ${yesterday_date} =    Get Current Date    result_format=%d.%m.%Y   increment=-1 day
-#    Log    ${yesterday_date}
-
-
-#${start_date}=  dzo_service.convert date to slash format  ${tender_data.auctionPeriod.startDate}
-#Focus  name= data[auctions][0][auctionPeriod][startDate]
-#Execute Javascript  $("input[name|='data[auctions][0][auctionPeriod][startDate]']").removeAttr('readonly'); $("input[name|='data[auctions][0][auctionPeriod][startDate]']").unbind();
-#Input Text  name=data[auctions][0][auctionPeriod][startDate]  ${start_date}
-#${auction_time}=  Set Variable  ${tender_data.auctionPeriod.startDate[11:19]}
-#Execute Javascript   $("input[name='auctionPeriod_time']").val("${auction_time}");

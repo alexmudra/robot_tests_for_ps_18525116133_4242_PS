@@ -702,8 +702,12 @@ TC Test footer section ${PROD_HOST_URL}majdanchiki-ets-prozorroprodazhi-cbd2
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_elektronni-majdanchiki-ets-prozorroprodazhi-cbd2_prod}
+    #${tab_elektronni-majdanchiki-ets-prozorroprodazhi-cbd2_prod}  xpath=//li/a[starts-with(text(),'Майданчики Прозорро.Продажі')]
+
     Wait until element is visible  ${artcl_h9_prozorro}     timeout=20
-    Location Should Be   https://info.prozorro.sale/info/elektronni-majdanchiki-ets-prozorroprodazhi-cbd2
+    #${artcl_h9_prozorro}                                     xpath=//table[@class='violet sticky-second']
+
+    Location Should Be   https: https://prozorro.sale/info/elektronni-majdanchiki-ets-prozorroprodazhi-cbd2
     Go Back
     Location Should Be  https://prozorro.sale/auction/search
     ${loc} =  get location
