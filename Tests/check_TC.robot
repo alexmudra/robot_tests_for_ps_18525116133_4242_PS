@@ -3,8 +3,9 @@ Library     SeleniumLibrary
 Library  Selenium2Screenshots
 Library  String
 Library  DateTime
-#Suite Setup  Open Browser Chrome in headless_mode
-Suite Setup  Open main_page_prod in UI Chome mode
+Library  Collections
+Suite Setup  Open Browser Chrome in headless_mode
+#Suite Setup  Open main_page_prod in UI Chome mode
 Suite Teardown  Close All Browsers
 
 
@@ -44,7 +45,9 @@ ${artcl_h3_prozorro}                                     xpath=//article/h3[cont
 ${streams_tab}                                           xpath=//span[starts-with(text(),'Напрямки роботи')]
 ${artcl_h2_prozorro}                                     xpath=//footer/div/h2/span[contains(text(),'Будуємо ')]
 ${input_aucID_srch_input}                                 xpath=//div/input[@data-test-id="aid_search_filter"]
-${btn_srch_auc_status}                                                    xpath=//div/button[@data-test-id="status_search_action"]
+${btn_srch_auc_status}                                    xpath=//div/button[@data-test-id="status_search_action"]
+${btn_srch_auc_status}                                    xpath=//div/button[@data-test-id="status_search_action"]
+
 
 #від Ані
 ${artcl_h2_prozorro}                                     xpath=//footer/div/h2/span[contains(text(),'Будуємо ')]
@@ -151,6 +154,9 @@ ${tab_elektronni-majdanchiki-ets-prozorroprodazhi-cbd2_prod}  xpath=//li/a[start
 ${tab_napryamki-roboti_prod}  xpath=//li/a[starts-with(text(),'Напрямки роботи')]
 ${tab_vakansiyi_cbd2_prod}  xpath=//li/a[starts-with(text(),'Вакансії')]
 
+${lctr_auct_ID}   xpath=//strong[text()='ID: ']
+
+@{valid_auctionIDs_list}=    Create List
 
 *** Keywords ***
 Open Browser Chrome
@@ -168,6 +174,13 @@ Open main_page_prod in UI Chome mode
 Open Browser Chrome in headless_mode
     Open Browser  ${main_page_prod}   ${BROWSER_headless}
     Maximize Browser Window
+
+Get elements count
+    [Arguments]  ${locator_xpath}
+    ${count}=  Get Element Count  ${locator_xpath}
+    log to console  "Quontity of ID elements are:" ${count}
+    log many  ${count}
+
 
 Compare url and links
     [Arguments]  ${msg_identical}
@@ -189,42 +202,61 @@ Compare zamovnik or not
     ${is_zamovnik}=  get variable value  ${lctr_is_zamovnik} #//span[@data-test-id="znaideno_value"]
     should be true  '${is_zamovnik}' in '${lctr_is_zamovnik}'   msg='значення співпадають'
 
+#Search results convert to integer on prod
+#    [Arguments]   ${value from znaideno_v2}
+#    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+#    ${without_wSpace_srch_results}=  Remove String   ${znaideno value from prod}     ${SPACE}
+#    ${converted_to_int_srch_value}  Convert To Integer  ${without_wSpace_srch_results}
+#    log to console  "Search results in integer are:" ${converted_to_int_srch_value}
+#    log many  ${converted_to_int_srch_value}
+
+Verify auction titles
+    [Arguments]  @{valid_auctionIDs_list}
+
+    Go To  ${valid_auctionIDs_list}[1]
+    ${title_txt}=   Get Title
+    Log to console   ${title_txt}
+    Log Many  ${title_txt}
+    Title Should Be  ${title_txt}
+    Capture Page Screenshot
+
+
+
 *** Test Cases ***
 
-#
-#TC Test search res. active.tendering in ${btn_srch_auc_status}
-#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь
-#    [Tags]   пошук
-#    Go to  ${main_page_prod}
-#    Maximize Browser Window
-#    Click button  ${btn_srch_auc_status}
-#    Wait until element is visible  ${selected_active.tendering}  timeout=5
-#    log to console  ${selected_active.tendering}
-#    Click element  ${selected_active.tendering}
-#    Wait until element is visible  ${value from znaideno_v2}    timeout=5
-#    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
-#    ${without_wSpace_srch_results_aucID}=  Remove String   ${znaideno value from prod}     ${SPACE}
-#    ${convert_act_tend_sts_to_int}  Convert To Integer  ${without_wSpace_srch_results_aucID}
-#    ${check_sts} =  SHOULD BE TRUE  ${convert_act_tend_sts_to_int} >0
-#
-#    log many  ${znaideno value from prod}
-#    log to console   ${znaideno value from prod}
-#
+#https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1635409751006500
+#статуси - прийом пропозицій, фільтруємо статус = прийняття заяв на участь, значення більше 0.
+#Далі відкриває перші 10 аукціонів зі списку і нема помилок тоді це успіх. Ще не готово.
 
 
-TC Test yesterday calendar value & active.auction ==0 on ${PROD_HOST_URL}
-        [Documentation]  результати пошуку по вчорашній даті + статус:Аукціон ==0
-        [Tags]   пошук по даті і статусу аукціону
+TC Test search res. active.tendering>0,open auctions and verify auct.Titles
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності auctionTitles
+    [Tags]   тестування результатів пошуку
+    Go to  https://prozorro.sale/?status=active.tendering
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+    ${without_wSpace_srch_results_aucID}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    ${convert_act_tend_sts_to_int}  Convert To Integer  ${without_wSpace_srch_results_aucID}
+    #Search results convert to integer on prod  ${value from znaideno_v2}
+    SHOULD BE TRUE  ${convert_act_tend_sts_to_int} >0
+    Get elements count  //p[starts-with(text(),"UA-")]    #//strong[text()='ID: '] або //p[starts-with(text(),"UA-")]
+    #@{valid_auctionIDs_list}=    Create List
+    @{IDs_list} =  Get WebElements  //p[starts-with(text(),"UA-")]
+    FOR     ${element}  IN  @{IDs_list}
+        ${ID_text}=  Get Text   ${element}  #отримуємо ІД аукціону
+        ${valid__auc_ID}=  Get Substring  ${ID_text}  4  #відрізаємо ID:  від ІД аукціону
+        ${auction_links} =   Set Variable  ${PROD_HOST_URL}auction/${valid__auc_ID}  #сетапимо перемінну для валідних лінків #https://prozorro.sale/auction/UA-PS-2021-11-02-000032-1
+        #Log to console  ${auction_links}
+        Append To List    ${valid_auctionIDs_list}     ${auction_links}
+    END
+    #в окремому циклі перевіряємо тайтли в 10ти аукціонах
+    FOR  ${i}  IN  @{valid_auctionIDs_list}
+         Log to console  ${i}
+         Continue For Loop If  '${i}'=='Create List'
+        Go To  ${i}
+        ${title_txt}=   Get Title
+        Log to console   ${title_txt}
 
-        ${Yesterday_Date} =    Get Current Date    result_format=%d.%m.%Y   increment=-1 day
-        Log    ${Yesterday_Date}
-        Log Many  ${Yesterday_Date}
-        Go To  ${PROD_HOST_URL}?offset=10&status=active.auction&date[auction]=${Yesterday_Date}%E2%80%94${Yesterday_Date}
-        Maximize Browser Window
-        Wait until element is visible  ${value from znaideno_v2}    timeout=20
-        ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
-        ${without_wSpace_srch_results_1}=  Remove String   ${znaideno value from prod}     ${SPACE}
-        log to console  ${without_wSpace_srch_results_1}
-        log  ${without_wSpace_srch_results_1}
-        ${znaideno value from prod_1} =  Convert To Integer  ${without_wSpace_srch_results_1}
-        Should Be True  ${znaideno value from prod_1}==0
+    END
+

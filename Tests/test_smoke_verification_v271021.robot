@@ -2,6 +2,8 @@
 Library     SeleniumLibrary
 Library  Selenium2Screenshots
 Library  String
+Library  DateTime
+
 #Suite Setup  Open Browser Chrome in headless_mode
 Suite Setup  Open main_page_prod in UI Chome mode
 Suite Teardown  Close All Browsers
@@ -43,7 +45,7 @@ ${artcl_h3_prozorro}                                     xpath=//article/h3[cont
 ${streams_tab}                                           xpath=//span[starts-with(text(),'Напрямки роботи')]
 ${artcl_h2_prozorro}                                     xpath=//footer/div/h2/span[contains(text(),'Будуємо ')]
 ${input_aucID_srch_input}                                 xpath=//div/input[@data-test-id="aid_search_filter"]
-${btn_srch_auc_status}                                                    xpath=//div/button[@data-test-id="status_search_action"]
+${btn_srch_auc_status}                                    xpath=//div/button[@data-test-id="status_search_action"]
 
 #від Ані
 ${artcl_h2_prozorro}                                     xpath=//footer/div/h2/span[contains(text(),'Будуємо ')]
@@ -189,7 +191,7 @@ Compare zamovnik or not
 
 TC Test header ${PROD_HOST_URL}/aboutUS
     [Documentation]  Перевірка чи відкривається розділ "Про нас"
-    [Tags]   лінк
+    [Tags]   тестування_header
 
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
@@ -203,7 +205,7 @@ TC Test header ${PROD_HOST_URL}/aboutUS
 
 TC Verify landing page on ${PROD_HOST_URL}
     [Documentation]  Перевірка лендінг сторінки
-    [Tags]   лінк
+    [Tags]   тестування_landingPage
 
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
@@ -217,7 +219,7 @@ TC Verify landing page on ${PROD_HOST_URL}
 
 TC Test header tabs streams Land_market on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Ринок Землі
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Mouse Over  ${tab_napr_roboty}
@@ -230,7 +232,7 @@ TC Test header tabs streams Land_market on ${PROD_HOST_URL}
 
 TC Test header tabs streams timber on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Продаж необробленої деревини
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Mouse Over  ${tab_napr_roboty}
@@ -243,7 +245,7 @@ TC Test header tabs streams timber on ${PROD_HOST_URL}
 
 TC Test header tabs streams bankruptcy on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Банкрутство
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Mouse Over  ${tab_napr_roboty}
@@ -256,7 +258,7 @@ TC Test header tabs streams bankruptcy on ${PROD_HOST_URL}
 
 TC Test header tabs streams mala on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Мала приватизація
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Mouse Over  ${tab_napr_roboty}
@@ -269,7 +271,7 @@ TC Test header tabs streams mala on ${PROD_HOST_URL}
 
 TC Test header tabs streams orenda on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Оренда державного та комунального майна
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Mouse Over  ${tab_napr_roboty}
@@ -282,7 +284,7 @@ TC Test header tabs streams orenda on ${PROD_HOST_URL}
 
 TC Test header tabs streams commercial on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Комерційні торги
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Mouse Over  ${tab_napr_roboty}
@@ -295,7 +297,7 @@ TC Test header tabs streams commercial on ${PROD_HOST_URL}
 
 TC Test header tabs streams renewables on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Аукціони з розподілу квоти підтримки
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Mouse Over  ${tab_napr_roboty}
@@ -308,7 +310,7 @@ TC Test header tabs streams renewables on ${PROD_HOST_URL}
 
 TC Test header tabs streams vidchuzhennya obyektiv mayna on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Відчуження об'єктів державної власності
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Mouse Over  ${tab_napr_roboty}
@@ -321,7 +323,7 @@ TC Test header tabs streams vidchuzhennya obyektiv mayna on ${PROD_HOST_URL}
 
 TC Test header ${PROD_HOST_URL}/analytics on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ "Аналітика"
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click element  ${tab_analytics}
@@ -336,7 +338,7 @@ TC Test header ${PROD_HOST_URL}/analytics on ${PROD_HOST_URL}
 
 TC Test header ${PROD_HOST_URL}/contacts on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ "Контакти"
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}/auction/search
     Maximize Browser Window
     Click element  ${tab_contacts}
@@ -348,7 +350,7 @@ TC Test header ${PROD_HOST_URL}/contacts on ${PROD_HOST_URL}
 
 TC14 Test header tabs streams buyers on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ Користувачам->Покупцям
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}
     Maximize Browser Window
     Mouse Over  ${tab_korystuvacham}
@@ -361,7 +363,7 @@ TC14 Test header tabs streams buyers on ${PROD_HOST_URL}
 
 TC15 Test header tabs streams sellers on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ Користувачам->Продавцям
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}
     Maximize Browser Window
     Mouse Over  ${tab_korystuvacham}
@@ -374,7 +376,7 @@ TC15 Test header tabs streams sellers on ${PROD_HOST_URL}
 
 TC16 Test header tabs streams platforms
     [Documentation]  Перевірка чи відкривається розділ Користувачам->Майданчикам
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}
     Maximize Browser Window
     Mouse Over  ${tab_korystuvacham}
@@ -387,7 +389,7 @@ TC16 Test header tabs streams platforms
 
 TC17 Test header ${PROD_HOST_URL}/contacts
     [Documentation]  Перевірка чи відкривається розділ "Контакти"
-    [Tags]   лінк
+    [Tags]   тестування_header
     Go To  ${PROD_HOST_URL}/auction/search
     Maximize Browser Window
     Click element  ${tab_contacts}
@@ -397,71 +399,83 @@ TC17 Test header ${PROD_HOST_URL}/contacts
     Location Should Be  https://prozorro.sale//auction/search
     ${loc} =  get location
 
+TC Test header tabs streams Land_market on ${PROD_HOST_URL}
+    [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Ринок Землі
+    [Tags]   тестування_header
+    Go To  ${main_page_prod}auction/search
+    Maximize Browser Window
+    #Set Window Size ${1400} ${600}
+    Mouse Over  ${streams_tab}
+    Wait Until Element Is Visible  //div/ul/li/a[.='Ринок землі']  timeout=20s
+    #Click element  //li/a[contains(text(),'Ринок землі')]
+    Click element  //div/ul/li/a[.='Ринок землі']
+    Switch window  title:Ринок землі — Prozorro.Sale
+    ${url_loc}=  Get location
+    log many  ${url_loc}
+    Location Should Be  https://info.prozorro.sale/Land_market
 
 
+ТС Test auct. search results "заводі" vs "заводів" in ${PROD_HOST_URL}
 
-#ТС Test auct. search results "заводі" vs "заводів" in ${PROD_HOST_URL}
-#
-#   [Documentation]  Порівняння рез. пошуку "завод" і "заводів"
-#   [Tags]   пошук
-#
-#   Go to  ${main_page_prod}
-#    Maximize Browser Window
-#    Click button  ${lctr_btn_kluch_slovo}
-#    Input text  ${input_to_kluch_slovo}   завод
-#    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-#    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
-#    ${without_wSpace_srch_results}=  Remove String   ${znaideno value from prod}     ${SPACE}
-#    log to console  ${without_wSpace_srch_results}
-#    log  ${without_wSpace_srch_results}
-#    ${znaideno value from prod} =  Convert To Integer  ${without_wSpace_srch_results}
-#    ${var_value_from_znaideno_zavod}=  Set variable  ${without_wSpace_srch_results}
-#    #${zavod_value}=  Evaluate     ${var_value_from_znaideno_zavod} < 10
-#    log to console  ${var_value_from_znaideno_zavod}
-#    log many  ${var_value_from_znaideno_zavod}
-#
-#    Go to  ${main_page_prod}
-#    Maximize Browser Window
-#    Click button  ${lctr_btn_kluch_slovo}
-#    Input text  ${input_to_kluch_slovo}   заводів
-#    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-#    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
-#    ${without_wSpace_srch_results_1}=  Remove String   ${znaideno value from prod}     ${SPACE}
-#    log to console  ${without_wSpace_srch_results_1}
-#    log  ${without_wSpace_srch_results_1}
-#    ${znaideno value from prod_1} =  Convert To Integer  ${without_wSpace_srch_results_1}
-#    ${var_value_from_znaideno_zavodiv}=  Set variable  ${without_wSpace_srch_results_1}
-#
-#
-#    ${get_res_in_%}=  Evaluate     ${var_value_from_znaideno_zavodiv} < ${var_value_from_znaideno_zavod}
-#
-#    log to console  ${var_value_from_znaideno_zavodiv}
-#    log many  ${var_value_from_znaideno_zavodiv}
+   [Documentation]  Порівняння рез. пошуку "завод" і "заводів"
+   [Tags]   пошук_по_ключовим_словам
 
-#ТС Test auct. search results організатор "укрпошта" via using direct link
-#    [Documentation]  Пошук по організатору "укрпошта" і результат >25000
-#    [Tags]   пошук
-#    Go to  ${PROD_HOST_URL}auction/search?offset=10&edrpou=21560045
-#    Maximize Browser Window
-#    Wait until element is visible  ${lctr_znaideno_srch_result}    timeout=20
-#    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
-#    ${without_wSpace_srch_results}=  Remove String   ${znaideno value from prod}     ${SPACE}
-#    ${znaideno value from prod} =  Convert To Integer  ${without_wSpace_srch_results}
-#    ${var_value_from_znaideno}=  Set variable  ${without_wSpace_srch_results}
-#    Log Many  ${var_value_from_znaideno}
-#    Should Be True   ${var_value_from_znaideno} >25000
+   Go to  ${main_page_prod}
+    Maximize Browser Window
+    Click button  ${lctr_btn_kluch_slovo}
+    Input text  ${input_to_kluch_slovo}   завод
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+    ${without_wSpace_srch_results}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    log to console  ${without_wSpace_srch_results}
+    log  ${without_wSpace_srch_results}
+    ${znaideno value from prod} =  Convert To Integer  ${without_wSpace_srch_results}
+    ${var_value_from_znaideno_zavod}=  Set variable  ${without_wSpace_srch_results}
+    #${zavod_value}=  Evaluate     ${var_value_from_znaideno_zavod} < 10
+    log to console  ${var_value_from_znaideno_zavod}
+    log many  ${var_value_from_znaideno_zavod}
+
+    Go to  ${main_page_prod}
+    Maximize Browser Window
+    Click button  ${lctr_btn_kluch_slovo}
+    Input text  ${input_to_kluch_slovo}   заводів
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+    ${without_wSpace_srch_results_1}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    log to console  ${without_wSpace_srch_results_1}
+    log  ${without_wSpace_srch_results_1}
+    ${znaideno value from prod_1} =  Convert To Integer  ${without_wSpace_srch_results_1}
+    ${var_value_from_znaideno_zavodiv}=  Set variable  ${without_wSpace_srch_results_1}
+
+
+    ${get_res_in_%}=  Evaluate     ${var_value_from_znaideno_zavodiv} < ${var_value_from_znaideno_zavod}
+
+    log to console  ${var_value_from_znaideno_zavodiv}
+    log many  ${var_value_from_znaideno_zavodiv}
+
+ТС Test auct. search results організатор "укрпошта" via using direct link
+    [Documentation]  Пошук по організатору "укрпошта" і результат >25000
+    [Tags]   пошук_по_ключовим_словам
+    Go to  ${PROD_HOST_URL}auction/search?offset=10&edrpou=21560045
+    Maximize Browser Window
+    Wait until element is visible  ${lctr_znaideno_srch_result}    timeout=20
+    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+    ${without_wSpace_srch_results}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    ${znaideno value from prod} =  Convert To Integer  ${without_wSpace_srch_results}
+    ${var_value_from_znaideno}=  Set variable  ${without_wSpace_srch_results}
+    Log Many  ${var_value_from_znaideno}
+    Should Be True   ${var_value_from_znaideno} >25000
 
 
 
 ТС Test auct. search results організатор "укрпошта" via using input lctr
     [Documentation]  Пошук по організатору "укрпошта" і результат >25000
-    [Tags]   пошук
+    [Tags]   пошук_по_ключовим_словам
 
     Go to  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click button  ${lctr_edrpou_search_action}
     Input text  ${lctr_search_org_input}   21560045 – Акціонерне товариство "Укрпошта
-    Capture Page Screenshot
     Wait until element is visible  ${value from znaideno_v2}    timeout=20
     ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
     ${without_wSpace_srch_results}=  Remove String   ${znaideno value from prod}     ${SPACE}
@@ -473,7 +487,7 @@ TC17 Test header ${PROD_HOST_URL}/contacts
 
 TC Test yesterday calendar value & active.auction ==0 on ${PROD_HOST_URL}
         [Documentation]  результати пошуку по вчорашній даті + статус:Аукціон ==0
-        [Tags]   пошук по даті і статусу аукціону
+        [Tags]   пошук_по_даті_і_статусу_аукціону
 
         ${Yesterday_Date} =    Get Current Date    result_format=%d.%m.%Y   increment=-1 day
         Log    ${Yesterday_Date}
@@ -523,29 +537,13 @@ TC Test yesterday calendar value & active.auction ==0 on ${PROD_HOST_URL}
     #Page Should Contain Link  ${tab_about_us_4242}
     #${tab_about_us_4242}  xpath=//li/a[starts-with(text(),'Про нас')]
 
-TC Test header tabs streams Land_market on ${PROD_HOST_URL}
-    [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Ринок Землі
-    [Tags]   лінк
-    Go To  ${main_page_prod}auction/search
-    Maximize Browser Window
-    #Set Window Size ${1400} ${600}
-    Capture Page Screenshot
-    Mouse Over  ${streams_tab}
-    Capture Page Screenshot
-    Wait Until Element Is Visible  //div/ul/li/a[.='Ринок землі']  timeout=20s
-    Capture Page Screenshot
-    #Click element  //li/a[contains(text(),'Ринок землі')]
-    Click element  //div/ul/li/a[.='Ринок землі']
-    Switch window  title:Ринок землі — Prozorro.Sale
-    ${url_loc}=  Get location
-    log many  ${url_loc}
-    Location Should Be  https://info.prozorro.sale/Land_market
+
 
 
 ТС Test conmaring auct. search results "завод" & "цукровий завод"
 
     [Documentation]  Порівняння результатів пошуку по "завод" > "цукровий завод"
-    [Tags]   пошук
+    [Tags]   пошук_по_ключовим_словам
     Go to  ${main_page_prod}
     Maximize Browser Window
     Click button  ${lctr_btn_kluch_slovo}
@@ -582,7 +580,7 @@ TC Test header tabs streams Land_market on ${PROD_HOST_URL}
 
 TC Test search res. ${main_page_prod}${auc_ID_prod} less than 10 results
     [Documentation]  Порівняння результатів пошуку по aucID < 10
-    [Tags]   пошук
+    [Tags]   тестування_результатів_пошуку
     Go to  ${main_page_prod}
     Maximize Browser Window
     Click button  ${lctr_auct_№}
@@ -599,7 +597,7 @@ TC Test search res. ${main_page_prod}${auc_ID_prod} less than 10 results
 
 TC Test search res. active.tendering via dir. link
     [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь
-    [Tags]   пошук
+    [Tags]   тестування_результатів_пошуку
     Go to  https://prozorro.sale/?status=active.tendering
     Maximize Browser Window
     Wait until element is visible  ${value from znaideno_v2}    timeout=20
@@ -616,7 +614,7 @@ TC Test search res. active.tendering via dir. link
 
 #TC Test search res. active.tendering in ${btn_srch_auc_status}
 #    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь
-#    [Tags]   пошук
+#    [Tags]   тестування результатыв пошуку
 #    Go to  ${main_page_prod}
 #    Maximize Browser Window
 #    Click button  ${btn_srch_auc_status}
@@ -635,7 +633,7 @@ TC Test search res. active.tendering via dir. link
 
 TC Test footer section ${PROD_HOST_URL}finansova-informaciya
     [Documentation]  Перевірка чи відкривається розділ "Фінаснова інформація"
-    [Tags]   лінк
+    [Tags]   тестування_footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_Finans_prod}
@@ -648,12 +646,11 @@ TC Test footer section ${PROD_HOST_URL}finansova-informaciya
 
 TC Test footer ${PROD_HOST_URL}team
     [Documentation]  Перевірка чи відкривається розділ "Команда"
-    [Tags]   лінк
+    [Tags]   тестування footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_team_prod}
     Wait until element is visible  ${artcl_h4_prozorro}     timeout=20
-    Capture Page Screenshot
     Location Should Be  https://prozorro.sale/team
     Go Back
     Location Should Be  https://prozorro.sale/auction/search
@@ -662,7 +659,7 @@ TC Test footer ${PROD_HOST_URL}team
 #
 TC Test footer section ${PROD_HOST_URL}handbook
     [Documentation]  Перевірка чи відкривається розділ "ПРОЗОРИЙДОВІДНИК"
-    [Tags]   лінк
+    [Tags]   тестування footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_handbook_prod}
@@ -675,7 +672,7 @@ TC Test footer section ${PROD_HOST_URL}handbook
 
 TC Test footer section ${PROD_HOST_URL}komisiya-dp-prozorroprodazhi
     [Documentation]  Перевірка чи відкривається розділ Комісія ДП "ПРОЗОРРО.ПРОДАЖІ"
-    [Tags]   лінк
+    [Tags]   тестування footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_komisiya-dp-prozorroprodazhi_prod}
@@ -689,7 +686,7 @@ TC Test footer section ${PROD_HOST_URL}komisiya-dp-prozorroprodazhi
 
 TC Test footer section ${PROD_HOST_URL}dokumenty-dp-prozorroprodazhi
     [Documentation]  Перевірка чи відкривається розділ "Документи ДП "Прозорро.Продажі"
-    [Tags]   лінк
+    [Tags]   тестування footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_dokumenty-dp-prozorroprodazhi_prod}
@@ -704,7 +701,7 @@ TC Test footer section ${PROD_HOST_URL}dokumenty-dp-prozorroprodazhi
 
 TC Test footer section ${PROD_HOST_URL}skarhy
     [Documentation]  Перевірка чи відкривається розділ "Поскаржитися на торги"
-    [Tags]   лінк
+    [Tags]   тестування footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_skarhy_prod}
@@ -717,7 +714,7 @@ TC Test footer section ${PROD_HOST_URL}skarhy
 
 TC Test footer section ${PROD_HOST_URL}majdanchiki-ets-prozorroprodazhi-cbd2
     [Documentation]  Перевірка чи відкривається розділ "Майданчики Прозоро продажі"
-    [Tags]   лінк
+    [Tags]   тестування footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_elektronni-majdanchiki-ets-prozorroprodazhi-cbd2_prod}
@@ -726,7 +723,7 @@ TC Test footer section ${PROD_HOST_URL}majdanchiki-ets-prozorroprodazhi-cbd2
     Wait until element is visible  ${artcl_h9_prozorro}     timeout=20
     #${artcl_h9_prozorro}                                     xpath=//table[@class='violet sticky-second']
 
-    Location Should Be   https: https://prozorro.sale/info/elektronni-majdanchiki-ets-prozorroprodazhi-cbd2
+    Location Should Be   https://prozorro.sale/info/elektronni-majdanchiki-ets-prozorroprodazhi-cbd2
     Go Back
     Location Should Be  https://prozorro.sale/auction/search
     ${loc} =  get location
@@ -734,7 +731,7 @@ TC Test footer section ${PROD_HOST_URL}majdanchiki-ets-prozorroprodazhi-cbd2
 
 TC Test footer section ${PROD_HOST_URL}napryamki-roboti
     [Documentation]  Перевірка чи відкривається розділ "напрямки роботи"
-    [Tags]   лінк
+    [Tags]   тестування footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_napryamki-roboti_prod}
@@ -747,7 +744,7 @@ TC Test footer section ${PROD_HOST_URL}napryamki-roboti
 
 TC Test footer section ${PROD_HOST_URL}vakansiyi
     [Documentation]  Перевірка чи відкривається розділ "Вакансії"
-    [Tags]   лінк
+    [Tags]   тестування footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_vakansiyi_cbd2_prod}
@@ -758,8 +755,15 @@ TC Test footer section ${PROD_HOST_URL}vakansiyi
     ${loc} =  get location
     log many  ${loc}
 
-
-
-
-
-#Execute JavaScript:  document.getElementById('menuSubItemId').parentNode.setAttribute('display','block!important'); document.getElementById('MenusubitemId').setAttribute('display','block!important')
+TC Test footer ${PROD_HOST_URL}youtube
+    [Documentation]  Перевірка чи відкривається розділ "Уoutube"
+    [Tags]   тестування footer
+    Go To  ${PROD_HOST_URL}auction/search
+    Maximize Browser Window
+    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
+    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
+    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
+    Sleep  5
+    Switch window   title:Prozorro.Продажi - YouTube
+    Location Should Be   https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
+    Wait until element is visible  //yt-formatted-string[text()='Prozorro.Продажi']    timeout=20

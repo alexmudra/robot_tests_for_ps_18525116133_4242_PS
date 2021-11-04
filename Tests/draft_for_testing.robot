@@ -189,44 +189,19 @@ Compare zamovnik or not
     ${is_zamovnik}=  get variable value  ${lctr_is_zamovnik} #//span[@data-test-id="znaideno_value"]
     should be true  '${is_zamovnik}' in '${lctr_is_zamovnik}'   msg='значення співпадають'
 
-*** Test Cases ***
+#Capture Page Screenshot
+
 
 #
-#TC Test search res. active.tendering in ${btn_srch_auc_status}
-#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь
-#    [Tags]   пошук
-#    Go to  ${main_page_prod}
+#TC Test header tabs streams Land_market on ${PROD_HOST_URL}
+#    [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Ринок Землі
+#    [Tags]   лінк
+#    Go To  ${PROD_HOST_URL}auction/search
 #    Maximize Browser Window
-#    Click button  ${btn_srch_auc_status}
-#    Wait until element is visible  ${selected_active.tendering}  timeout=5
-#    log to console  ${selected_active.tendering}
-#    Click element  ${selected_active.tendering}
-#    Wait until element is visible  ${value from znaideno_v2}    timeout=5
-#    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
-#    ${without_wSpace_srch_results_aucID}=  Remove String   ${znaideno value from prod}     ${SPACE}
-#    ${convert_act_tend_sts_to_int}  Convert To Integer  ${without_wSpace_srch_results_aucID}
-#    ${check_sts} =  SHOULD BE TRUE  ${convert_act_tend_sts_to_int} >0
-#
-#    log many  ${znaideno value from prod}
-#    log to console   ${znaideno value from prod}
-#
-
-
-TC Test get calendar value on ${PROD_HOST_URL}
-        [Documentation]  як працювати із дейтпікером / календарем в формі пошуку
-        [Tags]   пошук по даті
-
-        Go To  https://test.tender-online.com.ua/tenders/index?word=
-        Maximize Browser Window
-        ${Yeterday_Date} =      Get Current Date    result_format=%d/%m/%Y    increment=-1 day
-        Execute Javascript   document.getElementById('date-from').removeAttribute('readonly');
-        Execute Javascript          document.getElementById('date-from').removeAttribute('onchange')
-
-        Click element                        //input[@id='date-from']
-         Clear Element Text   //input[@id='date-from']
-        #Execute Javascript          document.querySelector("locator").removeAttribute("readonly");
-
-        Input Text    //input[@id='date-from']    ${Yeterday_Date}
-                Capture Page Screenshot
-
-
+#    Mouse Over  ${tab_napr_roboty}
+#    Wait Until Element Is Visible  ${tab_land_market}  timeout=20s
+#    Click element  ${tab_land_market}
+#    Switch window  title:Ринок землі — Prozorro.Sale
+#    ${url_loc}=  Get location
+#    log many  ${url_loc}
+#    Location Should Be  ${INFO_PROD_HOST_URL}Land_market
