@@ -1,6 +1,5 @@
 *** Settings ***
 Library     SeleniumLibrary
-Library  Selenium2Screenshots
 Library  String
 Library  DateTime
 Library  Collections
@@ -220,43 +219,69 @@ Verify auction titles
     Title Should Be  ${title_txt}
     Capture Page Screenshot
 
+Verify znaid. result and convert znaideno results value into integer
+
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+    ${without_wSpace_srch_results_aucID}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    ${converted_znaideno_value_to_int}=   Convert To Integer  ${without_wSpace_srch_results_aucID}
+    log to console  Результати пошуку в числовому форматі:${converted_znaideno_value_to_int}
+    Log many  Результати пошуку в числовому форматі:${converted_znaideno_value_to_int}
 
 
 *** Test Cases ***
 
-#https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1635409751006500
-#статуси - прийом пропозицій, фільтруємо статус = прийняття заяв на участь, значення більше 0.
-#Далі відкриває перші 10 аукціонів зі списку і нема помилок тоді це успіх. Ще не готово.
+#https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1635952953010500
+#обязательные блоки:
+#Інформація про аукціон
+#Критерії вибору переможця
+#Документація
+#Подати пропозицію
+#Схожі лоти
 
-
-TC Test search res. active.tendering>0,open auctions and verify auct.Titles
+TC Test open auction & verify auct.Titles,Description,Documentation,Do Bid ect. on ${PROD_HOST_URL}
     [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності auctionTitles
     [Tags]   тестування результатів пошуку
-    Go to  https://prozorro.sale/?status=active.tendering
+    Go to  ${PROD_HOST_URL}?status=active.tendering
     Maximize Browser Window
-    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
-    ${without_wSpace_srch_results_aucID}=  Remove String   ${znaideno value from prod}     ${SPACE}
-    ${convert_act_tend_sts_to_int}  Convert To Integer  ${without_wSpace_srch_results_aucID}
-    #Search results convert to integer on prod  ${value from znaideno_v2}
-    SHOULD BE TRUE  ${convert_act_tend_sts_to_int} >0
-    Get elements count  //p[starts-with(text(),"UA-")]    #//strong[text()='ID: '] або //p[starts-with(text(),"UA-")]
-    #@{valid_auctionIDs_list}=    Create List
-    @{IDs_list} =  Get WebElements  //p[starts-with(text(),"UA-")]
-    FOR     ${element}  IN  @{IDs_list}
-        ${ID_text}=  Get Text   ${element}  #отримуємо ІД аукціону
-        ${valid__auc_ID}=  Get Substring  ${ID_text}  4  #відрізаємо ID:  від ІД аукціону
-        ${auction_links} =   Set Variable  ${PROD_HOST_URL}auction/${valid__auc_ID}  #сетапимо перемінну для валідних лінків #https://prozorro.sale/auction/UA-PS-2021-11-02-000032-1
-        #Log to console  ${auction_links}
-        Append To List    ${valid_auctionIDs_list}     ${auction_links}
-    END
-    #в окремому циклі перевіряємо тайтли в 10ти аукціонах
-    FOR  ${i}  IN  @{valid_auctionIDs_list}
-         Log to console  ${i}
-         Continue For Loop If  '${i}'=='Create List'
-        Go To  ${i}
-        ${title_txt}=   Get Title
-        Log to console   ${title_txt}
+    Verify znaid. result and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
 
-    END
 
+
+
+##https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1635409751006500
+##статуси - прийом пропозицій, фільтруємо статус = прийняття заяв на участь, значення більше 0.
+##Далі відкриває перші 10 аукціонів зі списку і нема помилок тоді це успіх. Ще не готово.
+#
+#
+#TC Test search res. active.tendering>0,open auctions and verify auct.Titles
+#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності auctionTitles
+#    [Tags]   тестування результатів пошуку
+#    Go to  https://prozorro.sale/?status=active.tendering
+#    Maximize Browser Window
+#    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+#    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+#    ${without_wSpace_srch_results_aucID}=  Remove String   ${znaideno value from prod}     ${SPACE}
+#    ${convert_act_tend_sts_to_int}  Convert To Integer  ${without_wSpace_srch_results_aucID}
+#    #Search results convert to integer on prod  ${value from znaideno_v2}
+#    SHOULD BE TRUE  ${convert_act_tend_sts_to_int} >0
+#    Get elements count  //p[starts-with(text(),"UA-")]    #//strong[text()='ID: '] або //p[starts-with(text(),"UA-")]
+#    #@{valid_auctionIDs_list}=    Create List
+#    @{IDs_list} =  Get WebElements  //p[starts-with(text(),"UA-")]
+#    FOR     ${element}  IN  @{IDs_list}
+#        ${ID_text}=  Get Text   ${element}  #отримуємо ІД аукціону
+#        ${valid__auc_ID}=  Get Substring  ${ID_text}  4  #відрізаємо ID:  від ІД аукціону
+#        ${auction_links} =   Set Variable  ${PROD_HOST_URL}auction/${valid__auc_ID}  #сетапимо перемінну для валідних лінків #https://prozorro.sale/auction/UA-PS-2021-11-02-000032-1
+#        #Log to console  ${auction_links}
+#        Append To List    ${valid_auctionIDs_list}     ${auction_links}
+#    END
+#    #в окремому циклі перевіряємо тайтли в 10ти аукціонах
+#    FOR  ${i}  IN  @{valid_auctionIDs_list}
+#         Log to console  ${i}
+#         Continue For Loop If  '${i}'=='Create List'
+#        Go To  ${i}
+#        ${title_txt}=   Get Title
+#        Log to console   ${title_txt}
+#
+#    END
+#
