@@ -6,6 +6,8 @@ Library  Collections
 Suite Setup  Open Browser Chrome in headless_mode
 #Suite Setup  Open main_page_prod in UI Chome mode
 Suite Teardown  Close All Browsers
+#Suite Teardown  Run Keyword If All Tests Passed  Всі тести ПАСС! Портал працює так як треба.
+
 
 
 *** Variables ***
@@ -157,6 +159,12 @@ ${lctr_auct_ID}   xpath=//strong[text()='ID: ']
 
 @{valid_auctionIDs_list}=    Create List
 
+#Set Suite Variable  ${elem_locator}   ${EMPTY}
+${elem_locator}  Set Suite Variable  ${EMPTY}
+#xpath=(//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+
+
+
 *** Keywords ***
 Open Browser Chrome
     [Documentation]  Відкрити хромбраузер в UI режимі
@@ -219,15 +227,28 @@ Verify auction titles
     Title Should Be  ${title_txt}
     Capture Page Screenshot
 
-Verify znaid. result and convert znaideno results value into integer
+Verify znaid. result >0 and convert znaideno results value into integer
 
     Wait until element is visible  ${value from znaideno_v2}    timeout=20
     ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
     ${without_wSpace_srch_results_aucID}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    Set Suite Variable  ${converted_znaideno_value_to_int}   ${EMPTY}
     ${converted_znaideno_value_to_int}=   Convert To Integer  ${without_wSpace_srch_results_aucID}
     log to console  Результати пошуку в числовому форматі:${converted_znaideno_value_to_int}
     Log many  Результати пошуку в числовому форматі:${converted_znaideno_value_to_int}
 
+Verify page shouldn't contain error phrases  #задача тут https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+    Page Should Not Contain  Документ завантажується
+    Page Should Not Contain  Помилка завантаження
+
+Verity element str_length > 0
+    [Arguments]   ${elem_locator}
+    #Set Suite Variable  ${elem_locator}   xpath=(//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    ${q}  Get text  ${elem_locator}
+    #Should Be Equal As Strings
+    ${elem_str_lengths}=  Get Length  ${q}  #message=Текст наявний!
+    log to console  ${elem_str_lengths}
+    Should Be True	 ${elem_str_lengths}>0
 
 *** Test Cases ***
 
@@ -244,7 +265,32 @@ TC Test open auction & verify auct.Titles,Description,Documentation,Do Bid ect. 
     [Tags]   тестування результатів пошуку
     Go to  ${PROD_HOST_URL}?status=active.tendering
     Maximize Browser Window
-    Verify znaid. result and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+    #Run Keyword If  ${converted_znaideno_value_to_int}>0
+    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]  5
+#    ${elem_str_lengths}=  Get Length  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]   #message=Текст наявний!
+#    log to console  ${elem_str_lengths}
+#    Should Be True	 ${elem_str_lengths}>0
+    #Verity element str_length > 0
+    #Set Test Variable  ${elem_locator}  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    #Set global variable  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+     Set Test Variable  ${elem_locator}  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]  #ікспас для превью тайтлік процедур
+#    ${q} =  Get text   ${elem_locator}
+#    log to console  ${q}
+     Verity element str_length > 0  ${elem_locator}
+
+     Set Test Variable  ${elem_locator}   //*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
+     ${elem_locator}  Convert To String   //*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
+     ${q} =  Get text   ${elem_locator}
+    log to console  ${q}
+    Verity element str_length > 0  ${elem_locator}
+
+
+
+    #(//*[@target="_blank" and starts-with(@href,'/auction/')])[2]
+
 
 
 

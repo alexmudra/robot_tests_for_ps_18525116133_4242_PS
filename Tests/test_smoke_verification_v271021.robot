@@ -740,7 +740,7 @@ TC Test footer section ${PROD_HOST_URL}dokumenty-dp-prozorroprodazhi
 
 TC Test footer section ${PROD_HOST_URL}skarhy
     [Documentation]  Перевірка чи відкривається розділ "Поскаржитися на торги"
-    [Tags]   тестування footer
+    [Tags]   тестування_footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_skarhy_prod}
@@ -753,7 +753,7 @@ TC Test footer section ${PROD_HOST_URL}skarhy
 
 TC Test footer section ${PROD_HOST_URL}majdanchiki-ets-prozorroprodazhi-cbd2
     [Documentation]  Перевірка чи відкривається розділ "Майданчики Прозоро продажі"
-    [Tags]   тестування footer
+    [Tags]   тестування_footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_elektronni-majdanchiki-ets-prozorroprodazhi-cbd2_prod}
@@ -770,7 +770,7 @@ TC Test footer section ${PROD_HOST_URL}majdanchiki-ets-prozorroprodazhi-cbd2
 
 TC Test footer section ${PROD_HOST_URL}napryamki-roboti
     [Documentation]  Перевірка чи відкривається розділ "напрямки роботи"
-    [Tags]   тестування footer
+    [Tags]   тестування_footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_napryamki-roboti_prod}
@@ -783,7 +783,7 @@ TC Test footer section ${PROD_HOST_URL}napryamki-roboti
 
 TC Test footer section ${PROD_HOST_URL}vakansiyi
     [Documentation]  Перевірка чи відкривається розділ "Вакансії"
-    [Tags]   тестування footer
+    [Tags]   тестування_footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_vakansiyi_cbd2_prod}
@@ -796,13 +796,13 @@ TC Test footer section ${PROD_HOST_URL}vakansiyi
 
 TC Test footer ${PROD_HOST_URL}youtube
     [Documentation]  Перевірка чи відкривається розділ "Уoutube"
-    [Tags]   тестування footer
+    [Tags]   тестування_footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
     Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
     Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
-    Sleep  5
+    Sleep  10
     Switch window   title:Prozorro.Продажi - YouTube
     Location Should Be   https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
     Wait until element is visible  //yt-formatted-string[text()='Prozorro.Продажi']    timeout=20
