@@ -712,7 +712,7 @@ TC Test footer section ${PROD_HOST_URL}handbook
 #03 11 21 сто виключили цю перевірку із списку ТК.
 #TC Test footer section ${PROD_HOST_URL}komisiya-dp-prozorroprodazhi
 #    [Documentation]  Перевірка чи відкривається розділ Комісія ДП "ПРОЗОРРО.ПРОДАЖІ"
-#    [Tags]   тестування footer
+#    [Tags]   тестування_footer
 #    Go To  ${PROD_HOST_URL}auction/search
 #    Maximize Browser Window
 #    Click link  ${tab_komisiya-dp-prozorroprodazhi_prod}
@@ -726,7 +726,7 @@ TC Test footer section ${PROD_HOST_URL}handbook
 
 TC Test footer section ${PROD_HOST_URL}dokumenty-dp-prozorroprodazhi
     [Documentation]  Перевірка чи відкривається розділ "Документи ДП "Прозорро.Продажі"
-    [Tags]   тестування footer
+    [Tags]   тестування_footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_dokumenty-dp-prozorroprodazhi_prod}
@@ -801,8 +801,8 @@ TC Test footer ${PROD_HOST_URL}youtube
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
-    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
-    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
+    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[11]   #локатор батона ютуба
+    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[11]
     Sleep  10
     Switch window   title:Prozorro.Продажi - YouTube
     Location Should Be   https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw

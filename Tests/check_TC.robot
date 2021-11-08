@@ -405,17 +405,18 @@ Verity element str_length > 0
 
 
 
-TC Test footer https://ti-ukraine.org btn
-    [Documentation]  Перевірка чи відкривається розділ "Transp. Intern. Ukraine"
+TC Test footer ${PROD_HOST_URL}youtube
+    [Documentation]  Перевірка чи відкривається розділ "Уoutube"
     [Tags]   тестування_footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
-    Scroll Element Into View   xpath=//*[@alt="Transparency International Ukraine"]   #локатор батона Transp. Intern. Ukraine
-    Click element   xpath=//*[@alt="Transparency International Ukraine"]
-    Switch window   title:Трансперенсі Інтернешнл Україна/TI Ukraine
-    Location Should Be   https://ti-ukraine.org/
-    Wait Until Page Contains   Трансперенсі Інтернешнл Україна    timeout=20
+    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
+    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
+    Sleep  10
+    Switch window   title:Prozorro.Продажi - YouTube
+    Location Should Be   https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
+    Wait until element is visible  //yt-formatted-string[text()='Prozorro.Продажi']    timeout=20
 
 
 
