@@ -3,8 +3,8 @@ Library     SeleniumLibrary
 Library  String
 Library  DateTime
 Library  Collections
-Suite Setup  Open Browser Chrome in headless_mode
-#Suite Setup  Open main_page_prod in UI Chome mode
+#Suite Setup  Open Browser Chrome in headless_mode
+Suite Setup  Open main_page_prod in UI Chome mode
 Suite Teardown  Close All Browsers
 #Suite Teardown  Run Keyword If All Tests Passed  Всі тести ПАСС! Портал працює так як треба.
 
@@ -304,24 +304,24 @@ Verity element str_length > 0
 #    Should Be True	 ${elem_str_lengths}>0
 
 
-TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL}
-    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
-    [Tags]   тестування_картки_аукціону
-    Go to  ${PROD_HOST_URL}?status=active.tendering
-    Maximize Browser Window
-    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
-    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
-    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-
-    ${elem} =  Get text   //*[text()='Організатор: ']/..   #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
-    ${str_without_org}=  Remove String  ${elem}  Організатор:
-    log to console   ${str_without_org}
-    #//*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор. Значення [object Text]. It should be an element.
-    ${elem_str_lengths}=  Get Length  ${str_without_org}
-    log to console  ${elem_str_lengths}
-    log many  ${elem_str_lengths}
-    Should Be True	 ${elem_str_lengths}>0
+#TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL}
+#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
+#    [Tags]   тестування_картки_аукціону
+#    Go to  ${PROD_HOST_URL}?status=active.tendering
+#    Maximize Browser Window
+#    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+#    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+#    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+#    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+#
+#    ${elem} =  Get text   //*[text()='Організатор: ']/..   #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
+#    ${str_without_org}=  Remove String  ${elem}  Організатор:
+#    log to console   ${str_without_org}
+#    #//*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор. Значення [object Text]. It should be an element.
+#    ${elem_str_lengths}=  Get Length  ${str_without_org}
+#    log to console  ${elem_str_lengths}
+#    log many  ${elem_str_lengths}
+#    Should Be True	 ${elem_str_lengths}>0
 
 
 ##https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1635409751006500
@@ -360,3 +360,61 @@ TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_
 #
 #    END
 #
+
+#TC Test footer ${PROD_HOST_URL}youtube
+#    [Documentation]  Перевірка чи відкривається розділ "Уoutube"
+#    [Tags]   тестування_footer
+#    Go To  ${PROD_HOST_URL}auction/search
+#    Maximize Browser Window
+#    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
+#    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[11]   #локатор батона ютуба
+#    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[11]
+#    Sleep  10
+#    Switch window   title:Prozorro.Продажi - YouTube
+#    Location Should Be   https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
+#    Wait until element is visible  //yt-formatted-string[text()='Prozorro.Продажi']    timeout=20
+
+
+#TC Test footer https://www.facebook.com/Prozorro.sale btn
+#    [Documentation]  Перевірка чи відкривається розділ "facebook"
+#    [Tags]   тестування_footer
+#    Go To  ${PROD_HOST_URL}auction/search
+#    Maximize Browser Window
+#    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
+#    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]   #локатор батона FB
+#    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
+#    Sleep  10
+#    Switch window   title:Prozorro.Продажі - Home | Facebook
+#    Location Should Be   https://www.facebook.com/Prozorro.sale
+#    Wait Until Page Contains   Prozorro.Продажі    timeout=20
+
+TC Test footer https://www.instagram.com/prozorro.sale btn
+    [Documentation]  Перевірка чи відкривається розділ "instagram"
+    [Tags]   тестування_footer
+    Go To  ${PROD_HOST_URL}auction/search
+    Maximize Browser Window
+    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
+    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[13]   #локатор батона Інстаграм
+    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[13]
+    Sleep  10
+    Switch window   title:Login • Instagram
+    #Switch window   title:@prozorro.sale is on Instagram
+    #Location Should Be   https://www.instagram.com/prozorro.sale не спрацює, тому що Інст вимагає авторизацію
+    Location Should Contain   instagram   #https://www.instagram.com/accounts/login/
+    #Wait Until Page Contains   Prozorro.Продажі – система онлайн аукціонів    timeout=20
+
+#*** test cases ***
+#  mytest
+#    ${color} =  set variable  Red
+#    Run Keyword If  '${color}' == 'Red'  log to console  \nexecuted with single condition
+#    Run Keyword If  '${color}' == 'Red' or '${color}' == 'Blue' or '${color}' == 'Pink'  log to console  \nexecuted with multiple or
+#
+#    ${color} =  set variable  Blue
+#    ${Size} =  set variable  Small
+#    ${Simple} =  set variable  Simple
+#    ${Design} =  set variable  Simple
+#    Run Keyword If  '${color}' == 'Blue' and '${Size}' == 'Small' and '${Design}' != '${Simple}'  log to console  \nexecuted with multiple and
+#
+#    ${Size} =  set variable  XL
+#    ${Design} =  set variable  Complicated
+#    Run Keyword Unless  '${color}' == 'Black' or '${Size}' == 'Small' or '${Design}' == 'Simple'  log to console  \nexecuted with unless and multiple or

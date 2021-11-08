@@ -807,3 +807,31 @@ TC Test footer ${PROD_HOST_URL}youtube
     Switch window   title:Prozorro.Продажi - YouTube
     Location Should Be   https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
     Wait until element is visible  //yt-formatted-string[text()='Prozorro.Продажi']    timeout=20
+
+TC Test footer https://www.facebook.com/Prozorro.sale btn
+    [Documentation]  Перевірка чи відкривається розділ "facebook"
+    [Tags]   тестування_footer
+    Go To  ${PROD_HOST_URL}auction/search
+    Maximize Browser Window
+    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
+    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]   #локатор батона FB
+    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
+    Sleep  10
+    Switch window   title:Prozorro.Продажі - Home | Facebook
+    Location Should Be   https://www.facebook.com/Prozorro.sale
+    Wait Until Page Contains   Prozorro.Продажі    timeout=20
+
+TC Test footer https://www.instagram.com/prozorro.sale btn
+    [Documentation]  Перевірка чи відкривається розділ "instagram"
+    [Tags]   тестування_footer
+    Go To  ${PROD_HOST_URL}auction/search
+    Maximize Browser Window
+    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
+    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[13]   #локатор батона Інстаграм
+    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[13]
+    Sleep  10
+    Switch window   title:Login • Instagram
+    #Switch window   title:@prozorro.sale is on Instagram
+    #Location Should Be   https://www.instagram.com/prozorro.sale не спрацює, тому що Інст вимагає авторизацію
+    Location Should Contain   instagram   #https://www.instagram.com/accounts/login/
+    #Wait Until Page Contains   Prozorro.Продажі – система онлайн аукціонів    timeout=20
