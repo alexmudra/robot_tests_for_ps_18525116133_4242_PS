@@ -685,7 +685,7 @@ TC Test footer section ${PROD_HOST_URL}finansova-informaciya
 
 TC Test footer ${PROD_HOST_URL}team
     [Documentation]  Перевірка чи відкривається розділ "Команда"
-    [Tags]   тестування footer
+    [Tags]   тестування_footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_team_prod}
@@ -698,7 +698,7 @@ TC Test footer ${PROD_HOST_URL}team
 #
 TC Test footer section ${PROD_HOST_URL}handbook
     [Documentation]  Перевірка чи відкривається розділ "ПРОЗОРИЙДОВІДНИК"
-    [Tags]   тестування footer
+    [Tags]   тестування_footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click link  ${tab_handbook_prod}

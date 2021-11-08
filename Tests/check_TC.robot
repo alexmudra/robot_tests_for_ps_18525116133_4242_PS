@@ -248,6 +248,8 @@ Verity element str_length > 0
     #Should Be Equal As Strings
     ${elem_str_lengths}=  Get Length  ${q}  #message=Текст наявний!
     log to console  ${elem_str_lengths}
+    log many  ${q}
+    log many  ${elem_str_lengths}
     Should Be True	 ${elem_str_lengths}>0
 
 *** Test Cases ***
@@ -260,39 +262,66 @@ Verity element str_length > 0
 #Подати пропозицію
 #Схожі лоти
 
-TC Test open auction & verify auct.Titles,Description,Documentation,Do Bid ect. on ${PROD_HOST_URL}
-    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності auctionTitles
-    [Tags]   тестування результатів пошуку
+#TC Test open auction & verify auct.Title preview card on ${PROD_HOST_URL}
+#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності auctionTitles
+#    [Tags]   тестування_картки_аукціону
+#    Go to  ${PROD_HOST_URL}?status=active.tendering
+#    Maximize Browser Window
+#    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+#    #Run Keyword If  ${converted_znaideno_value_to_int}>0
+#    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+#    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+#    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]  5
+##    ${elem_str_lengths}=  Get Length  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]   #message=Текст наявний!
+##    log to console  ${elem_str_lengths}
+##    Should Be True	 ${elem_str_lengths}>0
+#    #Verity element str_length > 0
+#    #Set Test Variable  ${elem_locator}  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+#    #Set global variable  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+#     Set Test Variable  ${elem_locator}  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]  #ікспас для превью тайтлік процедур
+#
+#     Verity element str_length > 0  ${elem_locator}
+
+
+#
+#TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL}
+#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
+#    [Tags]   тестування_картки_аукціону
+#    Go to  ${PROD_HOST_URL}?status=active.tendering
+#    Maximize Browser Window
+#    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+#    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+#    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+#    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+#
+#    ${elem} =  Get text   //*[text()='Організатор: ']/..   #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
+#    ${str_without_org}=  Remove String  ${elem}  Організатор:
+#    log to console   ${str_without_org}
+#    #//*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор. Значення [object Text]. It should be an element.
+#    ${elem_str_lengths}=  Get Length  ${str_without_org}
+#    log to console  ${elem_str_lengths}
+#    log many  ${elem_str_lengths}
+#    Should Be True	 ${elem_str_lengths}>0
+
+
+TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL}
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
+    [Tags]   тестування_картки_аукціону
     Go to  ${PROD_HOST_URL}?status=active.tendering
     Maximize Browser Window
     Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
-    #Run Keyword If  ${converted_znaideno_value_to_int}>0
     Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
     Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]  5
-#    ${elem_str_lengths}=  Get Length  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]   #message=Текст наявний!
-#    log to console  ${elem_str_lengths}
-#    Should Be True	 ${elem_str_lengths}>0
-    #Verity element str_length > 0
-    #Set Test Variable  ${elem_locator}  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-    #Set global variable  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-     Set Test Variable  ${elem_locator}  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]  #ікспас для превью тайтлік процедур
-#    ${q} =  Get text   ${elem_locator}
-#    log to console  ${q}
-     Verity element str_length > 0  ${elem_locator}
+    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
 
-     Set Test Variable  ${elem_locator}   //*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
-     ${elem_locator}  Convert To String   //*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
-     ${q} =  Get text   ${elem_locator}
-    log to console  ${q}
-    Verity element str_length > 0  ${elem_locator}
-
-
-
-    #(//*[@target="_blank" and starts-with(@href,'/auction/')])[2]
-
-
-
+    ${elem} =  Get text   //*[text()='Організатор: ']/..   #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
+    ${str_without_org}=  Remove String  ${elem}  Організатор:
+    log to console   ${str_without_org}
+    #//*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор. Значення [object Text]. It should be an element.
+    ${elem_str_lengths}=  Get Length  ${str_without_org}
+    log to console  ${elem_str_lengths}
+    log many  ${elem_str_lengths}
+    Should Be True	 ${elem_str_lengths}>0
 
 
 ##https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1635409751006500
