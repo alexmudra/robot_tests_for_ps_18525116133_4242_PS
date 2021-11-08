@@ -835,3 +835,29 @@ TC Test footer https://www.instagram.com/prozorro.sale btn
     #Location Should Be   https://www.instagram.com/prozorro.sale не спрацює, тому що Інст вимагає авторизацію
     Location Should Contain   instagram   #https://www.instagram.com/accounts/login/
     #Wait Until Page Contains   Prozorro.Продажі – система онлайн аукціонів    timeout=20
+
+TC Test footer https://www.me.gov.ua/?lang=uk-UA btn
+    [Documentation]  Перевірка чи відкривається розділ "Mін.ек.розвитку України"
+    [Tags]   тестування_footer
+    Go To  ${PROD_HOST_URL}auction/search
+    Maximize Browser Window
+    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
+    Scroll Element Into View   xpath=//*[@alt="Міністерство економічного розвитку і торгівлі України"]   #локатор батона Мін.ек.розв.України
+    Click element   xpath=//*[@alt="Міністерство економічного розвитку і торгівлі України"]
+    #Sleep  10
+    Switch window   title:Міністерство економіки України -> головна сторінка
+    Location Should Be   https://www.me.gov.ua/?lang=uk-UA
+    Wait Until Page Contains   Мінекономіки    timeout=20
+
+
+TC Test footer https://ti-ukraine.org btn
+    [Documentation]  Перевірка чи відкривається розділ "Transp. Intern. Ukraine"
+    [Tags]   тестування_footer
+    Go To  ${PROD_HOST_URL}auction/search
+    Maximize Browser Window
+    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
+    Scroll Element Into View   xpath=//*[@alt="Transparency International Ukraine"]   #локатор батона Transp. Intern. Ukraine
+    Click element   xpath=//*[@alt="Transparency International Ukraine"]
+    Switch window   title:Трансперенсі Інтернешнл Україна/TI Ukraine
+    Location Should Be   https://ti-ukraine.org/
+    Wait Until Page Contains   Трансперенсі Інтернешнл Україна    timeout=20

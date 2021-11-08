@@ -388,20 +388,37 @@ Verity element str_length > 0
 #    Location Should Be   https://www.facebook.com/Prozorro.sale
 #    Wait Until Page Contains   Prozorro.Продажі    timeout=20
 
-TC Test footer https://www.instagram.com/prozorro.sale btn
-    [Documentation]  Перевірка чи відкривається розділ "instagram"
+#TC Test footer https://www.instagram.com/prozorro.sale btn
+#    [Documentation]  Перевірка чи відкривається розділ "instagram"
+#    [Tags]   тестування_footer
+#    Go To  ${PROD_HOST_URL}auction/search
+#    Maximize Browser Window
+#    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
+#    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[13]   #локатор батона Інстаграм
+#    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[13]
+#    Sleep  10
+#    Switch window   title:Login • Instagram
+#    #Switch window   title:@prozorro.sale is on Instagram
+#    #Location Should Be   https://www.instagram.com/prozorro.sale не спрацює, тому що Інст вимагає авторизацію
+#    Location Should Contain   instagram   #https://www.instagram.com/accounts/login/
+#    #Wait Until Page Contains   Prozorro.Продажі – система онлайн аукціонів    timeout=20
+
+
+
+TC Test footer https://ti-ukraine.org btn
+    [Documentation]  Перевірка чи відкривається розділ "Transp. Intern. Ukraine"
     [Tags]   тестування_footer
     Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
-    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[13]   #локатор батона Інстаграм
-    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[13]
-    Sleep  10
-    Switch window   title:Login • Instagram
-    #Switch window   title:@prozorro.sale is on Instagram
-    #Location Should Be   https://www.instagram.com/prozorro.sale не спрацює, тому що Інст вимагає авторизацію
-    Location Should Contain   instagram   #https://www.instagram.com/accounts/login/
-    #Wait Until Page Contains   Prozorro.Продажі – система онлайн аукціонів    timeout=20
+    Scroll Element Into View   xpath=//*[@alt="Transparency International Ukraine"]   #локатор батона Transp. Intern. Ukraine
+    Click element   xpath=//*[@alt="Transparency International Ukraine"]
+    Switch window   title:Трансперенсі Інтернешнл Україна/TI Ukraine
+    Location Should Be   https://ti-ukraine.org/
+    Wait Until Page Contains   Трансперенсі Інтернешнл Україна    timeout=20
+
+
+
 
 #*** test cases ***
 #  mytest
