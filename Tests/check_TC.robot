@@ -269,23 +269,23 @@ Get second str after "SPACE"
 #Документація
 #Подати пропозицію
 #Схожі лоти
-
-TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v1
-    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:
-    [Tags]   тестування_картки_аукціону
-    Go to  https://prozorro.sale/?status=active.tendering
-    Maximize Browser Window
-    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-    Verify znaid. result >0 and convert znaideno results value into integer
-
-    ${elem} =  Get text   (//*[text()='ID: ']/..)[1]   #читаємо текст ІД із превьюшки 1го аукціону в списку
-    #ікспас на превьюшці для ID: //*[text()='ID: ']/..  буде мінімум 10 аукціонів
-    ${str_without_org}=  Remove String  ${elem}  ID:
-    log to console   ${str_without_org}
-    ${elem_str_lengths}=  Get Length  ${str_without_org}
-    log to console  ${elem_str_lengths}
-    log many  ${elem_str_lengths}
-    Should Be True	 ${elem_str_lengths}>0
+#
+#TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v1
+#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:
+#    [Tags]   тестування_картки_аукціону
+#    Go to  https://prozorro.sale/?status=active.tendering
+#    Maximize Browser Window
+#    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+#    Verify znaid. result >0 and convert znaideno results value into integer
+#
+#    ${elem} =  Get text   (//*[text()='ID: ']/..)[1]   #читаємо текст ІД із превьюшки 1го аукціону в списку
+#    #ікспас на превьюшці для ID: //*[text()='ID: ']/..  буде мінімум 10 аукціонів
+#    ${str_without_org}=  Remove String  ${elem}  ID:
+#    log to console   ${str_without_org}
+#    ${elem_str_lengths}=  Get Length  ${str_without_org}
+#    log to console  ${elem_str_lengths}
+#    log many  ${elem_str_lengths}
+#    Should Be True	 ${elem_str_lengths}>0
 
 
 TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v2
