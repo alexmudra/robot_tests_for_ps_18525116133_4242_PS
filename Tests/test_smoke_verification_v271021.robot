@@ -861,3 +861,15 @@ TC Test footer https://ti-ukraine.org btn
     Switch window   title:Трансперенсі Інтернешнл Україна/TI Ukraine
     Location Should Be   https://ti-ukraine.org/
     Wait Until Page Contains   Трансперенсі Інтернешнл Україна    timeout=20
+
+TC Test footer ${PROD_HOST_URL}za pidtrimki
+    [Documentation]  Перевірка чи відкривається розділ "За підтримки"
+    [Tags]   тестування_footer
+    Go To  ${PROD_HOST_URL}auction/search
+    Maximize Browser Window
+    #Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
+    Scroll Element Into View   xpath=//*[@alt='За підтримки...']  #локатор батона За підтримки
+    Click element   xpath=//*[@alt='За підтримки...']
+    Switch window   url:https://info.prozorro.sale/za-pidtrimki
+    Location Should Be   https://info.prozorro.sale/za-pidtrimki
+    Wait Until Element Is Visible  xpath=//*[text()='За підтримки:']  timeout=10  #перевіряємо чи є текст Для підтримки

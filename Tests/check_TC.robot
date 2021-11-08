@@ -361,18 +361,17 @@ Verity element str_length > 0
 #    END
 #
 
-#TC Test footer ${PROD_HOST_URL}youtube
-#    [Documentation]  Перевірка чи відкривається розділ "Уoutube"
-#    [Tags]   тестування_footer
-#    Go To  ${PROD_HOST_URL}auction/search
-#    Maximize Browser Window
-#    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
-#    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[11]   #локатор батона ютуба
-#    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[11]
-#    Sleep  10
-#    Switch window   title:Prozorro.Продажi - YouTube
-#    Location Should Be   https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
-#    Wait until element is visible  //yt-formatted-string[text()='Prozorro.Продажi']    timeout=20
+TC Test footer ${PROD_HOST_URL}za pidtrimki
+    [Documentation]  Перевірка чи відкривається розділ "За підтримки"
+    [Tags]   тестування_footer
+    Go To  ${PROD_HOST_URL}auction/search
+    Maximize Browser Window
+    #Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
+    Scroll Element Into View   xpath=//*[@alt='За підтримки...']  #локатор батона За підтримки
+    Click element   xpath=//*[@alt='За підтримки...']
+    Switch window   url:https://info.prozorro.sale/za-pidtrimki
+    Location Should Be   https://info.prozorro.sale/za-pidtrimki
+    Wait Until Element Is Visible  xpath=//*[text()='За підтримки:']  timeout=10  #перевіряємо чи є текст Для підтримки
 
 
 #TC Test footer https://www.facebook.com/Prozorro.sale btn
@@ -403,20 +402,6 @@ Verity element str_length > 0
 #    Location Should Contain   instagram   #https://www.instagram.com/accounts/login/
 #    #Wait Until Page Contains   Prozorro.Продажі – система онлайн аукціонів    timeout=20
 
-
-
-TC Test footer ${PROD_HOST_URL}youtube
-    [Documentation]  Перевірка чи відкривається розділ "Уoutube"
-    [Tags]   тестування_footer
-    Go To  ${PROD_HOST_URL}auction/search
-    Maximize Browser Window
-    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
-    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
-    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
-    Sleep  10
-    Switch window   title:Prozorro.Продажi - YouTube
-    Location Should Be   https://www.youtube.com/channel/UCbLoGscHsp0-XjE75KWr-Sw
-    Wait until element is visible  //yt-formatted-string[text()='Prozorro.Продажi']    timeout=20
 
 
 
