@@ -251,10 +251,14 @@ Verity element str_length > 0
     log many  ${elem_str_lengths}
     Should Be True	 ${elem_str_lengths}>0
 
-Get second str after "SPACE"
+Get second str after separator ": "
     [Arguments]   ${elem_locator}
+    Set Test Variable  ${get_txt_from_both_part}  ${EMPTY}
     ${get_txt_from_both_part}=   Get text   ${elem_locator}
-    @{list_string}=     split string    ${get_txt_from_both_part}      ${SPACE}  #за індексом 1 буде текст із ID, Органі
+    Set Test Variable  ${sep}   :
+    log to console  ${sep}
+    #Set Test Suite  @{list_string}   @{EMPTY}
+    @{list_string}=     split string    ${get_txt_from_both_part}    separator=${sep}   #за індексом 1 буде текст із ID, Органі
     #затор Оголошено:, Початок аукціону:, № лоту:
     log to console   Субстрінга така:${list_string}[1]
     log many         Субстрінга така:${list_string}[1]
@@ -270,6 +274,36 @@ Get second str after "SPACE"
 #Подати пропозицію
 #Схожі лоти
 #
+
+TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL} вліоатдлоіва
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
+    [Tags]   тестування_картки_аукціону
+    Go to  ${PROD_HOST_URL}?status=active.tendering
+    Maximize Browser Window
+    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+
+    Set Test Variable  ${elem_locator}  (//*[text()='Організатор: ']/..)[1]
+    Log many  ${elem_locator}
+    Get second str after separator ": "  ${elem_locator}
+    Verity element str_length > 0  ${elem_locator}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v1
 #    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:
 #    [Tags]   тестування_картки_аукціону
@@ -288,17 +322,21 @@ Get second str after "SPACE"
 #    Should Be True	 ${elem_str_lengths}>0
 
 
-TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v2
-    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:(Альтернативний ТК)
-    [Tags]   тестування_картки_аукціону
-    Go to  https://prozorro.sale/?status=active.tendering
-    Maximize Browser Window
-    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-    Verify znaid. result >0 and convert znaideno results value into integer
-    Set Test Variable  ${elem_locator}  (//*[text()='ID: ']/..)[1]
-    Get second str after "SPACE"  ${elem_locator}
-    Verity element str_length > 0  ${elem_locator}
+#TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v2
+#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:(Альтернативний ТК)
+#    [Tags]   тестування_картки_аукціону
+#    Go to  https://prozorro.sale/?status=active.tendering
+#    Maximize Browser Window
+#    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+#    Verify znaid. result >0 and convert znaideno results value into integer
+#    Set Test Variable  ${elem_locator}  (//*[text()='Оголошено: ']/..)[1]
+#    ${check_elem_lctr_value}=  Get text   ${elem_locator}
+#    log to console  після перезаписування значення локатора наступне:${check_elem_lctr_value}
+#    log many  після перезаписування значення локатора наступне:${check_elem_lctr_value}
+#    Get second str after separator ": "  ${elem_locator}
+#    Verity element str_length > 0  ${elem_locator}
 
+    #(//*[text()='Оголошено: ']/..)[1]  #ікспас для Оголошено: (дата)
 
 #    ${elem} =  Get text   (//*[text()='ID: ']/..)[1]   #читаємо текст ІД із превьюшки 1го аукціону в списку
 #    #ікспас на превьюшці для ID: //*[text()='ID: ']/..  буде мінімум 10 аукціонів

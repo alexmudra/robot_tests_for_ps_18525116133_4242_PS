@@ -251,11 +251,14 @@ Verity element str_length > 0
     log many  ${elem_str_lengths}
     Should Be True	 ${elem_str_lengths}>0
 
-Get second str after "SPACE"
+Get second str after separator ": "
     [Arguments]   ${elem_locator}
+    Set Test Variable  ${get_txt_from_both_part}  ${EMPTY}
     ${get_txt_from_both_part}=   Get text   ${elem_locator}
-    Set Suite Variable	@{list_string}   @{EMPTY}
-    @{list_string}=     split string    ${get_txt_from_both_part}      ${SPACE}  #за індексом 1 буде текст із ID, Органі
+    Set Test Variable  ${sep}   :
+    log to console  ${sep}
+    #Set Test Suite  @{list_string}   @{EMPTY}
+    @{list_string}=     split string    ${get_txt_from_both_part}    separator=${sep}   #за індексом 1 буде текст із ID, Органі
     #затор Оголошено:, Початок аукціону:, № лоту:
     log to console   Субстрінга така:${list_string}[1]
     log many         Субстрінга така:${list_string}[1]
@@ -265,34 +268,34 @@ Get second str after "SPACE"
 
 
 
-#TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v1
-#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:
-#    [Tags]   тестування_картки_аукціону
-#    Go to  https://prozorro.sale/?status=active.tendering
-#    Maximize Browser Window
-#    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-#    Verify znaid. result >0 and convert znaideno results value into integer
-#
-#    ${elem} =  Get text   (//*[text()='ID: ']/..)[1]   #читаємо текст ІД із превьюшки 1го аукціону в списку
-#    #ікспас на превьюшці для ID: //*[text()='ID: ']/..  буде мінімум 10 аукціонів
-#    ${str_without_org}=  Remove String  ${elem}  ID:
-#    log to console   ${str_without_org}
-#    ${elem_str_lengths}=  Get Length  ${str_without_org}
-#    log to console  ${elem_str_lengths}
-#    log many  ${elem_str_lengths}
-#    Should Be True	 ${elem_str_lengths}>0
-#
-#
-#TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v2
-#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:(Альтернативний ТК)
-#    [Tags]   тестування_картки_аукціону
-#    Go to  https://prozorro.sale/?status=active.tendering
-#    Maximize Browser Window
-#    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-#    Verify znaid. result >0 and convert znaideno results value into integer
-#    Set Test Variable  ${elem_locator}  (//*[text()='ID: ']/..)[1]
-#    Get second str after "SPACE"  ${elem_locator}
-#    Verity element str_length > 0  ${elem_locator}
+TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v1
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:
+    [Tags]   тестування_картки_аукціону
+    Go to  https://prozorro.sale/?status=active.tendering
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    Verify znaid. result >0 and convert znaideno results value into integer
+
+    ${elem} =  Get text   (//*[text()='ID: ']/..)[1]   #читаємо текст ІД із превьюшки 1го аукціону в списку
+    #ікспас на превьюшці для ID: //*[text()='ID: ']/..  буде мінімум 10 аукціонів
+    ${str_without_org}=  Remove String  ${elem}  ID:
+    log to console   ${str_without_org}
+    ${elem_str_lengths}=  Get Length  ${str_without_org}
+    log to console  ${elem_str_lengths}
+    log many  ${elem_str_lengths}
+    Should Be True	 ${elem_str_lengths}>0
+
+
+TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v2
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:(Альтернативний ТК)
+    [Tags]   тестування_картки_аукціону
+    Go to  https://prozorro.sale/?status=active.tendering
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    Verify znaid. result >0 and convert znaideno results value into integer
+    Set Test Variable  ${elem_locator}  (//*[text()='ID: ']/..)[1]
+    Get second str after separator ": "  ${elem_locator}
+    Verity element str_length > 0  ${elem_locator}
 
 
 TC Test open auction & verify auct.Title preview card on ${PROD_HOST_URL}
@@ -330,7 +333,7 @@ TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_
     Should Be True	 ${elem_str_lengths}>0
 
 
-TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL}
+TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL} with spec keyword
     [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
     [Tags]   тестування_картки_аукціону
     Go to  ${PROD_HOST_URL}?status=active.tendering
@@ -340,17 +343,9 @@ TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_
     Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
     Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
 
-    Set Test Variable  ${elem_locator}  //*[text()='Організатор: ']/..
+    Set Test Variable  ${elem_locator}  (//*[text()='Організатор: ']/..)[1]
     Log many  ${elem_locator}
-    Get second str after "SPACE"  ${elem_locator}
-    Get second str after "SPACE"  ${list_string}[1]
+    Get second str after separator ": "  ${elem_locator}
     Verity element str_length > 0  ${elem_locator}
 
-#    ${elem} =  Get text   //*[text()='Організатор: ']/..   #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
-#    ${str_without_org}=  Remove String  ${elem}  Організатор:
-#    log to console   ${str_without_org}
-#    #//*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор. Значення [object Text]. It should be an element.
-#    ${elem_str_lengths}=  Get Length  ${str_without_org}
-#    log to console  ${elem_str_lengths}
-#    log many  ${elem_str_lengths}
-#    Should Be True	 ${elem_str_lengths}>0
+
