@@ -190,18 +190,3 @@ Compare zamovnik or not
     should be true  '${is_zamovnik}' in '${lctr_is_zamovnik}'   msg='значення співпадають'
 
 #Capture Page Screenshot
-
-
-#
-#TC Test header tabs streams Land_market on ${PROD_HOST_URL}
-#    [Documentation]  Перевірка чи відкривається розділ Напрямки Роботи->Ринок Землі
-#    [Tags]   лінк
-#    Go To  ${PROD_HOST_URL}auction/search
-#    Maximize Browser Window
-#    Mouse Over  ${tab_napr_roboty}
-#    Wait Until Element Is Visible  ${tab_land_market}  timeout=20s
-#    Click element  ${tab_land_market}
-#    Switch window  title:Ринок землі — Prozorro.Sale
-#    ${url_loc}=  Get location
-#    log many  ${url_loc}
-#    Location Should Be  ${INFO_PROD_HOST_URL}Land_market

@@ -709,21 +709,6 @@ TC Test footer section ${PROD_HOST_URL}handbook
     ${loc} =  get location
     log many  ${loc}
 
-#03 11 21 сто виключили цю перевірку із списку ТК.
-#TC Test footer section ${PROD_HOST_URL}komisiya-dp-prozorroprodazhi
-#    [Documentation]  Перевірка чи відкривається розділ Комісія ДП "ПРОЗОРРО.ПРОДАЖІ"
-#    [Tags]   тестування_footer
-#    Go To  ${PROD_HOST_URL}auction/search
-#    Maximize Browser Window
-#    Click link  ${tab_komisiya-dp-prozorroprodazhi_prod}
-#    Wait until element is visible  ${artcl_h6_prozorro_vutyag}    timeout=20
-#    Location Should Be  https://prozorro.sale/komisiya-dp-prozorroprodazhi
-#    Go Back
-#    Location Should Be  https://prozorro.sale/auction/search
-#    ${loc} =  get location
-#    log many  ${loc}
-
-
 TC Test footer section ${PROD_HOST_URL}dokumenty-dp-prozorroprodazhi
     [Documentation]  Перевірка чи відкривається розділ "Документи ДП "Прозорро.Продажі"
     [Tags]   тестування_footer

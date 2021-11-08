@@ -3,8 +3,8 @@ Library     SeleniumLibrary
 Library  String
 Library  DateTime
 Library  Collections
-#Suite Setup  Open Browser Chrome in headless_mode
-Suite Setup  Open main_page_prod in UI Chome mode
+Suite Setup  Open Browser Chrome in headless_mode
+#Suite Setup  Open main_page_prod in UI Chome mode
 Suite Teardown  Close All Browsers
 #Suite Teardown  Run Keyword If All Tests Passed  Всі тести ПАСС! Портал працює так як треба.
 
@@ -243,7 +243,6 @@ Verify page shouldn't contain error phrases  #задача тут https://prozor
 
 Verity element str_length > 0
     [Arguments]   ${elem_locator}
-    #Set Suite Variable  ${elem_locator}   xpath=(//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
     ${q}  Get text  ${elem_locator}
     #Should Be Equal As Strings
     ${elem_str_lengths}=  Get Length  ${q}  #message=Текст наявний!
@@ -251,6 +250,15 @@ Verity element str_length > 0
     log many  ${q}
     log many  ${elem_str_lengths}
     Should Be True	 ${elem_str_lengths}>0
+
+Get second str after "SPACE"
+    [Arguments]   ${elem_locator}
+    ${get_txt_from_both_part}=   Get text   ${elem_locator}
+    @{list_string}=     split string    ${get_txt_from_both_part}      ${SPACE}  #за індексом 1 буде текст із ID, Органі
+    #затор Оголошено:, Початок аукціону:, № лоту:
+    log to console   Субстрінга така:${list_string}[1]
+    log many         Субстрінга така:${list_string}[1]
+    ${num}=         evaluate       '${list_string}[1]'.replace(',','')
 
 *** Test Cases ***
 
@@ -261,6 +269,76 @@ Verity element str_length > 0
 #Документація
 #Подати пропозицію
 #Схожі лоти
+
+TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v1
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:
+    [Tags]   тестування_картки_аукціону
+    Go to  https://prozorro.sale/?status=active.tendering
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    Verify znaid. result >0 and convert znaideno results value into integer
+
+    ${elem} =  Get text   (//*[text()='ID: ']/..)[1]   #читаємо текст ІД із превьюшки 1го аукціону в списку
+    #ікспас на превьюшці для ID: //*[text()='ID: ']/..  буде мінімум 10 аукціонів
+    ${str_without_org}=  Remove String  ${elem}  ID:
+    log to console   ${str_without_org}
+    ${elem_str_lengths}=  Get Length  ${str_without_org}
+    log to console  ${elem_str_lengths}
+    log many  ${elem_str_lengths}
+    Should Be True	 ${elem_str_lengths}>0
+
+
+TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v2
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:(Альтернативний ТК)
+    [Tags]   тестування_картки_аукціону
+    Go to  https://prozorro.sale/?status=active.tendering
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    Verify znaid. result >0 and convert znaideno results value into integer
+    Set Test Variable  ${elem_locator}  (//*[text()='ID: ']/..)[1]
+    Get second str after "SPACE"  ${elem_locator}
+    Verity element str_length > 0  ${elem_locator}
+
+
+#    ${elem} =  Get text   (//*[text()='ID: ']/..)[1]   #читаємо текст ІД із превьюшки 1го аукціону в списку
+#    #ікспас на превьюшці для ID: //*[text()='ID: ']/..  буде мінімум 10 аукціонів
+#    ${str_without_org}=  Remove String  ${elem}  ID:
+#    log to console   ${str_without_org}
+#    ${elem_str_lengths}=  Get Length  ${str_without_org}
+#    log to console  ${elem_str_lengths}
+#    log many  ${elem_str_lengths}
+#    Should Be True	 ${elem_str_lengths}>0
+
+
+    #@{valid_auctionIDs_list}=    Create List
+#    @{IDs_list} =  Get WebElements  //p[starts-with(text(),"UA-")]
+#    FOR     ${element}  IN  @{IDs_list}
+#        ${ID_text}=  Get Text   ${element}  #отримуємо ІД аукціону
+#        ${valid__auc_ID}=  Get Substring  ${ID_text}  4  #відрізаємо ID:  від ІД аукціону
+#        ${auction_links} =   Set Variable  ${PROD_HOST_URL}auction/${valid__auc_ID}  #сетапимо перемінну для валідних лінків #https://prozorro.sale/auction/UA-PS-2021-11-02-000032-1
+#        #Log to console  ${auction_links}
+#        Append To List    ${valid_auctionIDs_list}     ${auction_links}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #TC Test open auction & verify auct.Title preview card on ${PROD_HOST_URL}
 #    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності auctionTitles
@@ -360,47 +438,9 @@ Verity element str_length > 0
 #
 #    END
 #
-
-TC Test footer ${PROD_HOST_URL}za pidtrimki
-    [Documentation]  Перевірка чи відкривається розділ "За підтримки"
-    [Tags]   тестування_footer
-    Go To  ${PROD_HOST_URL}auction/search
-    Maximize Browser Window
-    #Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
-    Scroll Element Into View   xpath=//*[@alt='За підтримки...']  #локатор батона За підтримки
-    Click element   xpath=//*[@alt='За підтримки...']
-    Switch window   url:https://info.prozorro.sale/za-pidtrimki
-    Location Should Be   https://info.prozorro.sale/za-pidtrimki
-    Wait Until Element Is Visible  xpath=//*[text()='За підтримки:']  timeout=10  #перевіряємо чи є текст Для підтримки
+#
 
 
-#TC Test footer https://www.facebook.com/Prozorro.sale btn
-#    [Documentation]  Перевірка чи відкривається розділ "facebook"
-#    [Tags]   тестування_footer
-#    Go To  ${PROD_HOST_URL}auction/search
-#    Maximize Browser Window
-#    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
-#    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]   #локатор батона FB
-#    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[12]
-#    Sleep  10
-#    Switch window   title:Prozorro.Продажі - Home | Facebook
-#    Location Should Be   https://www.facebook.com/Prozorro.sale
-#    Wait Until Page Contains   Prozorro.Продажі    timeout=20
-
-#TC Test footer https://www.instagram.com/prozorro.sale btn
-#    [Documentation]  Перевірка чи відкривається розділ "instagram"
-#    [Tags]   тестування_footer
-#    Go To  ${PROD_HOST_URL}auction/search
-#    Maximize Browser Window
-#    Execute Javascript	 window.scrollTo(0,document.body.scrollHeight);
-#    Scroll Element Into View   xpath=//div[contains(@class,'footerstyles')]//descendant::a[13]   #локатор батона Інстаграм
-#    Click element   xpath=//div[contains(@class,'footerstyles')]//descendant::a[13]
-#    Sleep  10
-#    Switch window   title:Login • Instagram
-#    #Switch window   title:@prozorro.sale is on Instagram
-#    #Location Should Be   https://www.instagram.com/prozorro.sale не спрацює, тому що Інст вимагає авторизацію
-#    Location Should Contain   instagram   #https://www.instagram.com/accounts/login/
-#    #Wait Until Page Contains   Prozorro.Продажі – система онлайн аукціонів    timeout=20
 
 
 
