@@ -310,10 +310,6 @@ TC Test open auction & verify auctLotID/dgfId on auction prefiew cadr ${PROD_HOS
     Verity element str_length > 0 with value from get second string keyword  ${value_from_get_scnd_str}
 
 
-
-
-
-
 TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v1
     [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:
     [Tags]   тестування_картки_аукціону
