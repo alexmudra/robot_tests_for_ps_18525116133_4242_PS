@@ -352,9 +352,6 @@ TC Test open auction & verify GRN on auction preview cadr ${PROD_HOST_URL}
 
 
 
-
-
-
 #TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v1
 #    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:
 #    [Tags]   тестування_картки_аукціону
