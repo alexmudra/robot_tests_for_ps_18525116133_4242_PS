@@ -175,7 +175,11 @@ ${elem_locator}  Set Suite Variable  ${EMPTY}
 ...  cancelled=Аукціон відмінено
 ...  unsuccessful=Аукціон не відбувся
 
-
+#масив із currency
+&{value_currency}   eurocent=ЄВРОЦЕНТ
+...  UAH=ГРН
+...  EUR=ЄВРО
+...  USD=ДОЛАР
 
 *** Keywords ***
 Open Browser Chrome
@@ -329,10 +333,11 @@ Get float value from value.Amount without GRN
 #Схожі лоти
 #
 
-#Значення Початкова ціна реалізації лоту/value.amount >=0,
+#Значення в value.currency  == ГРН,
 
-TC Test open auction & verify value.Amount on auction preview cadr ${PROD_HOST_URL}
-    [Documentation]  Перевірка, що в полі Початкова ціна реалізації лоту >=0 #валідація на Ціна лоту https://procedure-sandbox.prozorro.sale
+TC Test open auction & verify GRN on auction preview cadr ${PROD_HOST_URL}
+    [Documentation]  Перевірка, що в полі валюта відображається ГРН #валідація на Ціна лоту https://procedure-sandbox.prozorro.sale
+    ... #ТК не актуальниц для ЗЕ
     [Tags]   тестування_картки_аукціону
     Go to  ${PROD_HOST_URL}?status=active.tendering
     Maximize Browser Window
@@ -340,10 +345,10 @@ TC Test open auction & verify value.Amount on auction preview cadr ${PROD_HOST_U
     Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
     Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
     Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-    Set Test Variable  ${elem_locator}   (//*[text()='початкова ціна реалізації лоту']/..)[1]  #ікспас для поля Початкова ціна реалізації лоту
-    ${float_lotValueAmount}  Get float value from value.Amount without GRN  ${elem_locator}
-    Log to console & log to report  ${float_lotValueAmount}
-    Should Be True  ${float_lotValueAmount}>=0
+
+    ${elem_locator}=  Get text   (//*[text()='грн'])[1]  #ікспас для поля ГРН
+    Log to console & log to report  ${elem_locator}
+    Should Be Equal As Strings  ${value_currency.UAH}  ${elem_locator}
 
 
 
