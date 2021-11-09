@@ -305,12 +305,10 @@ Log to console & log to report
 #Схожі лоти
 #
 
+#Кількість літер/смволів в procuringEntity,address.locality >0,
 
-#Кількість літер/символів в Опис/description >0,
-
-
-TC Test open auction & verify descriptionId on auction prefiew cadr ${PROD_HOST_URL}
-    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності в полі Опис лоту
+TC Test open auction & verify organizatorLocality on auction preview cadr ${PROD_HOST_URL}
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності в полі Адреса організатора
     [Tags]   тестування_картки_аукціону
     Go to  ${PROD_HOST_URL}?status=active.tendering
     Maximize Browser Window
@@ -319,7 +317,7 @@ TC Test open auction & verify descriptionId on auction prefiew cadr ${PROD_HOST_
     Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
     Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
 
-    ${txt_value_locator}=  Get text   (//*[@class="disclosurestyles__Description-k18g9b-0 gTzrVv"])[1]  #ікспас для поля опис на картці аукціону
+    ${txt_value_locator}=  Get text   (//*[@class="cardcomponent__Marked-sc-11bhbdb-4 dMJTLM"]//following-sibling::span)[1]  #ікспас для поля адреса орга в превью аукціону
     Log to console & log to report  ${txt_value_locator}
 
     Verity element str_length > 0 with value from get second string keyword  ${txt_value_locator}

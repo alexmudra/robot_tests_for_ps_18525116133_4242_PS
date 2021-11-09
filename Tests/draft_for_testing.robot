@@ -296,6 +296,23 @@ Log to console & log to report
 
 *** Test Cases ***
 
+#Кількість літер/смволів в procuringEntity,address.locality >0,
+TC Test open auction & verify organizatorLocality on auction preview cadr ${PROD_HOST_URL}
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності в полі Адреса організатора
+    [Tags]   тестування_картки_аукціону
+    Go to  ${PROD_HOST_URL}?status=active.tendering
+    Maximize Browser Window
+    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+
+    ${txt_value_locator}=  Get text   (//*[@class="cardcomponent__Marked-sc-11bhbdb-4 dMJTLM"]//following-sibling::span)[1]  #ікспас для поля адреса
+    Log to console & log to report  ${txt_value_locator}
+
+    Verity element str_length > 0 with value from get second string keyword  ${txt_value_locator}
+
+
 #Кількість літер/символів в Опис/description >0,
 
 TC Test open auction & verify descriptionId on auction prefiew cadr ${PROD_HOST_URL}
