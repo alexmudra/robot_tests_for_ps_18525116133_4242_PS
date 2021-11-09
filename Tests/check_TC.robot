@@ -3,8 +3,8 @@ Library     SeleniumLibrary
 Library  String
 Library  DateTime
 Library  Collections
-Suite Setup  Open Browser Chrome in headless_mode
-#Suite Setup  Open main_page_prod in UI Chome mode
+#Suite Setup  Open Browser Chrome in headless_mode
+Suite Setup  Open main_page_prod in UI Chome mode
 Suite Teardown  Close All Browsers
 #Suite Teardown  Run Keyword If All Tests Passed  Всі тести ПАСС! Портал працює так як треба.
 
@@ -333,11 +333,10 @@ Get float value from value.Amount without GRN
 #Схожі лоти
 #
 
-#Значення в value.currency  == ГРН,
+#Кількість символів в Оголошено / data.date/datePublished >0
 
-TC Test open auction & verify GRN on auction preview cadr ${PROD_HOST_URL}
-    [Documentation]  Перевірка, що в полі валюта відображається ГРН #валідація на Ціна лоту https://procedure-sandbox.prozorro.sale
-    ... #ТК не актуальниц для ЗЕ
+TC Test open auction & verify Ogolosheno on auction preview cadr ${PROD_HOST_URL}
+    [Documentation]  Перевірка, що в полі Оголошено відображається дата #валідація на Оголошено тут: https://procedure-sandbox.prozorro.sale
     [Tags]   тестування_картки_аукціону
     Go to  ${PROD_HOST_URL}?status=active.tendering
     Maximize Browser Window
@@ -346,9 +345,10 @@ TC Test open auction & verify GRN on auction preview cadr ${PROD_HOST_URL}
     Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
     Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
 
-    ${elem_locator}=  Get text   (//*[text()='грн'])[1]  #ікспас для поля ГРН
-    Log to console & log to report  ${elem_locator}
-    Should Be Equal As Strings  ${value_currency.UAH}  ${elem_locator}
+    Set Test Variable  ${elem_locator}  (//*[text()='Оголошено: ']//..)[1]  #ікспас для поля Оголошено
+    Log many  ${elem_locator}
+    ${value_from_get_scnd_str}  Get second str after separator ": " for verity elements length  ${elem_locator}
+    Verity element str_length > 0 with value from get second string keyword  ${value_from_get_scnd_str}
 
 
 
