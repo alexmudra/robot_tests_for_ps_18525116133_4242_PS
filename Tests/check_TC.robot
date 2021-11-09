@@ -333,10 +333,10 @@ Get float value from value.Amount without GRN
 #Схожі лоти
 #
 
-#Кількість символів в Оголошено / data.date/datePublished >0
+#Кількість символів в Початок аукціону/ startDate. auctionPeriod >0
 
-TC Test open auction & verify Ogolosheno on auction preview cadr ${PROD_HOST_URL}
-    [Documentation]  Перевірка, що в полі Оголошено відображається дата #валідація на Оголошено тут: https://procedure-sandbox.prozorro.sale
+TC Test open auction & verify auctionStardDate on auction preview cadr ${PROD_HOST_URL}
+    [Documentation]  Перевірка, що в полі Оголошено відображається дата початку аукціону
     [Tags]   тестування_картки_аукціону
     Go to  ${PROD_HOST_URL}?status=active.tendering
     Maximize Browser Window
@@ -345,55 +345,12 @@ TC Test open auction & verify Ogolosheno on auction preview cadr ${PROD_HOST_URL
     Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
     Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
 
-    Set Test Variable  ${elem_locator}  (//*[text()='Оголошено: ']//..)[1]  #ікспас для поля Оголошено
+    Set Test Variable  ${elem_locator}  (//*[text()='Початок аукціону: ']//..)[1]  #ікспас для поля Початок аукуціону:
     Log many  ${elem_locator}
     ${value_from_get_scnd_str}  Get second str after separator ": " for verity elements length  ${elem_locator}
     Verity element str_length > 0 with value from get second string keyword  ${value_from_get_scnd_str}
 
 
-
-#TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v1
-#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:
-#    [Tags]   тестування_картки_аукціону
-#    Go to  https://prozorro.sale/?status=active.tendering
-#    Maximize Browser Window
-#    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-#    Verify znaid. result >0 and convert znaideno results value into integer
-#
-#    ${elem} =  Get text   (//*[text()='ID: ']/..)[1]   #читаємо текст ІД із превьюшки 1го аукціону в списку
-#    #ікспас на превьюшці для ID: //*[text()='ID: ']/..  буде мінімум 10 аукціонів
-#    ${str_without_org}=  Remove String  ${elem}  ID:
-#    log to console   ${str_without_org}
-#    ${elem_str_lengths}=  Get Length  ${str_without_org}
-#    log to console  ${elem_str_lengths}
-#    log many  ${elem_str_lengths}
-#    Should Be True	 ${elem_str_lengths}>0
-
-
-#TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v2
-#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:(Альтернативний ТК)
-#    [Tags]   тестування_картки_аукціону
-#    Go to  https://prozorro.sale/?status=active.tendering
-#    Maximize Browser Window
-#    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-#    Verify znaid. result >0 and convert znaideno results value into integer
-#    Set Test Variable  ${elem_locator}  (//*[text()='Оголошено: ']/..)[1]
-#    ${check_elem_lctr_value}=  Get text   ${elem_locator}
-#    log to console  після перезаписування значення локатора наступне:${check_elem_lctr_value}
-#    log many  після перезаписування значення локатора наступне:${check_elem_lctr_value}
-#    Get second str after separator ": "  ${elem_locator}
-#    Verity element str_length > 0  ${elem_locator}
-
-    #(//*[text()='Оголошено: ']/..)[1]  #ікспас для Оголошено: (дата)
-
-#    ${elem} =  Get text   (//*[text()='ID: ']/..)[1]   #читаємо текст ІД із превьюшки 1го аукціону в списку
-#    #ікспас на превьюшці для ID: //*[text()='ID: ']/..  буде мінімум 10 аукціонів
-#    ${str_without_org}=  Remove String  ${elem}  ID:
-#    log to console   ${str_without_org}
-#    ${elem_str_lengths}=  Get Length  ${str_without_org}
-#    log to console  ${elem_str_lengths}
-#    log many  ${elem_str_lengths}
-#    Should Be True	 ${elem_str_lengths}>0
 
 
     #@{valid_auctionIDs_list}=    Create List

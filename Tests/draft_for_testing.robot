@@ -322,6 +322,24 @@ Get float value from value.Amount without GRN
 
 *** Test Cases ***
 
+#Кількість символів в Початок аукціону/ startDate. auctionPeriod >0
+
+TC Test open auction & verify auctionStardDate on auction preview cadr ${PROD_HOST_URL}
+    [Documentation]  Перевірка, що в полі Оголошено відображається дата початку аукціону
+    [Tags]   тестування_картки_аукціону
+    Go to  ${PROD_HOST_URL}?status=active.tendering
+    Maximize Browser Window
+    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+
+    Set Test Variable  ${elem_locator}  (//*[text()='Початок аукціону: ']//..)[1]  #ікспас для поля Початок аукуціону:
+    Log many  ${elem_locator}
+    ${value_from_get_scnd_str}  Get second str after separator ": " for verity elements length  ${elem_locator}
+    Verity element str_length > 0 with value from get second string keyword  ${value_from_get_scnd_str}
+
+
 #Кількість символів в Оголошено / data.date/datePublished >0
 
 TC Test open auction & verify Ogolosheno on auction preview cadr ${PROD_HOST_URL}
