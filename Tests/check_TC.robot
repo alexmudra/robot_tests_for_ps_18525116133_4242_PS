@@ -289,6 +289,11 @@ Verity element str_length > 0 with value from get second string keyword
     log many  ${elem_str_lengths}
     Should Be True	 ${elem_str_lengths}>0
 
+Log to console & log to report
+    [Arguments]  ${arg}
+    log to console  Інформація в консолі: ${arg}
+    log many  Інформація для зручного аналізу в репорті: ${arg}
+
 *** Test Cases ***
 
 #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1635952953010500
@@ -301,11 +306,11 @@ Verity element str_length > 0 with value from get second string keyword
 #
 
 
-#Кількість символів/літер/число в № лоту: N/dgfID/lotID >0,
+#Кількість літер/символів в Опис/description >0,
 
 
-TC Test open auction & verify auctLotID/dgfId on auction prefiew cadr ${PROD_HOST_URL}
-    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності поля № лоту:
+TC Test open auction & verify descriptionId on auction prefiew cadr ${PROD_HOST_URL}
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності в полі Опис лоту
     [Tags]   тестування_картки_аукціону
     Go to  ${PROD_HOST_URL}?status=active.tendering
     Maximize Browser Window
@@ -314,11 +319,10 @@ TC Test open auction & verify auctLotID/dgfId on auction prefiew cadr ${PROD_HOS
     Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
     Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
 
-    Set Test Variable  ${elem_locator}   (//*[text()="№ лоту: "])[1]  #ікспас для № лоту:
-    Log many  ${elem_locator}
-    ${value_from_get_scnd_str}  Get second str after separator ": " for verity elements length  ${elem_locator}
+    ${txt_value_locator}=  Get text   (//*[@class="disclosurestyles__Description-k18g9b-0 gTzrVv"])[1]  #ікспас для поля опис на картці аукціону
+    Log to console & log to report  ${txt_value_locator}
 
-    Verity element str_length > 0 with value from get second string keyword  ${value_from_get_scnd_str}
+    Verity element str_length > 0 with value from get second string keyword  ${txt_value_locator}
 
 
 
