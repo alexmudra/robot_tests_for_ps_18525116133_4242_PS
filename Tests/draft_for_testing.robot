@@ -264,7 +264,53 @@ Get second str after separator ": "
     log many         Субстрінга така:${list_string}[1]
     ${num}=         evaluate       '${list_string}[1]'.replace(',','')
 
+Get second str after separator ": " for verity elements length
+    [Arguments]   ${elem_locator}
+    Set Test Variable  ${get_txt_from_both_part}  ${EMPTY}
+    ${get_txt_from_both_part}=   Get text   ${elem_locator}
+    Set Test Variable  ${sep}   :
+    log to console  ${sep}
+    #Set Test Suite  @{list_string}   @{EMPTY}
+    @{list_string}=     split string    ${get_txt_from_both_part}    separator=${sep}   #за індексом 1 буде текст із ID, Органі
+    #затор Оголошено:, Початок аукціону:, № лоту:
+    log to console   Субстрінга така:${list_string}[1]
+    log many         Субстрінга така:${list_string}[1]
+    #${num}=         evaluate       '${list_string}[1]'.replace(',','')
+    [RETURN]  ${list_string}[1]
+
+Verity element str_length > 0 with value from get second string keyword
+    [Arguments]   ${second_str}
+    #${q}  Get text  ${elem_locator}
+    #Should Be Equal As Strings
+    log to console  ${second_str}
+    log many  ${second_str}
+    ${elem_str_lengths}=  Get Length  ${second_str}
+    log to console  ${elem_str_lengths}
+    log many  ${elem_str_lengths}
+    Should Be True	 ${elem_str_lengths}>0
+
 *** Test Cases ***
+
+#Кількість символів/літер/число в № лоту: N/dgfID/lotID >0,
+
+TC Test open auction & verify auctLotID/dgfId on auction prefiew cadr ${PROD_HOST_URL}
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності поля № лоту:
+    [Tags]   тестування_картки_аукціону
+    Go to  ${PROD_HOST_URL}?status=active.tendering
+    Maximize Browser Window
+    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+
+    Set Test Variable  ${elem_locator}   (//*[text()="№ лоту: "])[1]  #ікспас для № лоту:
+    Log many  ${elem_locator}
+    ${value_from_get_scnd_str}  Get second str after separator ": " for verity elements length  ${elem_locator}
+
+    Verity element str_length > 0 with value from get second string keyword  ${value_from_get_scnd_str}
+
+
+
 
 
 
