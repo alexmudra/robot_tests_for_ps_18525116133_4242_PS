@@ -161,7 +161,19 @@ ${lctr_auct_ID}   xpath=//strong[text()='ID: ']
 
 #Set Suite Variable  ${elem_locator}   ${EMPTY}
 ${elem_locator}  Set Suite Variable  ${EMPTY}
-#xpath=(//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+
+#масив із статусами аукціонів
+&{auction_statuses}   active_rectification=Період редагування
+...  active_tendering=Прийняття заяв на участь
+...  active_auction=Аукціон
+...  active.enquiry=Період уточнень
+...  active_qualification=Очікується публікування протоколу
+...  active_awarded=Очікується підписання договору
+...  pending_payment=Очікується сплата до бюджету
+...  complete=Аукціон завершено.Договір підписано
+...  cancelled=Аукціон відмінено
+...  unsuccessful=Аукціон не відбувся
+
 
 
 
@@ -295,6 +307,23 @@ Log to console & log to report
     log many  Інформація для зручного аналізу в репорті: ${arg}
 
 *** Test Cases ***
+
+#Значення в полі Електронний аукціон повинно бути ==Прийняття заяв на участь/active.tendering,
+
+TC Test open auction & verify auct.Status==${auction_statuses.active_tendering} on auction preview cadr ${PROD_HOST_URL}
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності в полі Адреса організатора
+    [Tags]   тестування_картки_аукціону
+    Go to  ${PROD_HOST_URL}?status=active.tendering
+    Maximize Browser Window
+    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+
+    ${txt_value_locator}=  Get text   (//*[@class='cardcomponent__Marked-sc-11bhbdb-4 dMJTLM'])[1]  #ікспас для поля Статус в превью аукціону
+    Log to console & log to report  ${txt_value_locator}
+    Should Be Equal As Strings  ${auction_statuses.active_tendering}  ${txt_value_locator}
+
 
 #Кількість літер/смволів в procuringEntity,address.locality >0,
 TC Test open auction & verify organizatorLocality on auction preview cadr ${PROD_HOST_URL}
