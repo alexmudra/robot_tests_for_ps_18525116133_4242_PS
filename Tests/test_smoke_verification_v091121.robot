@@ -195,6 +195,55 @@ Get elements count
     log to console  "Quontity of ID elements are:" ${count}
     log many  ${count}
 
+
+Verify auction titles
+    [Arguments]  @{valid_auctionIDs_list}
+
+    Go To  ${valid_auctionIDs_list}[1]
+    ${title_txt}=   Get Title
+    Log to console   ${title_txt}
+    Log Many  ${title_txt}
+    Title Should Be  ${title_txt}
+    Capture Page Screenshot
+
+Verify znaid. result >0 and convert znaideno results value into integer
+
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+    ${without_wSpace_srch_results_aucID}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    Set Suite Variable  ${converted_znaideno_value_to_int}   ${EMPTY}
+    ${converted_znaideno_value_to_int}=   Convert To Integer  ${without_wSpace_srch_results_aucID}
+    log to console  Результати пошуку в числовому форматі:${converted_znaideno_value_to_int}
+    Log many  Результати пошуку в числовому форматі:${converted_znaideno_value_to_int}
+
+Verify page shouldn't contain error phrases  #задача тут https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+    Page Should Not Contain  Документ завантажується
+    Page Should Not Contain  Помилка завантаження
+
+Verity element str_length > 0
+    [Arguments]   ${elem_locator}
+    ${q}  Get text  ${elem_locator}
+    #Should Be Equal As Strings
+    ${elem_str_lengths}=  Get Length  ${q}  #message=Текст наявний!
+    log to console  ${elem_str_lengths}
+    log many  ${q}
+    log many  ${elem_str_lengths}
+    Should Be True	 ${elem_str_lengths}>0
+
+Get second str after separator ": "
+    [Arguments]   ${elem_locator}
+    Set Test Variable  ${get_txt_from_both_part}  ${EMPTY}
+    ${get_txt_from_both_part}=   Get text   ${elem_locator}
+    Set Test Variable  ${sep}   :
+    log to console  ${sep}
+    #Set Test Suite  @{list_string}   @{EMPTY}
+    @{list_string}=     split string    ${get_txt_from_both_part}    separator=${sep}   #за індексом 1 буде текст із ID, Органі
+    #затор Оголошено:, Початок аукціону:, № лоту:
+    log to console   Субстрінга така:${list_string}[1]
+    log many         Субстрінга така:${list_string}[1]
+    ${num}=         evaluate       '${list_string}[1]'.replace(',','')
+
+
 *** Test Cases ***
 
 TC Test header ${PROD_HOST_URL}/aboutUS
@@ -858,3 +907,85 @@ TC Test footer ${PROD_HOST_URL}za pidtrimki
     Switch window   url:https://info.prozorro.sale/za-pidtrimki
     Location Should Be   https://info.prozorro.sale/za-pidtrimki
     Wait Until Element Is Visible  xpath=//*[text()='За підтримки:']  timeout=10  #перевіряємо чи є текст Для підтримки
+
+
+TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v1
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:
+    [Tags]   тестування_картки_аукціону
+    Go to  https://prozorro.sale/?status=active.tendering
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    Verify znaid. result >0 and convert znaideno results value into integer
+
+    ${elem} =  Get text   (//*[text()='ID: ']/..)[1]   #читаємо текст ІД із превьюшки 1го аукціону в списку
+    #ікспас на превьюшці для ID: //*[text()='ID: ']/..  буде мінімум 10 аукціонів
+    ${str_without_org}=  Remove String  ${elem}  ID:
+    log to console   ${str_without_org}
+    ${elem_str_lengths}=  Get Length  ${str_without_org}
+    log to console  ${elem_str_lengths}
+    log many  ${elem_str_lengths}
+    Should Be True	 ${elem_str_lengths}>0
+
+
+TC Test active.tendering>0,Test open auction & verify auct.ID in preview card on ${PROD_HOST_URL}.v2
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності ID:(Альтернативний ТК)
+    [Tags]   тестування_картки_аукціону
+    Go to  https://prozorro.sale/?status=active.tendering
+    Maximize Browser Window
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    Verify znaid. result >0 and convert znaideno results value into integer
+    Set Test Variable  ${elem_locator}  (//*[text()='ID: ']/..)[1]
+    Get second str after separator ": "  ${elem_locator}
+    Verity element str_length > 0  ${elem_locator}
+
+
+
+TC Test open auction & verify auct.Title preview card on ${PROD_HOST_URL}
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності auctionTitles
+    [Tags]   тестування_картки_аукціону
+    Go to  ${PROD_HOST_URL}?status=active.tendering
+    Maximize Browser Window
+    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+    #Run Keyword If  ${converted_znaideno_value_to_int}>0
+    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]   timeout=20
+    Set Test Variable  ${elem_locator}  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]  #ікспас для превью тайтлік процедур
+    Verity element str_length > 0  ${elem_locator}
+
+
+
+TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL}
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
+    [Tags]   тестування_картки_аукціону
+    Go to  ${PROD_HOST_URL}?status=active.tendering
+    Maximize Browser Window
+    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+
+    ${elem} =  Get text   //*[text()='Організатор: ']/..   #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
+    ${str_without_org}=  Remove String  ${elem}  Організатор:
+    log to console   ${str_without_org}
+    #//*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор. Значення [object Text]. It should be an element.
+    ${elem_str_lengths}=  Get Length  ${str_without_org}
+    log to console  ${elem_str_lengths}
+    log many  ${elem_str_lengths}
+    Should Be True	 ${elem_str_lengths}>0
+
+
+TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL} with spec keyword
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
+    [Tags]   тестування_картки_аукціону
+    Go to  ${PROD_HOST_URL}?status=active.tendering
+    Maximize Browser Window
+    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+
+    Set Test Variable  ${elem_locator}  (//*[text()='Організатор: ']/..)[1]
+    Log many  ${elem_locator}
+    Get second str after separator ": "  ${elem_locator}
+    Verity element str_length > 0  ${elem_locator}

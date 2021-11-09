@@ -275,24 +275,35 @@ Get second str after separator ": "
 #Схожі лоти
 #
 
-TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL} вліоатдлоіва
-    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
+#TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL} вліоатдлоіва
+#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
+#    [Tags]   тестування_картки_аукціону
+#    Go to  ${PROD_HOST_URL}?status=active.tendering
+#    Maximize Browser Window
+#    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+#    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+#    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+#    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+#
+#    Set Test Variable  ${elem_locator}  (//*[text()='Організатор: ']/..)[1]
+#    Log many  ${elem_locator}
+#    Get second str after separator ": "  ${elem_locator}
+#    Verity element str_length > 0  ${elem_locator}
+
+
+
+TC Test open auction & verify auct.Title preview card on ${PROD_HOST_URL}
+    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності auctionTitles
     [Tags]   тестування_картки_аукціону
     Go to  ${PROD_HOST_URL}?status=active.tendering
     Maximize Browser Window
     Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+    #Run Keyword If  ${converted_znaideno_value_to_int}>0
     Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
     Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-
-    Set Test Variable  ${elem_locator}  (//*[text()='Організатор: ']/..)[1]
-    Log many  ${elem_locator}
-    Get second str after separator ": "  ${elem_locator}
+    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]   timeout=20
+    Set Test Variable  ${elem_locator}  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]  #ікспас для превью тайтлік процедур
     Verity element str_length > 0  ${elem_locator}
-
-
-
-
 
 
 
