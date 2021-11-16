@@ -163,6 +163,7 @@ ${elem_locator}  Set Suite Variable  ${EMPTY}
 
 #локатори для тестування сторінки аукціону
 ${lnk_auction_preview_title}  xpath=(//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+${lctr_auct_page_title}   xpath=//*[@id="main"]
 *** Keywords ***
 Open Browser Chrome
     [Documentation]  Відкрити хромбраузер в UI режимі
@@ -366,7 +367,7 @@ TC Get active.tendering status+click auction page on ${PROD_HOST_URL}
 #Порівняти тайтли превью аукціону в результатах пошуку із тайтлом сторінки 1го аукціону,
 
 TC Verify previewTitle & auctionTitle page on ${PROD_HOST_URL}
-    [Documentation]  відфільтрувати Прийняття заяв на участь, вибрати рандомний аукціон
+    [Documentation]  відфільтрувати Прийняття заяв на участь, вибрати рандомний аукціон, порівняти тайтли аукціону
     [Tags]   тестування_інф-ї_на_стор-ці_аукціону
     ${auction_page_title}=  Get text    //*[@id="main"]
     ${auction_page_title}=  Remove String  ${auction_page_title}  ${SPACE}
@@ -374,4 +375,22 @@ TC Verify previewTitle & auctionTitle page on ${PROD_HOST_URL}
     log many  ${auction_page_title.strip()}
     Should Be Equal As Strings   ${s}  ${auction_page_title}
     Should Be Equal  ${s}  ${auction_page_title}  ignore_case=True
+    #Close Window
+    #Close browser
 
+
+#Відображається текст в заголовоку аукціону
+TC Verify auctionTitle in auctionPage on ${PROD_HOST_URL}{auctionID}
+    [Documentation]  перевірка відображення тайтлу аукціону
+    [Tags]   тестування_інф-ї_на_стор-ці_аукціону
+    Get active.tendering status in prod      ${PROD_HOST_URL}
+    Verify znaid. result >0 and convert znaideno results value into integer  #${converted_znaideno_value_to_int}
+    Verify page shouldn't contain error phrases
+    Scroll element into view   ${lnk_auction_preview_title}     #(//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Wait until element is visible    ${lnk_auction_preview_title}   #(//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Click element  ${lnk_auction_preview_title}
+    ${tmp}=  Get preview text title  ${lnk_auction_preview_title}
+    Switch window  title:${tmp}
+    ${title_curr_page}=  Get Title
+    ${auct_title_length}=  Get Length  ${title_curr_page}
+    Should Be True  ${auct_title_length}>0
