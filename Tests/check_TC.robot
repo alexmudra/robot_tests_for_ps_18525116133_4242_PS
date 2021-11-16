@@ -40,13 +40,12 @@ ${search_btn_magnifier}                                   xpath=(//div/button[co
 ${lctr_auct_№}                                            xpath=//div/button[@data-test-id="aid_search_action"]
 
 ${value from znaideno_v2}                                xpath=//div[contains(@class,"cards-liststyles") and contains(text(),"Знайдено: ")]
-${lctr_znaideno_srch_result}                             xpath=//span[@data-test-id='search-result-count']
+${lctr_znaideno_srch_result}                             xpath=//*[@data-test-id='search-result-count']
 ${lctr_edrpou_search_action}                             xpath=//div/button[@data-test-id="edrpou_search_action"]
 ${artcl_h3_prozorro}                                     xpath=//article/h3[contains(text(),'«Прозорро.Продажі» - державне підприємство, що')]
 ${streams_tab}                                           xpath=//span[starts-with(text(),'Напрямки роботи')]
 ${artcl_h2_prozorro}                                     xpath=//footer/div/h2/span[contains(text(),'Будуємо ')]
 ${input_aucID_srch_input}                                 xpath=//div/input[@data-test-id="aid_search_filter"]
-${btn_srch_auc_status}                                    xpath=//div/button[@data-test-id="status_search_action"]
 ${btn_srch_auc_status}                                    xpath=//div/button[@data-test-id="status_search_action"]
 
 
@@ -115,6 +114,11 @@ ${znaideno and value}   xpath=//*[@id="__next"]/div[3]/div[1]
 ${input_main_search_field}  xpath=//*[@id="__next"]/div[2]/div/div[1]/input
 
 ${lctr_search_org_input}                                 xpath=//*[@id="react-select-2-input"]
+
+#локатори для статусів
+${lctr_before_input_status}             xpath=//*[text()="Статус"][1]/following-sibling::div
+${lctr_active_tend_status}              xpath=(//*[text()="Прийняття заяв на участь"])[1]
+${lctr_active_auction_status}              xpath=(//*[text()="Аукціон"])[1]
 
 
 #values and variables
@@ -225,13 +229,15 @@ Compare zamovnik or not
     ${is_zamovnik}=  get variable value  ${lctr_is_zamovnik} #//span[@data-test-id="znaideno_value"]
     should be true  '${is_zamovnik}' in '${lctr_is_zamovnik}'   msg='значення співпадають'
 
-#Search results convert to integer on prod
-#    [Arguments]   ${value from znaideno_v2}
-#    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
-#    ${without_wSpace_srch_results}=  Remove String   ${znaideno value from prod}     ${SPACE}
-#    ${converted_to_int_srch_value}  Convert To Integer  ${without_wSpace_srch_results}
-#    log to console  "Search results in integer are:" ${converted_to_int_srch_value}
-#    log many  ${converted_to_int_srch_value}
+Get search results and convert to integer
+    #[Arguments]   ${value from znaideno_v2}
+    Wait until element is visible  ${lctr_znaideno_srch_result}    timeout=10
+    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+    ${without_wSpace_srch_results}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    ${converted_to_int_srch_value}  Convert To Integer  ${without_wSpace_srch_results}
+    log to console  "Search results in integer are:" ${converted_to_int_srch_value}
+    log many  ${converted_to_int_srch_value}
+    [RETURN]  ${converted_to_int_srch_value}
 
 Verify auction titles
     [Arguments]  @{valid_auctionIDs_list}
@@ -246,6 +252,7 @@ Verify auction titles
 Verify znaid. result >0 and convert znaideno results value into integer
 
     Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    Wait until element is visible  ${lctr_znaideno_srch_result}    timeout=10
     ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
     ${without_wSpace_srch_results_aucID}=  Remove String   ${znaideno value from prod}     ${SPACE}
     Set Suite Variable  ${converted_znaideno_value_to_int}   ${EMPTY}
@@ -320,7 +327,23 @@ Get float value from value.Amount without GRN
     ${converted_number_value_lctr}=  Convert To Number  ${txt_value_locator}
     [RETURN]  ${converted_number_value_lctr}
 
+Get active.tendering status in prod
+    [Arguments]  ${host}
+    Go to  ${host}
+    Maximize Browser Window
+    Click button      ${btn_srch_auc_status}                      #//*[@data-test-id="status_search_action"]
+    Element Should Be Visible    ${lctr_before_input_status}      #//*[text()="Статус"][1]/following-sibling::div
+    Element Should Be Visible   ${lctr_active_tend_status}        #(//*[text()="Прийняття заяв на участь"])[1]
+    Click element      ${lctr_active_tend_status}                 #(//*[text()="Прийняття заяв на участь"])[1]
 
+Get active.auction status in prod
+    [Arguments]  ${host}
+    Go to  ${host}
+    Maximize Browser Window
+    Click button      ${btn_srch_auc_status}                      #//*[@data-test-id="status_search_action"]
+    Element Should Be Visible    ${lctr_before_input_status}      #//*[text()="Статус"][1]/following-sibling::div
+    Element Should Be Visible   ${lctr_active_auction_status}        #(//*[text()="Аукціон"])[1]
+    Click element      ${lctr_active_auction_status}                 #(//*[text()="Прийняття заяв на участь"])[1]
 
 *** Test Cases ***
 
@@ -335,20 +358,28 @@ Get float value from value.Amount without GRN
 
 #Наявність картинки або заглушки(https://prozorro.sale/images/entity-placeholders)
 
-TC Test open auction & verify auctionStardDate on auction preview cadr ${PROD_HOST_URL}
-    [Documentation]  Перевірка, що в полі Оголошено відображається дата початку аукціону
-    [Tags]   тестування_картки_аукціону
-    Go to  https://prozorro.sale
+TC Get active.tendering status on ${PROD_HOST_URL}
+    [Documentation]  вибрати Прийняття заяв на участь побачити результати в інт
+    [Tags]   тестування_пошукової_форми
+    Go to  ${PROD_HOST_URL}
     Maximize Browser Window
-    Click button  //*[@data-test-id="status_search_action"]
-    Element Should Be Visible   //*[text()="Статус"][1]/following-sibling::div
-    Element Should Be Visible  (//*[text()="Прийняття заяв на участь"])[1]
-    Click element   (//*[text()="Прийняття заяв на участь"])[1]
-    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
-    ${without_wSpace_srch_results_1}=  Remove String   ${znaideno value from prod}     ${SPACE}
-    log to console  ${without_wSpace_srch_results_1}
-    log  ${without_wSpace_srch_results_1}
+    Get active.tendering status in prod  ${PROD_HOST_URL}
+    Get search results and convert to integer
+
+
+TC Get active.auction status on ${PROD_HOST_URL}
+    [Documentation]  вибрати Прийняття заяв на участь побачити результати в інт
+    [Tags]   тестування_пошукової_форми
+    Go to  ${PROD_HOST_URL}
+#    Maximize Browser Window
+#    Click button  //*[@data-test-id="status_search_action"]
+#    Element Should Be Visible   //*[text()="Статус"][1]/following-sibling::div
+#    Element Should Be Visible  (//*[text()="Аукціон"])[1]
+#    Click element   (//*[text()="Аукціон"])[1]
+    Get active.auction status in prod  ${PROD_HOST_URL}
+    Get search results and convert to integer
+
+
     Close All Browsers
 
 
