@@ -5,7 +5,7 @@ Library  DateTime
 Library  Collections
 #Suite Setup  Open Browser Chrome in headless_mode
 Suite Setup  Open main_page_prod in UI Chome mode
-#Suite Teardown  Close All Browsers
+Suite Teardown  Close All Browsers
 #Suite Teardown  Run Keyword If All Tests Passed  Всі тести ПАСС! Портал працює так як треба.
 
 
@@ -343,20 +343,9 @@ Get active.auction status in prod
     Click button      ${btn_srch_auc_status}                      #//*[@data-test-id="status_search_action"]
     Element Should Be Visible    ${lctr_before_input_status}      #//*[text()="Статус"][1]/following-sibling::div
     Element Should Be Visible   ${lctr_active_auction_status}        #(//*[text()="Аукціон"])[1]
-    Click element      ${lctr_active_auction_status}                 #(//*[text()="Прийняття заяв на участь"])[1]
+    Click element      ${lctr_active_auction_status}                 #(//*[text()="Аукціон"])[1]
 
 *** Test Cases ***
-
-#https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1635952953010500
-#обязательные блоки:
-#Інформація про аукціон
-#Критерії вибору переможця
-#Документація
-#Подати пропозицію
-#Схожі лоти
-#
-
-#Наявність картинки або заглушки(https://prozorro.sale/images/entity-placeholders)
 
 TC Get active.tendering status on ${PROD_HOST_URL}
     [Documentation]  вибрати Прийняття заяв на участь побачити результати в інт
@@ -378,9 +367,6 @@ TC Get active.auction status on ${PROD_HOST_URL}
 #    Click element   (//*[text()="Аукціон"])[1]
     Get active.auction status in prod  ${PROD_HOST_URL}
     Get search results and convert to integer
-
-
-    Close All Browsers
 
 
 
