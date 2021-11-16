@@ -5,7 +5,7 @@ Library  DateTime
 Library  Collections
 #Suite Setup  Open Browser Chrome in headless_mode
 Suite Setup  Open main_page_prod in UI Chome mode
-Suite Teardown  Close All Browsers
+#Suite Teardown  Close All Browsers
 #Suite Teardown  Run Keyword If All Tests Passed  Всі тести ПАСС! Портал працює так як треба.
 
 
@@ -333,22 +333,44 @@ Get float value from value.Amount without GRN
 #Схожі лоти
 #
 
-#Кількість символів в Початок аукціону/ startDate. auctionPeriod >0
+#Наявність картинки або заглушки(https://prozorro.sale/images/entity-placeholders)
 
 TC Test open auction & verify auctionStardDate on auction preview cadr ${PROD_HOST_URL}
     [Documentation]  Перевірка, що в полі Оголошено відображається дата початку аукціону
     [Tags]   тестування_картки_аукціону
-    Go to  ${PROD_HOST_URL}?status=active.tendering
+    Go to  https://prozorro.sale
     Maximize Browser Window
-    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
-    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
-    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Click button  //*[@data-test-id="status_search_action"]
+    Element Should Be Visible   //*[text()="Статус"][1]/following-sibling::div
+    Element Should Be Visible  (//*[text()="Прийняття заяв на участь"])[1]
+    Click element   (//*[text()="Прийняття заяв на участь"])[1]
+    Wait until element is visible  ${value from znaideno_v2}    timeout=20
+    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+    ${without_wSpace_srch_results_1}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    log to console  ${without_wSpace_srch_results_1}
+    log  ${without_wSpace_srch_results_1}
+    Close All Browsers
 
-    Set Test Variable  ${elem_locator}  (//*[text()='Початок аукціону: ']//..)[1]  #ікспас для поля Початок аукуціону:
-    Log many  ${elem_locator}
-    ${value_from_get_scnd_str}  Get second str after separator ": " for verity elements length  ${elem_locator}
-    Verity element str_length > 0 with value from get second string keyword  ${value_from_get_scnd_str}
+
+
+
+
+
+
+#TC Test open auction & verify auctionStardDate on auction preview cadr ${PROD_HOST_URL}
+#    [Documentation]  Перевірка, що в полі Оголошено відображається дата початку аукціону
+#    [Tags]   тестування_картки_аукціону
+#    Go to  ${PROD_HOST_URL}?status=active.tendering
+#    Maximize Browser Window
+#    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
+#    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
+#    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+#    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+#
+#    Set Test Variable  ${elem_locator}  (//*[text()='Початок аукціону: ']//..)[1]  #ікспас для поля Початок аукуціону:
+#    Log many  ${elem_locator}
+#    ${value_from_get_scnd_str}  Get second str after separator ": " for verity elements length  ${elem_locator}
+#    Verity element str_length > 0 with value from get second string keyword  ${value_from_get_scnd_str}
 
 
 
