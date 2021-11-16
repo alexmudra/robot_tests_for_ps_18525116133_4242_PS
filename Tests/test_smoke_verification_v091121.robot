@@ -113,10 +113,13 @@ ${input_to_kluch_slovo}        xpath=//input[@name="query"]
 ${znaideno elements}  xpath=//span[@data-test-id="znaideno_value"]
 ${znaideno elements}  xpath=//span[@data-test-id="znaideno_value"]
 ${znaideno and value}   xpath=//*[@id="__next"]/div[3]/div[1]
-
 ${input_main_search_field}  xpath=//*[@id="__next"]/div[2]/div/div[1]/input
-
 ${lctr_search_org_input}                                 xpath=//*[@id="react-select-2-input"]
+
+#локатори для статусів
+${lctr_before_input_status}             xpath=//*[text()="Статус"][1]/following-sibling::div
+${lctr_active_tend_status}              xpath=(//*[text()="Прийняття заяв на участь"])[1]
+${lctr_active_auction_status}              xpath=(//*[text()="Аукціон"])[1]
 
 
 #values and variables
@@ -242,6 +245,35 @@ Get second str after separator ": "
     log to console   Субстрінга така:${list_string}[1]
     log many         Субстрінга така:${list_string}[1]
     ${num}=         evaluate       '${list_string}[1]'.replace(',','')
+
+Get search results and convert to integer
+    #[Arguments]   ${value from znaideno_v2}
+    Wait until element is visible  ${lctr_znaideno_srch_result}    timeout=10
+    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
+    ${without_wSpace_srch_results}=  Remove String   ${znaideno value from prod}     ${SPACE}
+    ${converted_to_int_srch_value}  Convert To Integer  ${without_wSpace_srch_results}
+    log to console  "Search results in integer are:" ${converted_to_int_srch_value}
+    log many  ${converted_to_int_srch_value}
+    [RETURN]  ${converted_to_int_srch_value}
+
+Get active.tendering status in prod
+    [Arguments]  ${host}
+    Go to  ${host}
+    Maximize Browser Window
+    Click button      ${btn_srch_auc_status}                      #//*[@data-test-id="status_search_action"]
+    Element Should Be Visible    ${lctr_before_input_status}      #//*[text()="Статус"][1]/following-sibling::div
+    Element Should Be Visible   ${lctr_active_tend_status}        #(//*[text()="Прийняття заяв на участь"])[1]
+    Click element      ${lctr_active_tend_status}                 #(//*[text()="Прийняття заяв на участь"])[1]
+
+Get active.auction status in prod
+    [Arguments]  ${host}
+    Go to  ${host}
+    Maximize Browser Window
+    Click button      ${btn_srch_auc_status}                      #//*[@data-test-id="status_search_action"]
+    Element Should Be Visible    ${lctr_before_input_status}      #//*[text()="Статус"][1]/following-sibling::div
+    Element Should Be Visible   ${lctr_active_auction_status}        #(//*[text()="Аукціон"])[1]
+    Click element      ${lctr_active_auction_status}                 #(//*[text()="Аукціон"])[1]
+
 
 
 *** Test Cases ***

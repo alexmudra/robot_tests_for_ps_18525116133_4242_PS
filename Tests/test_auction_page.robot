@@ -21,8 +21,8 @@ ${msg_link_is}                                           Лінк має нас�
 ${msg_identical}                                         Сторінки ідентичні
 ${msg_not_identical}                                     Сторінки не ідентичні
 ${text_znaideno}                               Знайдено:
-${msg}  УРЛ вікна браузера:
-${auc_ID_prod}  UA-PS-2021-09-24-000017-1
+${msg}                                              УРЛ вікна браузера:
+${auc_ID_prod}                                          UA-PS-2021-09-24-000017-1
 
 
 #LOCATORS
@@ -74,15 +74,6 @@ ${search_btn_magnifier}                                   xpath=(//div/button[co
 ${value from znaideno_v2}                                xpath=//div[contains(@class,"cards-liststyles") and contains(text(),"Знайдено: ")]
 ${lctr_znaideno_srch_result}                             xpath=//span[@data-test-id='search-result-count']
 ${lctr_edrpou_search_action}                             xpath=//div/button[@data-test-id="edrpou_search_action"]
-${artcl_h3_prozorro}                                     xpath=//div/h3[starts-with(text(),'Фінансова інформація')]
-${artcl_h4_prozorro}                                     xpath=//div/h3[starts-with(text(),'Команда ProZorro.Продажі')]
-${artcl_h5_prozorro_handbook}                                     xpath=//div/h1[starts-with(text(),'#ПРОЗОРИЙДОВІДНИК')]
-${artcl_h6_prozorro_vutyag}                                     xpath=//div/h3[starts-with(text(),'Витяги з протоколів засіданнь')]
-${artcl_h7_prozorro_declar_sob}                                     xpath=//div/p[starts-with(text(),'Декларації Соболева О.Д. (річні):')]
-${artcl_h8_prozorro}                                     xpath=//p[@class='oc-text-gray']
-${artcl_h9_prozorro}                                     xpath=//table[@class='violet sticky-second']
-${artcl_h10_prozorro}                                     xpath=//div/h5[starts-with(text(),'Ринок землі')]
-${artcl_h11_prozorro}                                     xpath=//div/h2[starts-with(text(),'Інженер з кібербезпеки')]
 
 
 #перемінні із http://185.25.116.133:4242/
@@ -130,21 +121,6 @@ ${btn_date-picker_prod}  xpath=//button[@data-test-id="auction_date_search_actio
 ${input_date_picker_1}  xpath=(//*[contains(@class,"date-pickerstyles")])[2]
 ${input_date_picker_2}  xpath=(//*[contains(@class,"date-pickerstyles")])[3]
 
-#від Ані
-${tab_about_us}                                      xpath=//li/a[starts-with(text(),'Про нас')]
-${tab_news}                                          xpath=//main/div/div/h4[contains(text(),'Новини')]
-${tab_napr_roboty}                                   xpath=//*[@id="__next"]/header/nav/div/ul/li[3]/div
-${tab_land_market}                                   xpath=//li/a[contains(text(),'Ринок землі')]
-${tab_analytics}                                     xpath=//li/a[starts-with(text(),'Аналітика')]
-${tab_korystuvacham}                                 xpath=//li/a[starts-with(text(),'Користувачам')]
-${tab_contacts}                                      xpath=//li/a[starts-with(text(),'Контакти')]
-${INFO_PROD_HOST_URL}                                    https://info.prozorro.sale/
-${tab_pokuptcyam}                                    xpath=//li/a[starts-with(text(),'Покупцям')]
-${tab_prodavtcyam}                                   xpath=//li/a[starts-with(text(),'Продавцям')]
-${tab_maydanchykam}                                  xpath=//li/a[starts-with(text(),'Майданчикам')]
-${tab_contacts}                                      xpath=//li/a[starts-with(text(),'Контакти')]
-
-
 #від Каті
 ${storika ne znaidena_str}  Сторінка не знайдена
 ${str_zavod}  завод
@@ -185,6 +161,8 @@ ${elem_locator}  Set Suite Variable  ${EMPTY}
 ...  EUR=ЄВРО
 ...  USD=ДОЛАР
 
+#локатори для тестування сторінки аукціону
+${lnk_auction_preview_title}  xpath=(//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
 *** Keywords ***
 Open Browser Chrome
     [Documentation]  Відкрити хромбраузер в UI режимі
@@ -345,201 +323,55 @@ Get active.auction status in prod
     Element Should Be Visible   ${lctr_active_auction_status}        #(//*[text()="Аукціон"])[1]
     Click element      ${lctr_active_auction_status}                 #(//*[text()="Аукціон"])[1]
 
+Get preview text title
+   [Arguments]  ${lnk_auction_preview_title}
+   Set Global Variable  ${get_preview_title}  ${EMPTY}
+   ${get_preview_title}=  Get text   ${lnk_auction_preview_title}
+   #${get_preview_title}=  Remove String  ${get_preview_title}  ${SPACE}
+   [RETURN]  ${get_preview_title}
+
+Get preview text title & remove spaces in active.tendering
+   [Arguments]  ${host}  ${lnk_auction_preview_title}
+   Go to  ${host}
+   Maximize Browser Window
+   Click button      ${btn_srch_auc_status}                      #//*[@data-test-id="status_search_action"]
+   Element Should Be Visible    ${lctr_before_input_status}      #//*[text()="Статус"][1]/following-sibling::div
+   Element Should Be Visible   ${lctr_active_tend_status}
+   Click element      ${lctr_active_tend_status}
+   Wait until element is visible    ${lnk_auction_preview_title}
+   Scroll element into view   ${lnk_auction_preview_title}     #(//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+   Set Global Variable  ${get_preview_title}  ${EMPTY}
+   ${get_preview_title}=  Get text   ${lnk_auction_preview_title}
+   ${get_preview_title}=  Remove String  ${get_preview_title}  ${SPACE}
+   [RETURN]  ${get_preview_title}
+
 *** Test Cases ***
 
-#TC Get active.tendering status on ${PROD_HOST_URL}
-#    [Documentation]  вибрати Прийняття заяв на участь побачити результати в інт
-#    [Tags]   тестування_пошукової_форми
-#    Go to  ${PROD_HOST_URL}
-#    Maximize Browser Window
-#    Get active.tendering status in prod  ${PROD_HOST_URL}
-#    Get search results and convert to integer
-#
-#
-#TC Get active.auction status on ${PROD_HOST_URL}
-#    [Documentation]  вибрати Прийняття заяв на участь побачити результати в інт
-#    [Tags]   тестування_пошукової_форми
-#    Go to  ${PROD_HOST_URL}
-##    Maximize Browser Window
-##    Click button  //*[@data-test-id="status_search_action"]
-##    Element Should Be Visible   //*[text()="Статус"][1]/following-sibling::div
-##    Element Should Be Visible  (//*[text()="Аукціон"])[1]
-##    Click element   (//*[text()="Аукціон"])[1]
-#    Get active.auction status in prod  ${PROD_HOST_URL}
-#    Get search results and convert to integer
+#Відкрити 1шу в результатах пошуку, сторінку аукціону,
+
+TC Get active.tendering status+click auction page on ${PROD_HOST_URL}
+    [Documentation]  відфільтрувати Прийняття заяв на участь, вибрати рандомний аукціон
+    [Tags]   тестування_інф-ї_на_стор-ці_аукціону
+
+    Get active.tendering status in prod      ${PROD_HOST_URL}
+    Verify znaid. result >0 and convert znaideno results value into integer  #${converted_znaideno_value_to_int}
+    Verify page shouldn't contain error phrases
+    Scroll element into view   ${lnk_auction_preview_title}     #(//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Wait until element is visible    ${lnk_auction_preview_title}   #(//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
+    Click element  ${lnk_auction_preview_title}
+    ${tmp}=  Get preview text title  ${lnk_auction_preview_title}
+    Switch window  title:${tmp}
 
 
+#Порівняти тайтли превью аукціону в результатах пошуку із тайтлом сторінки 1го аукціону,
 
+TC Verify previewTitle & auctionTitle page on ${PROD_HOST_URL}
+    [Documentation]  відфільтрувати Прийняття заяв на участь, вибрати рандомний аукціон
+    [Tags]   тестування_інф-ї_на_стор-ці_аукціону
+    ${auction_page_title}=  Get text    //*[@id="main"]
+    ${auction_page_title}=  Remove String  ${auction_page_title}  ${SPACE}
+    ${s}=  Get preview text title & remove spaces in active.tendering  ${PROD_HOST_URL}   ${lnk_auction_preview_title}
+    log many  ${auction_page_title.strip()}
+    Should Be Equal As Strings   ${s}  ${auction_page_title}
+    Should Be Equal  ${s}  ${auction_page_title}  ignore_case=True
 
-
-
-
-#TC Test open auction & verify auctionStardDate on auction preview cadr ${PROD_HOST_URL}
-#    [Documentation]  Перевірка, що в полі Оголошено відображається дата початку аукціону
-#    [Tags]   тестування_картки_аукціону
-#    Go to  ${PROD_HOST_URL}?status=active.tendering
-#    Maximize Browser Window
-#    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
-#    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
-#    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-#    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-#
-#    Set Test Variable  ${elem_locator}  (//*[text()='Початок аукціону: ']//..)[1]  #ікспас для поля Початок аукуціону:
-#    Log many  ${elem_locator}
-#    ${value_from_get_scnd_str}  Get second str after separator ": " for verity elements length  ${elem_locator}
-#    Verity element str_length > 0 with value from get second string keyword  ${value_from_get_scnd_str}
-
-
-
-
-    #@{valid_auctionIDs_list}=    Create List
-#    @{IDs_list} =  Get WebElements  //p[starts-with(text(),"UA-")]
-#    FOR     ${element}  IN  @{IDs_list}
-#        ${ID_text}=  Get Text   ${element}  #отримуємо ІД аукціону
-#        ${valid__auc_ID}=  Get Substring  ${ID_text}  4  #відрізаємо ID:  від ІД аукціону
-#        ${auction_links} =   Set Variable  ${PROD_HOST_URL}auction/${valid__auc_ID}  #сетапимо перемінну для валідних лінків #https://prozorro.sale/auction/UA-PS-2021-11-02-000032-1
-#        #Log to console  ${auction_links}
-#        Append To List    ${valid_auctionIDs_list}     ${auction_links}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#TC Test open auction & verify auct.Title preview card on ${PROD_HOST_URL}
-#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності auctionTitles
-#    [Tags]   тестування_картки_аукціону
-#    Go to  ${PROD_HOST_URL}?status=active.tendering
-#    Maximize Browser Window
-#    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
-#    #Run Keyword If  ${converted_znaideno_value_to_int}>0
-#    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
-#    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-#    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]  5
-##    ${elem_str_lengths}=  Get Length  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]   #message=Текст наявний!
-##    log to console  ${elem_str_lengths}
-##    Should Be True	 ${elem_str_lengths}>0
-#    #Verity element str_length > 0
-#    #Set Test Variable  ${elem_locator}  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-#    #Set global variable  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-#     Set Test Variable  ${elem_locator}  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]  #ікспас для превью тайтлік процедур
-#
-#     Verity element str_length > 0  ${elem_locator}
-
-
-#
-#TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL}
-#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
-#    [Tags]   тестування_картки_аукціону
-#    Go to  ${PROD_HOST_URL}?status=active.tendering
-#    Maximize Browser Window
-#    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
-#    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
-#    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-#    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-#
-#    ${elem} =  Get text   //*[text()='Організатор: ']/..   #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
-#    ${str_without_org}=  Remove String  ${elem}  Організатор:
-#    log to console   ${str_without_org}
-#    #//*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор. Значення [object Text]. It should be an element.
-#    ${elem_str_lengths}=  Get Length  ${str_without_org}
-#    log to console  ${elem_str_lengths}
-#    log many  ${elem_str_lengths}
-#    Should Be True	 ${elem_str_lengths}>0
-
-
-#TC Test open auction & verify auctOrganizer on auction prefiew cadr ${PROD_HOST_URL}
-#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності Значення в полі Організатор
-#    [Tags]   тестування_картки_аукціону
-#    Go to  ${PROD_HOST_URL}?status=active.tendering
-#    Maximize Browser Window
-#    Verify znaid. result >0 and convert znaideno results value into integer     #скалярна перемінна із інтовим рез. пошуку назив. ${converted_znaideno_value_to_int}
-#    Verify page shouldn't contain error phrases  #https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1636014993002900
-#    Scroll element into view  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-#    Wait until element is visible  (//*[@target="_blank" and starts-with(@href,'/auction/')])[1]
-#
-#    ${elem} =  Get text   //*[text()='Організатор: ']/..   #ікспас на превьюшці для Організатор: //*[text()='Організатор: ']/..
-#    ${str_without_org}=  Remove String  ${elem}  Організатор:
-#    log to console   ${str_without_org}
-#    #//*[text()='Організатор: ']/..//following-sibling::text()[1]     #ікспас на превьюшці для Організатор. Значення [object Text]. It should be an element.
-#    ${elem_str_lengths}=  Get Length  ${str_without_org}
-#    log to console  ${elem_str_lengths}
-#    log many  ${elem_str_lengths}
-#    Should Be True	 ${elem_str_lengths}>0
-
-
-##https://prozorro-box.slack.com/archives/C02JCEGJPAR/p1635409751006500
-##статуси - прийом пропозицій, фільтруємо статус = прийняття заяв на участь, значення більше 0.
-##Далі відкриває перші 10 аукціонів зі списку і нема помилок тоді це успіх. Ще не готово.
-#
-#
-#TC Test search res. active.tendering>0,open auctions and verify auct.Titles
-#    [Documentation]  Порівняння результатів пошуку по статусу Прийняття заяв на участь>0, перевірка валідності auctionTitles
-#    [Tags]   тестування результатів пошуку
-#    Go to  https://prozorro.sale/?status=active.tendering
-#    Maximize Browser Window
-#    Wait until element is visible  ${value from znaideno_v2}    timeout=20
-#    ${znaideno value from prod} =  Get text   ${lctr_znaideno_srch_result}
-#    ${without_wSpace_srch_results_aucID}=  Remove String   ${znaideno value from prod}     ${SPACE}
-#    ${convert_act_tend_sts_to_int}  Convert To Integer  ${without_wSpace_srch_results_aucID}
-#    #Search results convert to integer on prod  ${value from znaideno_v2}
-#    SHOULD BE TRUE  ${convert_act_tend_sts_to_int} >0
-#    Get elements count  //p[starts-with(text(),"UA-")]    #//strong[text()='ID: '] або //p[starts-with(text(),"UA-")]
-#    #@{valid_auctionIDs_list}=    Create List
-#    @{IDs_list} =  Get WebElements  //p[starts-with(text(),"UA-")]
-#    FOR     ${element}  IN  @{IDs_list}
-#        ${ID_text}=  Get Text   ${element}  #отримуємо ІД аукціону
-#        ${valid__auc_ID}=  Get Substring  ${ID_text}  4  #відрізаємо ID:  від ІД аукціону
-#        ${auction_links} =   Set Variable  ${PROD_HOST_URL}auction/${valid__auc_ID}  #сетапимо перемінну для валідних лінків #https://prozorro.sale/auction/UA-PS-2021-11-02-000032-1
-#        #Log to console  ${auction_links}
-#        Append To List    ${valid_auctionIDs_list}     ${auction_links}
-#    END
-#    #в окремому циклі перевіряємо тайтли в 10ти аукціонах
-#    FOR  ${i}  IN  @{valid_auctionIDs_list}
-#         Log to console  ${i}
-#         Continue For Loop If  '${i}'=='Create List'
-#        Go To  ${i}
-#        ${title_txt}=   Get Title
-#        Log to console   ${title_txt}
-#
-#    END
-#
-#
-
-
-
-
-
-
-
-#*** test cases ***
-#  mytest
-#    ${color} =  set variable  Red
-#    Run Keyword If  '${color}' == 'Red'  log to console  \nexecuted with single condition
-#    Run Keyword If  '${color}' == 'Red' or '${color}' == 'Blue' or '${color}' == 'Pink'  log to console  \nexecuted with multiple or
-#
-#    ${color} =  set variable  Blue
-#    ${Size} =  set variable  Small
-#    ${Simple} =  set variable  Simple
-#    ${Design} =  set variable  Simple
-#    Run Keyword If  '${color}' == 'Blue' and '${Size}' == 'Small' and '${Design}' != '${Simple}'  log to console  \nexecuted with multiple and
-#
-#    ${Size} =  set variable  XL
-#    ${Design} =  set variable  Complicated
-#    Run Keyword Unless  '${color}' == 'Black' or '${Size}' == 'Small' or '${Design}' == 'Simple'  log to console  \nexecuted with unless and multiple or
