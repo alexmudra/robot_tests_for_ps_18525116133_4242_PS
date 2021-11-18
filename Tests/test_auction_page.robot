@@ -394,3 +394,4 @@ TC Verify auctionTitle in auctionPage on ${PROD_HOST_URL}{auctionID}
     ${title_curr_page}=  Get Title
     ${auct_title_length}=  Get Length  ${title_curr_page}
     Should Be True  ${auct_title_length}>0
+
