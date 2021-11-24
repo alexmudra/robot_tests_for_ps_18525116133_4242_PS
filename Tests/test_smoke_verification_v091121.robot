@@ -428,7 +428,7 @@ TC Test header ${PROD_HOST_URL}/analytics on ${PROD_HOST_URL}
 TC Test header ${PROD_HOST_URL}/contacts on ${PROD_HOST_URL}
     [Documentation]  Перевірка чи відкривається розділ "Контакти"
     [Tags]   тестування_header
-    Go To  ${PROD_HOST_URL}/auction/search
+    Go To  ${PROD_HOST_URL}auction/search
     Maximize Browser Window
     Click element  ${tab_contacts}
     Wait until element is visible  ${artcl_h7_prozorro}    timeout=20

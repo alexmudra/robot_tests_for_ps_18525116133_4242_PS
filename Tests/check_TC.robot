@@ -366,8 +366,8 @@ Compare https://prozorro.sale/registries/search?source=privatization and https:/
     ${r_bi_ssp_res}=  Remove String  ${r_bi_ssp_res}  ${SPACE}
     log to console & log to report   ${r_bi_ssp_res}
     ${converted_to_number_bi_ssp_value} =  Convert To Integer  ${r_bi_ssp_res}
-    log to console & log to report   ${converted_to_number_bi_ssp_value}
-    log to console & log to report   ${prod_srch_privatiz_rslt}
+    log to console   Кількість обєктів приватизації в ВІ = ${converted_to_number_bi_ssp_value}
+    log to console  Кількість обєктів приватизації на проді порталу = ${prod_srch_privatiz_rslt}
     Should Be True  ${prod_srch_privatiz_rslt} == ${converted_to_number_bi_ssp_value}
 
 
