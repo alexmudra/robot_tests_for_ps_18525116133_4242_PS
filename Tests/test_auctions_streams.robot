@@ -101,58 +101,58 @@ Compare auction streams results on http://185.25.116.133:4242 and https://prozor
 
 TC1 Compare auction streams results on dev/4242 & prod Продаж майна та активів
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Продаж майна та активів
-    [Tags]  пошук по напрямкам/streams
+    [Tags]  пошук_по_streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.otherAssets_4242}    ${lnk_auctions_streams_prod.otherAssets_prod}
 
 TC2 Compare auction streams results on dev/4242 & prod Мала Приватизація
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Мала Приватизація
-    [Tags]  пошук по напрямкам/streams
+    [Tags]  пошук_по_streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.sellout_4242}    ${lnk_auctions_streams_prod.sellout_prod}
 
 TC3 Compare auction streams results on dev/4242 & prod Оренда Держ. і Комун. Майна
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Оренда Держ. і Комун. Майна
-    [Tags]  пошук по напрямкам/streams
+    [Tags]  пошук_по_streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.legitimatePropertyLease_4242}    ${lnk_auctions_streams_prod.legitimatePropertyLease_prod}
 
 TC4 Compare auction streams results on dev/4242 & prod Оренда майна активів
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Оренда майна активів
-    [Tags]  пошук по напрямкам/streams
+    [Tags]  пошук_по_streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.propertyLease_4242}    ${lnk_auctions_streams_prod.propertyLease_prod}
 
 
 TC5 Compare auction streams results on dev/4242 & prod Оренда активів банків ВФГВО
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Оренда активів банків ВФГВО
-    [Tags]  пошук по напрямкам/streams
+    [Tags]  пошук_по_streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.dgf_4242}    ${lnk_auctions_streams_prod.dgf_prod}
 
 TC6 Compare auction streams results on dev/4242 & prod Оренда землі
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Оренда землі
-    [Tags]  пошук по напрямкам/streams
+    [Tags]  пошук_по_streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.landRental_4242}    ${lnk_auctions_streams_prod.landRental_prod}
 
 TC7 Compare auction streams results on dev/4242 & prod Продаж землі
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Продаж землі
-    [Tags]  пошук по напрямкам/streams
+    [Tags]  пошук_по_streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.landSell_4242}    ${lnk_auctions_streams_prod.landSell_prod}
 
 TC8 Compare auction streams results on dev/4242 & prod Банкрутство
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Банкрутство
-    [Tags]  пошук по напрямкам/streams
+    [Tags]  пошук_по_streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.bankruptcy_4242}    ${lnk_auctions_streams_prod.bankruptcy_prod}
 
 TC9 Compare auction streams results on dev/4242 & prod Оренда вагонів
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Оренда вагонів
-    [Tags]  пошук по напрямкам/streams
+    [Tags]  пошук_по_streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.railwayCargo_4242}    ${lnk_auctions_streams_prod.railwayCargo_prod}
 
 TC10 Compare auction streams results on dev/4242 & prod Оренда землі
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Оренда землі
-    [Tags]  пошук по напрямкам/streams
+    [Tags]  пошук_по_streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.timber_4242}    ${lnk_auctions_streams_prod.timber_prod}
 
 TC11 Compare auction streams results on dev/4242 & prod Спец дозволи корист надрами
     [Documentation]  Порівняння результатів пошуку на dev&prod по напрямку Спец дозволи корист надрами
-    [Tags]  пошук по напрямкам/streams
+    [Tags]  пошук_по_streams
     Compare auction streams results on http://185.25.116.133:4242 and https://prozorro.sale    ${lnk_auctions_streams_4242.subsoil_4242}    ${lnk_auctions_streams_prod.subsoil_prod }
 
 
