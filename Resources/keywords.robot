@@ -6,6 +6,7 @@ Library  Collections
 #Suite Setup  Open Browser Chrome in headless_mode
 #Suite Setup  Open main_page_prod in UI Chome mode
 #Suite Teardown  Close All Browsers
+#Resource  ./locators.robot
 
 
 *** Variables ***
@@ -170,3 +171,10 @@ Get active.auction status in prod
     Element Should Be Visible   ${lctr_active_auction_status}        #(//*[text()="Аукціон"])[1]
     Click element      ${lctr_active_auction_status}                 #(//*[text()="Аукціон"])[1]
 
+Get BI SSP results in str format
+    [Arguments]   ${elem_locator}
+    ${r_bi_ssp_res}  Get text  //*[starts-with(text(),"Кількість об'єктів продажу")]
+    ${r_bi_ssp_res}=  Fetch From Right	 ${r_bi_ssp_res}  Кількість об'єктів продажу =
+    ${r_bi_ssp_res}=  Remove String  ${r_bi_ssp_res}  ${SPACE}
+    log to console & log to report   ${r_bi_ssp_res}
+    [RETURN]  ${r_bi_ssp_res}

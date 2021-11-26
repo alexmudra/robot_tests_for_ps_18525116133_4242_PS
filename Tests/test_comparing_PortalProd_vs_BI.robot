@@ -27,11 +27,14 @@ Compare https://prozorro.sale/registries/search?source=privatization and https:/
     Wait Until Page Contains  Об'єкти продажу малої приватизації  timeout=10  error=Сторінка із результатами не завантажилась протягом 10 секунд
     Wait Until Page Contains Element  ${txt_kilkist_ob_prodaghy}  #//*[starts-with(text(),"Кількість об'єктів продажу")]  timeout=10  error=Сторінка із результатами не завантажилась протягом 10 секунд
     #взяти результат із ВI
-    ${r_bi_ssp_res}  Get text  //*[starts-with(text(),"Кількість об'єктів продажу")]
-    ${r_bi_ssp_res}=  Fetch From Right	 ${r_bi_ssp_res}  Кількість об'єктів продажу =
-    ${r_bi_ssp_res}=  Remove String  ${r_bi_ssp_res}  ${SPACE}
-    log to console & log to report   ${r_bi_ssp_res}
-    ${converted_to_number_bi_ssp_value} =  Convert To Integer  ${r_bi_ssp_res}
+
+#    ${r_bi_ssp_res}  Get text   ${txt_kilkist_ob_prodaghy}  #//*[starts-with(text(),"Кількість об'єктів продажу")]
+#    ${r_bi_ssp_res}=  Fetch From Right	 ${r_bi_ssp_res}  Кількість об'єктів продажу =
+#    ${r_bi_ssp_res}=  Remove String  ${r_bi_ssp_res}  ${SPACE}
+#    log to console & log to report   ${r_bi_ssp_res}
+
+    ${tmp}=  Get BI SSP results in str format  ${txt_kilkist_ob_prodaghy}
+    ${converted_to_number_bi_ssp_value} =  Convert To Integer  ${tmp}
     log to console   Кількість обєктів приватизації в ВІ = ${converted_to_number_bi_ssp_value}
     log to console  Кількість обєктів приватизації на проді порталу = ${prod_srch_privatiz_rslt}
     Should Be True  ${prod_srch_privatiz_rslt} == ${converted_to_number_bi_ssp_value}
