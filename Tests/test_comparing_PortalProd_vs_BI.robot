@@ -26,15 +26,54 @@ Compare https://prozorro.sale/registries/search?source=privatization and https:/
     Go to  https://bi.prozorro.sale/#/assetsSSP
     Wait Until Page Contains  Об'єкти продажу малої приватизації  timeout=10  error=Сторінка із результатами не завантажилась протягом 10 секунд
     Wait Until Page Contains Element  ${txt_kilkist_ob_prodaghy}  #//*[starts-with(text(),"Кількість об'єктів продажу")]  timeout=10  error=Сторінка із результатами не завантажилась протягом 10 секунд
-    #взяти результат із ВI
-
-#    ${r_bi_ssp_res}  Get text   ${txt_kilkist_ob_prodaghy}  #//*[starts-with(text(),"Кількість об'єктів продажу")]
-#    ${r_bi_ssp_res}=  Fetch From Right	 ${r_bi_ssp_res}  Кількість об'єктів продажу =
-#    ${r_bi_ssp_res}=  Remove String  ${r_bi_ssp_res}  ${SPACE}
-#    log to console & log to report   ${r_bi_ssp_res}
-
     ${tmp}=  Get BI SSP results in str format  ${txt_kilkist_ob_prodaghy}
     ${converted_to_number_bi_ssp_value} =  Convert To Integer  ${tmp}
-    log to console   Кількість обєктів приватизації в ВІ = ${converted_to_number_bi_ssp_value}
-    log to console  Кількість обєктів приватизації на проді порталу = ${prod_srch_privatiz_rslt}
     Should Be True  ${prod_srch_privatiz_rslt} == ${converted_to_number_bi_ssp_value}
+
+
+Compare ${PROD_HOST_URL}/source=dgf and https://bi.prozorro.sale/#/assets srch results
+    [Documentation]  порівняння результатів пошуку по Реєстри->Реєстри ВФГВОіз Bi->assets
+    [Tags]   тестування_синхронізації
+
+    Go to  ${PROD_HOST_URL}registries/search?source=dgf
+    Maximize Browser Window
+    Get search results and convert to integer
+    ${prod_srch_dgf_rslt} =   Get search results and convert to integer
+    log to console & log to report  ${prod_srch_dgf_rslt}
+    Click element  ${analitika_tab}
+    Title Should Be   ProZorro Продажі
+    Go to  https://bi.prozorro.sale/#/assets
+    Wait Until Element Is Visible  //*[starts-with(text(),"Кількість активiв = ")]  timeout=10
+    #get assets value and convert to int
+    ${r_bi_assets_res}=  Get text  xpath=//*[starts-with(text(),"Кількість активiв = ")]
+    @{list_string}=  Split String  ${r_bi_assets_res}
+    log to console & log to report  ${list_string}[3] ${list_string}[4]
+    ${assets_str_value_without_spaces}=  evaluate   '${list_string}[3] ${list_string}[4]'.replace(';','')
+    ${assets_str_value_without_spaces}=  evaluate   '${assets_str_value_without_spaces}'.replace(' ','')
+    ${assets_int_value_without_spaces}=  Convert To Integer  ${assets_str_value_without_spaces}
+    #compare dgf results with assets BI results
+    Should Be True  ${prod_srch_dgf_rslt} == ${assets_int_value_without_spaces}
+
+
+Compare ${PROD_HOST_URL}registries/search?source=lease and https://bi.prozorro.sale/#/leaseRegistry srch results
+    [Documentation]  порівняння результатів пошуку по Реєстри->Реєстри ВФГВОіз Bi->assets
+    [Tags]   тестування_синхронізації
+
+#https://prozorro.sale/registries/search?source=lease
+#
+#https://bi.prozorro.sale/#/leaseRegistry
+    Go to  ${PROD_HOST_URL}registries/search?source=lease
+    Maximize Browser Window
+    Get search results and convert to integer
+    ${prod_srch_lease_rslt} =   Get search results and convert to integer
+    log to console & log to report  ${prod_srch_lease_rslt}
+    Click element  ${analitika_tab}
+    Title Should Be   ProZorro Продажі
+    Go to  https://bi.prozorro.sale/#/leaseRegistry
+    Wait Until Element Is Visible  //*[starts-with(text(),"Кількість об'єктів РО = ")]  timeout=10
+    ${r_bi_leaseReg_res}=  Get text  xpath=//*[starts-with(text(),"Кількість об'єктів РО = ")]
+    @{list_string}=  Split String  ${r_bi_leaseReg_res}
+    log to console & log to report  ${list_string}[4]
+    ${leaseReg_str_value}=  evaluate   '${list_string}[4]'.replace(';','')
+    ${leaseReg_int_value_without_spaces}=  Convert To Integer  ${leaseReg_str_value}
+    Should Be True  ${prod_srch_lease_rslt} == ${leaseReg_int_value_without_spaces}

@@ -176,5 +176,4 @@ Get BI SSP results in str format
     ${r_bi_ssp_res}  Get text  //*[starts-with(text(),"Кількість об'єктів продажу")]
     ${r_bi_ssp_res}=  Fetch From Right	 ${r_bi_ssp_res}  Кількість об'єктів продажу =
     ${r_bi_ssp_res}=  Remove String  ${r_bi_ssp_res}  ${SPACE}
-    log to console & log to report   ${r_bi_ssp_res}
     [RETURN]  ${r_bi_ssp_res}

@@ -189,3 +189,4 @@ ${elem_locator}  Set Suite Variable  ${EMPTY}
 #локатори для синхронізації із ВІ
 ${analitika_tab}   xpath = //*[text() = "Аналітика"]
 ${txt_kilkist_ob_prodaghy}  xpath=//*[starts-with(text(),"Кількість об'єктів продажу")]
+${BI_prod_host}  xpath=https://bi.prozorro.sale/
