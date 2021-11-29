@@ -13,6 +13,29 @@ Resource  ../Resources/locators.robot
 
 *** Test Cases ***
 
+Compare ${PROD_HOST_URL}search and https://bi.prozorro.sale/#/auctions srch results
+    [Documentation]  порівняння результатів пошуку по Аукціони із Аукціони на ресурсі BI
+    [Tags]   тестування_синхронізації
+
+#    https://prozorro.sale/auction/search
+#    https://bi.prozorro.sale/#/auctions
+
+    Go to  ${PROD_HOST_URL}auction/search
+    Maximize Browser Window
+    ${prod_srch_auctions_rslt} =   Get search results and convert to integer
+    log to console & log to report  ${prod_srch_auctions_rslt}
+    Click element  ${analitika_tab}
+    Title Should Be   ProZorro Продажі
+    Go to  https://bi.prozorro.sale/#/auctions
+    Title Should Be   ProZorro Продажі
+    Wait Until Element Is Visible   //*[starts-with(text(),"Кількість = ")]  timeout=30
+    ${r_bi_auctions_res}=  Get text  xpath= //*[starts-with(text(),"Кількість = ")]
+    ${r_bi_auctions_res}=  Fetch From Right  ${r_bi_auctions_res}  Кількість =
+    ${r_bi_auctions_res}=  Remove String  ${r_bi_auctions_res}  ${SPACE}
+    ${bi_auctions_int_value_without_spaces}=  Convert To Integer  ${r_bi_auctions_res}
+    Should Be True  ${prod_srch_auctions_rslt} == ${bi_auctions_int_value_without_spaces}
+
+
 Compare https://prozorro.sale/registries/search?source=privatization and https://bi.prozorro.sale/#/assetsSSP srch results
     [Documentation]  порівняння результатів пошуку по Реєстри->Об'єкти прива-ії із Bi->assetsSSP
     [Tags]   тестування_синхронізації
@@ -56,12 +79,11 @@ Compare ${PROD_HOST_URL}/source=dgf and https://bi.prozorro.sale/#/assets srch r
 
 
 Compare ${PROD_HOST_URL}registries/search?source=lease and https://bi.prozorro.sale/#/leaseRegistry srch results
-    [Documentation]  порівняння результатів пошуку по Реєстри->Реєстри ВФГВОіз Bi->assets
+    [Documentation]  порівняння результатів пошуку по Реєстри->Перелік майна/Оренда із Bi->leaseRegistry
     [Tags]   тестування_синхронізації
 
 #https://prozorro.sale/registries/search?source=lease
-#
-#https://bi.prozorro.sale/#/leaseRegistry
+#tps://bi.prozorro.sale/#/leaseRegistry
     Go to  ${PROD_HOST_URL}registries/search?source=lease
     Maximize Browser Window
     Get search results and convert to integer
@@ -77,3 +99,26 @@ Compare ${PROD_HOST_URL}registries/search?source=lease and https://bi.prozorro.s
     ${leaseReg_str_value}=  evaluate   '${list_string}[4]'.replace(';','')
     ${leaseReg_int_value_without_spaces}=  Convert To Integer  ${leaseReg_str_value}
     Should Be True  ${prod_srch_lease_rslt} == ${leaseReg_int_value_without_spaces}
+
+
+Compare ${PROD_HOST_URL}search and https://bi.prozorro.sale/#/auctions srch results
+    [Documentation]  порівняння результатів пошуку по Аукціони із Аукціони на ресурсі BI
+    [Tags]   тестування_синхронізації
+
+#    https://prozorro.sale/auction/search
+#    https://bi.prozorro.sale/#/auctions
+
+    Go to  ${PROD_HOST_URL}auction/search
+    Maximize Browser Window
+    ${prod_srch_auctions_rslt} =   Get search results and convert to integer
+    log to console & log to report  ${prod_srch_auctions_rslt}
+    Click element  ${analitika_tab}
+    Title Should Be   ProZorro Продажі
+    Go to  https://bi.prozorro.sale/#/auctions
+    Title Should Be   ProZorro Продажі
+    Wait Until Element Is Visible   //*[starts-with(text(),"Кількість = ")]  timeout=30
+    ${r_bi_auctions_res}=  Get text  xpath= //*[starts-with(text(),"Кількість = ")]
+    ${r_bi_auctions_res}=  Fetch From Right  ${r_bi_auctions_res}  Кількість =
+    ${r_bi_auctions_res}=  Remove String  ${r_bi_auctions_res}  ${SPACE}
+    ${bi_auctions_int_value_without_spaces}=  Convert To Integer  ${r_bi_auctions_res}
+    Should Be True  ${prod_srch_auctions_rslt} == ${bi_auctions_int_value_without_spaces}
