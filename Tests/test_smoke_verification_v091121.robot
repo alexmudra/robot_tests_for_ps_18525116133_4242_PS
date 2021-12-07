@@ -51,7 +51,7 @@ ${btn_srch_auc_status}                                    xpath=//div/button[@da
 #від Ані
 ${artcl_h2_prozorro}                                     xpath=//footer/div/h2/span[contains(text(),'Будуємо ')]
 ${artcl_h3_prozorro}                                     xpath=//article/h3[contains(text(),'«Прозорро.Продажі» - державне підприємство, що')]
-${artcl_h4_prozorro}                                     xpath=//div/h3[starts-with(text(),'Команда ProZorro.Продажі')]
+${artcl_h4_prozorro}                                     xpath=//*[starts-with(text(),'Команда Prozorro.Продажі')]
 ${artcl_h5_prozorro}                                     xpath=//*[@id="root"]/div[2]/section/div[1]/div/div[1]/h5
 ${artcl_h6_prozorro}                                     xpath=//li/a[starts-with(text(),'Контакти')]
 ${artcl_h7_prozorro}                                     xpath=//p[starts-with(text(),'У разі')]
